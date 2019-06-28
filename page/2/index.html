@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-十二、集合" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/24/十二、集合/" class="article-date">
+  <time datetime="2018-05-24T07:37:13.000Z" itemprop="datePublished">2018-05-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/24/十二、集合/">十二、集合</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="十二、集合"><a href="#十二、集合" class="headerlink" title="十二、集合"></a>十二、集合</h1><h2 id="1、-Collection接口"><a href="#1、-Collection接口" class="headerlink" title="1、 Collection接口"></a>1、 Collection接口</h2><p>是List、Set、和Queue接口的父接口<br>定义了可用于操作List、Set和Queue的方法——增删改查  </p>
+<h3 id="List接口及其实现类——ArrayList"><a href="#List接口及其实现类——ArrayList" class="headerlink" title="List接口及其实现类——ArrayList"></a>List接口及其实现类——ArrayList</h3><p>1）List是元素有序并且可以重复的集合，被称为序列。<br>2）List可精确的控制每个元素的插入位置，或者是删除某个位置元素。<br>3）ArrayList——数组序列，是List的一个重要实现类。<br>4）ArrayList底层是由数组实现。  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/24/十二、集合/" data-id="cjxg3xhnn000hbq6cxjvdk7m5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-十一 异常" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/21/十一 异常/" class="article-date">
+  <time datetime="2018-05-21T02:21:29.000Z" itemprop="datePublished">2018-05-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/21/十一 异常/">十一、异常</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="十一、异常"><a href="#十一、异常" class="headerlink" title="十一、异常"></a>十一、异常</h1><h2 id="1、异常分类"><a href="#1、异常分类" class="headerlink" title="1、异常分类"></a>1、异常分类</h2><p>异常对象都是派生于Throwable类的实例，所有的异常都是由Throwable继承而来，在下一层分解为两个分支：Error和Exception    </p>
+<p>Error类描述了Java运行时系统的内部错误和资源耗尽错误。<br>Exception层次结构分解为两个分支，一个分支派生于RuntimeException，另一个分支包含其他异常。  </p>
+<p>由程序错误导致的异常属于RuntimeException,而程序本身没有问题，但由于像I/O错误这类问题导致的异常属于其他异常。<br>数组越界异常：ArrayIndexOutOfBoundsException<br>变量为空异常：NullPointerException  </p>
+<h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><pre><code>try{
+    语句组
+}catch(Exception e){
+    语句    
+}  
+</code></pre><p>1）抛出异常：  </p>
+<pre><code>throws 异常；//声明异常
+throw 异常对象；//抛出异常
+
+
+public static void readFile() throws IOException{//readFile方法有可能存在IO异常，此处声明有可能抛出IO异常
+    FileInputStream in = new FileInputStream(&quot;myfile.txt&quot;);
+    int b ;
+    b = in.read();
+    while(b != -1){
+        System.out.print((char)b);
+        b = in.read()
+    }
+    in.close();
+}
+</code></pre><hr>
+<pre><code>String readData(Scanner in) throws EOFException{
+    ...
+    while(...){
+        if(!in.hasNext()){
+            if(n &lt; len)
+                throw new EOFException();
+        }
+        ...
+    }
+    return s;
+}
+</code></pre><p>2）捕获异常：  </p>
+<pre><code>try{
+    语句组;
+}catch(异常类名  异常形式参数名){
+    异常处理语句组;
+}catch(异常类名  异常形式参数名){
+    异常处理语句组  ;
+}finally{
+    异常处理语句组；
+}
+</code></pre><hr>
+<pre><code>public void read(String filename){//读取文本，捕获异常
+    try{
+        InputStream in = new FileInputStream(filename);
+        int b;
+        while(b = in.read() != -1){
+            process input
+        }
+    }
+    catch(IOException exception){
+        exception.printStackTrace();
+    }
+}
+</code></pre><p>catch语句可以有0到多个，可以没有finally语句。    </p>
+<p>在main()函数中调用readFile()  </p>
+<pre><code>import java.io.*;
+public class ExceptionTest{
+    public static void main(String[] args){
+        try{
+            System.out.println(&quot;--------before-------&quot;);
+            readFile();
+            System.out.println(&quot;---------after---------&quot;);
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+}
+</code></pre><p>3)再次抛出异常<br>再次抛出异常的基本方法：  </p>
+<pre><code>try{
+    access the database
+}  
+catch(SQLException e){
+    throw new ServletException(&quot;database error:&quot; + e.getMessage());
+    //ServletException用带有异常信息文本的构造器构造
+}
+</code></pre><p>更好的方法如下，将原始异常设置为新异常的“原因”：  </p>
+<pre><code>try{
+    access database
+}
+catch(SQLException e){
+    Throwable se = new ServletException(&quot;database error&quot;);
+    se.initCause(e);
+    throw se;
+}
+</code></pre><p>当捕获异常后，可以重新得到原始异常：  </p>
+<pre><code>Throwable e = se.getCause();
+</code></pre><p>记录一个异常，在将它重新抛出，不做任何改变：  </p>
+<pre><code>try{
+    access database
+}
+catch(Exception e){
+    logger.log(level , message , e);
+    throw e;
+}
+</code></pre><p>4)  带资源的try语句：  </p>
+<pre><code>//try块退出时，会自动调用res.close()
+try(Resource res = ...){
+    work with res
+}  
+</code></pre><hr>
+<pre><code>//这个块正常退出时，或者存在一个异常时，就好调用in.close()方法
+try(Scanner in = new Scanner(new FileInputStream(&quot;/usrs/....&quot;))){
+    while(in.hasNext())
+        System.out.println(in.next());
+}
+</code></pre><p>5）Exception类<br>构造方法：  </p>
+<pre><code>public Exception();  
+public Exception(String message);
+public Exception(String message,Throwable cause);
+</code></pre><p>方法：  </p>
+<pre><code>getMessage();
+getCause();
+printStackTrace();
+</code></pre><h2 id="3、自定义异常"><a href="#3、自定义异常" class="headerlink" title="3、自定义异常"></a>3、自定义异常</h2><p>自定义异常类就是一个派生于Exception或者是Exception子类的类。<br>例如定义一个派生于IOException的类：  </p>
+<pre><code>class FileFormatException extends IOException{//定义的类包含2个构造器
+    public FileFormatException(){};//默认的构造器
+    public FileFormatException(String gripe){//带有详细描述信息的构造器
+        super(gripe);
+    }
+}
+</code></pre><hr>
+<pre><code>//抛出自定义的异常类型
+String readData(BufferedReader in) throws FileFormatException{
+    ...
+    while(...){
+        if(ch == -1)//EOF encountered{
+            if(n &lt; len)
+                throw new FileFormatException();
+        }
+        ...
+    }
+    return s;
+}
+</code></pre><h2 id="4、断言"><a href="#4、断言" class="headerlink" title="4、断言"></a>4、断言</h2><p>语法：  </p>
+<pre><code>assert 条件;
+//或者
+assert 条件 ： 表达式;
+</code></pre><hr>
+<pre><code>public class Assertion{
+    public static void main(String[] args){
+        assert hypoenuse(3,4) == 5: &quot;算法不正确&quot;；
+    }
+    public static double hypoenuse(double x , double y){
+        return Math.sqrt(x*x + y*y +1);
+    }
+}
+</code></pre><h2 id="5、日志"><a href="#5、日志" class="headerlink" title="5、日志"></a>5、日志</h2><p>1)、日志系统管理的默认日志记录器：Logger.global，并可以调用info方法记录日志信息。  </p>
+<pre><code>Logger.getGlobal().info(&quot;File - &gt; open menu item selected&quot;);
+//记录类容如下
+May 30,2018,15:02:20 PM LoggingImageViewer fileOpen
+INFO: File - &gt; open menu item selected
+</code></pre><p>2)、日志记录器级别<br>SEVERE  </p>
+<p>WARNING  </p>
+<p>INFO  </p>
+<p>CONFIG  </p>
+<p>FINE  </p>
+<p>FINER  </p>
+<p>FINEST  </p>
+<p>默认情况下只记录前三个级别，可以自己设置级别：  </p>
+<pre><code>logger.setLevel( Level.FINE);//可以记录FINE和更高级别的记录
+Level.ALL     //开启所有级别记录
+Level.OFF     //关闭所有级别记录
+</code></pre><p>对所有级别有下面几种记录方法：  </p>
+<pre><code>logger.warning(message);
+logger.fine(message);
+</code></pre><p>还可以使用log方法指定级别：  </p>
+<pre><code>logger.log(Level.FINE , message);
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/21/十一 异常/" data-id="cjxg3xhnk000dbq6cly0xvsu8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-十 多线程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/17/十 多线程/" class="article-date">
+  <time datetime="2018-05-17T12:57:30.000Z" itemprop="datePublished">2018-05-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/17/十 多线程/">十、Java多线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="十、Java多线程"><a href="#十、Java多线程" class="headerlink" title="十、Java多线程"></a>十、Java多线程</h1><p>线程是系统中的最小执行单元，同一进程中有多个线程，线程共享进程的资源。<br>Java支持多线程在java.lang包中的Thread类中</p>
+<h2 id="1、线程的常用方法"><a href="#1、线程的常用方法" class="headerlink" title="1、线程的常用方法"></a>1、线程的常用方法</h2><h3 id="1-线程的创建"><a href="#1-线程的创建" class="headerlink" title="1)线程的创建"></a>1)线程的创建</h3><pre><code>Thread() 
+Thread(String name)
+Thread(Runnable target)
+Thread(Runnable target,String name)  
+</code></pre><p>A、通过Thread类创建线程：  </p>
+<pre><code>class MyThread extends Thread{
+    public void run(){//重写Thread类中的run方法
+        for(int i =0 ; i &lt; 100 ; i++)
+            System.out.print(&quot; &quot;+i);
+    }
+}
+MyThread mt = new MyThread();         //创建线程
+mt.start();         //启动线程
+</code></pre><p>B、通过 Thread构造方法传递Runnable对象来创建线程：  </p>
+<pre><code>//Runnable的代码可以被多个线程共享，适合多个线程处理同一个资源的情况。
+class MyTask implements Runnable{
+    public void run(){...};
+} 
+MyTask mt = new MyTask();
+Thread thread = new Thread(mt);     //创建线程
+thread.start();       //启动线程
+
+C、通过匿名类实现Runnable：  
+
+new Thread(){
+    public void run(){
+        for(int i =0 ; i &lt; 100 ; i++)
+            System.out.print(&quot; &quot;+i);
+}.start();
+</code></pre><p>D、Lambda表达式：  </p>
+<pre><code>new Thread( ()-&gt;{...}).start();
+</code></pre><h3 id="2-线程的方法"><a href="#2-线程的方法" class="headerlink" title="2)线程的方法"></a>2)线程的方法</h3><p>启动线程  </p>
+<pre><code>void start()
+</code></pre><p>线程休眠 </p>
+<pre><code>static void sleep(long millis)
+static void sleep(long millis , int nanos)
+</code></pre><p>使其它线程等待当前线程终止  </p>
+<pre><code>void join()
+void join(long millis)
+void join(long millis , int nanos)  
+</code></pre><p>设置线程优先级：  </p>
+<pre><code>setPriority(int priority)
+MIN_PRIORITY        MAX_PRIORITY          NORM_PRIORITY
+</code></pre><h3 id="3-线程种类"><a href="#3-线程种类" class="headerlink" title="3)线程种类"></a>3)线程种类</h3><p>普通线程（非Daemon线程）：只要还有普通线程，整个程序就不会结束。<br>Daemon线程（守护线程或者后台线程）：普通线程结束，后台线程自动终止。垃圾回收线程就是后台线程。<br>使用setDaemon(true);  转换为守护线程。</p>
+<h2 id="2、线程状态"><a href="#2、线程状态" class="headerlink" title="2、线程状态"></a>2、线程状态</h2><p>六个线程状态：New——新创建、Runnable——可运行、Blocked——被阻塞、Waiting——等待、Timed waiting——记时等待、Terminated——被终止  </p>
+<h3 id="1）新创建进程"><a href="#1）新创建进程" class="headerlink" title="1）新创建进程"></a>1）新创建进程</h3><p>在new操作符创建一个新线程时——new Thread(r)，此时线程还没有开始运行，状态为new   </p>
+<h3 id="2）可运行线程"><a href="#2）可运行线程" class="headerlink" title="2）可运行线程"></a>2）可运行线程</h3><p>一旦调用start方法，线程处于runnable状态。一个可运行线程可能正在运行也可能没有运行，线程开始运行但是不必始终保持运行，取决于操作系统提供给线程的运行时间（线程调度）。  </p>
+<h3 id="3）被阻塞线程和等待线程"><a href="#3）被阻塞线程和等待线程" class="headerlink" title="3）被阻塞线程和等待线程"></a>3）被阻塞线程和等待线程</h3><p>线程请求一个内部的对象锁，而该锁被其他线程持有，则该线程进入阻塞状态。<br>当线程等待另一个线程通知调度器一个条件时，自己进入等待状态。<br>有几个方法有一个超时参数，调用他们导致进入等待状态。如：Thread.sleep/Object.wait/Thread.join/Lock.tryLock/Condition.await  </p>
+<h3 id="4-被终止的线程"><a href="#4-被终止的线程" class="headerlink" title="4)被终止的线程"></a>4)被终止的线程</h3><p>因为run方法正常退出而自然死亡。<br>因为一个没有捕获的异常终止了run方法而意外死亡。  </p>
+<h2 id="3、线程同步"><a href="#3、线程同步" class="headerlink" title="3、线程同步"></a>3、线程同步</h2><p>引入“互斥锁”的概念，保证共享数据操作的完整性。<br>每个对象有一个“互斥锁”的标记，这个标记用来保证任一时刻只能有一个线程访问该对象。  关键字synchronized。     </p>
+<h3 id="1-synchronized"><a href="#1-synchronized" class="headerlink" title="1)synchronized"></a>1)synchronized</h3><p>在线程解锁前，必须把共享变量的最新值刷新到主内存中；<br>线程加锁时，将清空工作内存中共享变量的值，从而使用共享变量时需要从主内存中重新读取最新的值。   </p>
+<pre><code>//线程模拟三个窗口卖5张票
+
+class MyThread implements Runnable{
+    private static int ticketCount = 5 ;  //票的总数为5
+    @Override
+    public void run(){
+        while(ticketCount &gt; 0){
+        //System.out.println(Thread.currentThread().getName()+&quot;执行，卖之前有票&quot;+ticketCount);
+        //使用synchronized关键字使得ticketCount实时更新，结果正确；
+        synchronized(this){ticketCount--;}
+        // 但是不使用时，结果有时候不正确，和说的多个线程处理同一资源不符合
+        //ticketCount--;
+
+        System.out.println(Thread.currentThread().getName()+&quot;卖了1张票，还剩&quot;+ticketCount);
+        }
+    }
+}
+
+public class TicketThread{
+    public static void main(String[] args) {
+        //新建一个线程类的对象
+        Runnable mt = new MyThread();
+
+        //创建三个线程模拟三个卖票窗口
+        Thread th1 = new Thread(mt,&quot;窗口1&quot;);
+        Thread th2 = new Thread(mt,&quot;窗口2&quot;);
+        Thread th3 = new Thread(mt,&quot;窗口3&quot;);
+
+        //启动线程
+        th1.start();
+        th2.start();
+        th3.start();
+    }
+}
+</code></pre><p>运行的某一种结果如下：  </p>
+<pre><code>窗口3卖了1张票，还剩2
+窗口1卖了1张票，还剩3
+窗口2卖了1张票，还剩4
+窗口1卖了1张票，还剩0
+窗口3卖了1张票，还剩1
+</code></pre><h3 id="2）volatile"><a href="#2）volatile" class="headerlink" title="2）volatile"></a>2）volatile</h3><p>所需的编码较少，并且运行时开销也小，但是实现的功能仅是synchronize的一部分。<br>例如：假设对共享变量除了赋值之外并不完成其他操作，就可以将这些变量声明为volitale 。但是涉及到其他操作，如++不行。上面的ticketCount声明为volatile是不行的，因为后面涉及到ticketCount++操作。  </p>
+<pre><code>private static volatile int ticketCount = 5;//这样处理不行，输出的值不对的可能，如下：
+窗口2卖了1张票，还剩3
+窗口2卖了1张票，还剩1
+窗口2卖了1张票，还剩0
+窗口1卖了1张票，还剩3
+窗口3卖了1张票，还剩2
+</code></pre><p>java.util.concurrent包及其子包，提供了一系列的工具，更好、更方便的使用线程。<br>几个实用的类：单变量、集合、Timer、线程池。  </p>
+<p><strong>线程池：</strong><br>相关的类：ExecutorService接口、ThreadPoolExecutor类、Executors工具类<br>常见语法：  </p>
+<pre><code>ExcutorsService pool = Executors.newCachedThreadPool();
+execute(Runnable r);
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/17/十 多线程/" data-id="cjxg3xhno000ibq6ct8whlxnb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-九 接口" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/17/九 接口/" class="article-date">
+  <time datetime="2018-05-17T05:57:31.000Z" itemprop="datePublished">2018-05-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/17/九 接口/">九、接口</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="九、接口"><a href="#九、接口" class="headerlink" title="九、接口"></a>九、接口</h1><h2 id="1、接口定义"><a href="#1、接口定义" class="headerlink" title="1、接口定义"></a>1、接口定义</h2><p>接口可以理解为一种特殊的类，由全局常量和公共的抽象方法组成。<br>通过接口可以描述2个不同类型类之间的共同特征,如下面的SmartPhone类和Psp类是2个不同类型的类，但是具有相同的特征-玩游戏，玩游戏的特征就可以通过接口描述。  </p>
+<p>接口定义：使用interface关键字    </p>
+<pre><code>[修饰符]interface 接口名 [extands 父接口1，父接口2  ... ]//中括号表示接口可以多继承
+{
+    零个到多个常量定义 ...
+    零个到多个抽象方法的定义...
+}
+</code></pre><hr>
+<pre><code>public interface IPlayGame{
+      piblic void playGame();
+}
+</code></pre><p>接口就是用来被继承、被实现的，修饰符一般用public  不能使用private和protected修饰接口，所以修饰符是public abstract<br>接口中定义的变量都是常量：public static final 修饰符，定义时不添加，系统也会自动添加<br>接口的方法：public abstract修饰符，定义时不添加，系统也会自动添加，接口的方法只能是抽象方法。  </p>
+<h2 id="2、接口实现"><a href="#2、接口实现" class="headerlink" title="2、接口实现"></a>2、接口实现</h2><p>继承父类实现接口的语法：  </p>
+<pre><code>[修饰符] class 类名 extends 父类 implements 接口1 ，接口2 ...
+{
+    类体部分//如果继承了抽象类，需要实现继承的抽象方法；要实现接口中定义的方法。
+}
+</code></pre><hr>
+<pre><code>public class SmartPhone extends Telphone implements IPlayGame{//类实现了接口，就必须实现接口中的方法
+      public void call(){
+        System.out.println(&quot;SmartPhone use voice to call&quot;);
+    }
+    public void message(){
+        System.out.println(&quot;SmartPhone use voice to send message&quot;);
+    }
+    public void playGame(){
+        System.out.println(&quot;SmartPhone can play games&quot;);
+    }
+}
+</code></pre><hr>
+<pre><code>public class Psp implements IPlayGame{//定义Psp类,它和Telphone类没有任何关系，但是具体playGame的特征
+    public void playGmae(){
+        System.out.println(&quot;Psp can play games&quot;);
+    }
+</code></pre><h2 id="3、接口的使用"><a href="#3、接口的使用" class="headerlink" title="3、接口的使用"></a>3、接口的使用</h2><p>接口的引用指向一个实现了接口的对象。  </p>
+<pre><code>public class Test{
+    public void main(){
+        IPlayGame ip1 = new SmartPhone();//接口的引用指向一个实现了接口的对象
+        ip1.playGame();
+        IPlayGame ip2 = new Psp();
+        ip2.playGame();
+    }
+}
+</code></pre><h2 id="4、匿名内部类实现接口"><a href="#4、匿名内部类实现接口" class="headerlink" title="4、匿名内部类实现接口"></a>4、匿名内部类实现接口</h2><pre><code>interface i = new interface(){
+    public void method(){
+        System.out.println(&quot;匿名内部类实现接口&quot;);
+    }
+}
+</code></pre><hr>
+<pre><code>pulic class Test{
+    public static void main(){
+        IPlayGame ip3 = new IPlayGame(){
+            public void playGame(){
+                System.out.println(&quot;匿名内部类实现接口&quot;);
+            }
+        };//实现以后需要“;”来结束
+        ip3.playGame();
+    }
+}
+</code></pre><p>也可以这样：  </p>
+<pre><code>new IPlayGame(){
+    public void playGame(){
+        System.out.println(&quot;直接new接口调用方法&quot;);
+    }
+}.playGame();
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/17/九 接口/" data-id="cjxg3xhng0008bq6cjps7am4l" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-八 多态" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/17/八 多态/" class="article-date">
+  <time datetime="2018-05-17T02:45:39.000Z" itemprop="datePublished">2018-05-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/17/八 多态/">八、多态</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="八、多态"><a href="#八、多态" class="headerlink" title="八、多态"></a>八、多态</h1><p>对象的多种形态：引用的多态和方法的多态  </p>
+<h2 id="1、引用的多态"><a href="#1、引用的多态" class="headerlink" title="1、引用的多态"></a>1、引用的多态</h2><p>1）父类的引用指向本类的对象<br>2）父类的引用指向子类的对象  </p>
+<p><strong>注：继承是实现多态的基础</strong>  </p>
+<pre><code>public calss Animal{
+
+}
+---------------------------------------------------------------
+public class Dog extends Animal{
+
+}
+---------------------------------------------------------------
+public class Initial{
+    public static void main(){
+        Animal obj1 = new Animal();//父类的引用指向本类的对象
+        Animal obj2 = new Dog();//父类的引用指向子类的对象
+    }
+}
+</code></pre><h2 id="2、方法的多态"><a href="#2、方法的多态" class="headerlink" title="2、方法的多态"></a>2、方法的多态</h2><p>1）创建本类对象时，调用的方法为本类的方法<br>2）创建子类对象时，调用的方法为子类重写的方法或者继承的方法(子类没有重写方法)  </p>
+<pre><code>public calss Animal{
+    public void eat(){
+        System.out.println(&quot;动物会吃&quot;);
+    }
+}
+--------------------------------------------------------------
+public class Dog extends Animal{
+    public void eat(){
+        System.out.println(&quot;狗会吃肉&quot;);
+    }
+}
+--------------------------------------------------------------
+    public class Cat extends Animal{
+
+}
+--------------------------------------------------------------
+public class Initial{
+    public static void main(){
+        Animal obj1 = new Animal();//父类的引用指向本类的对象
+        Animal obj2 = new Dog();//父类的引用指向子类的对象
+        Animal obj3 = new Cat();
+
+        obj1.eat();//调用父类的方法
+        obj2.eat();//调用子类重写的方法
+        obj3.eat();//调用子类继承父类的方法
+    }
+}
+</code></pre><p><strong>注：子类中添加了独有的方法，如Dog类中添加了watchDoor()方法，那么父类就不能调用子类独有的方法</strong>  </p>
+<h2 id="3、引用类型转换"><a href="#3、引用类型转换" class="headerlink" title="3、引用类型转换"></a>3、引用类型转换</h2><p>1）向上类型转换(隐式/自动类型转换)，是小类型到大类型的转换<br>2）向下类型转换(强制类型转换)，是大类型到小类型<br>3）instanceof运算符来解决引用对象的类型，避免类型转换的安全问题  </p>
+<pre><code>public class Initial{
+    public static void main(){
+        Dog dog = new Dog();
+        Animal animal = dog;//父类的引用指向子类的对象，自动类型提升，向上类型转换
+        //将父类引用转换成子类引用
+        Dog dog2 = (Dog)animal;//向下类型转换，强制类型转换，存在风险
+        Cat cat = (Cat)animal;//非法的，anima引用的是Dog对象，不能转换成Cat对象，编译可以，但是运行出错
+        }
+}
+</code></pre><p>使用instanceof运算符避免类型转换的安全问题，instanceof关键字可以判断一个引用是否是某个类型或者某个类型的子类型。  </p>
+<pre><code>if(animal instanceof Dog){//判断animal是否是Dog类型或者其子类型
+    if(animal instanceof Dog){ //由于Dog dog =new Dog();Animal animal = dog;所以判断为真
+        Dog dog = (Dog)animal;
+} else{
+    System.out.println(&quot;无法进行类型转换,Dog&quot;);
+}
+
+if(animal instanceof Cat){//判断animal是否是Cat类型或者其子类型
+    Cat cat = (Cat)animal;
+}  else{
+    System.out.println(&quot;无法进行类型转换,Cat&quot;);
+}
+</code></pre><p>运行结果：  </p>
+<pre><code>无法进行类型转换，Cat //说明可以转换成Dog类，不能转换成Cat类
+</code></pre><h2 id="4、抽象类"><a href="#4、抽象类" class="headerlink" title="4、抽象类"></a>4、抽象类</h2><p>抽象类前使用abstract关键字修饰<br>应用场景：<br>1）在某些情况，某个父类只是知道其子类应该包含怎样的方法，但是无法准确知道这些子类如何实现这些方法（约束子类必须有哪些方法，并不关注子类如何去实现）<br>2）从多个具有相同特征的类中抽象出一个抽象类，以这个抽象类作为子类的模板，从而设计了子类设计的随意性    </p>
+<p>作用：限制规定子类必须实现某些方法，但不关注实现细节    </p>
+<pre><code>public abstract calss Telphone{  //父类，抽象类，约束子类
+    public abstract void call();  //抽象方法没有方法体
+    public abstract void message(); 
+}
+</code></pre><hr>
+<pre><code>public class CellPhone extends Telphone{  //子类Cellphone
+    public void call(){    //必须包含的方法
+        System.out.println(&quot;通过键盘拨号&quot;);
+    }
+    public void message(){   //必须包含的方法
+        System.out.println(&quot;通过键盘发短信&quot;);
+    }
+} 
+</code></pre><hr>
+<pre><code>public class SmartPhone extends Telphone{  //子类SmartPhone
+    public void call(){    //必须包含的方法
+        System.out.println(&quot;通过语音拨号&quot;);
+    }
+    public void message(){   //必须包含的方法
+        System.out.println(&quot;通过语音发短信&quot;);
+    }
+} 
+</code></pre><hr>
+<pre><code>public class Initial{
+    public static void main(String[] args){
+        Telphone tel1 = new CellPhone();//抽象类的父类引用指向子类对象
+        tel1.call();
+        tel1.message();
+
+        Telphone tel2 = new SmartPhone();
+        tel2.call();
+        tel2.message();
+    }
+}
+</code></pre><p>运行结果：  </p>
+<pre><code>通过键盘拨号
+通过键盘发短信
+通过语音拨号
+通过语音发短信
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/17/八 多态/" data-id="cjxg3xhnn000gbq6cchufks80" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-七 继承" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/15/七 继承/" class="article-date">
+  <time datetime="2018-05-15T06:36:21.000Z" itemprop="datePublished">2018-05-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/15/七 继承/">七、继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="七、继承"><a href="#七、继承" class="headerlink" title="七、继承"></a>七、继承</h1><h2 id="1、定义子类"><a href="#1、定义子类" class="headerlink" title="1、定义子类"></a>1、定义子类</h2><p>继承Employee类来定义Manager类，<strong>关键字extends</strong>表示继承:  </p>
+<pre><code>class Manager extends Employee
+{
+    添加方法和域
+}  
+</code></pre><p>在Manager类中增加一个存储奖金信息的域和一个设置这个域的方法：  </p>
+<pre><code>class Manager extends Employee
+{
+    private double bonus;
+    ...
+    public void setBonus(double b);
+    {
+        bonus = b;
+    }
+}
+</code></pre><p>要获取manager的收入，需要重新实现getSalary（）方法，如：  </p>
+<pre><code>class Manager extends Employee
+{
+    ...
+    public double getSalary()
+    {
+        return salary + bonus;//这样不行
+    }
+}
+</code></pre><p>因为子类Manager的getSalary方法不能够直接访问超类的私有域，<strong>也就是说虽然每个Manager对象都拥有一个名为salary的域，但在Manager类的getSalary方法并不能够直接访问salary域。</strong>要访问私有域，必须借助共有的接口，如Employee类中的getSalary方法。<br><strong>当需要调用超类Employee中的getSalary方法，而不是当前类的这个方法，需要使用特定的关键字super解决这个问题:</strong>  </p>
+<pre><code>super.getSalary();
+</code></pre><p>这样调用的就是超类Employee中的getSalary方法。  </p>
+<pre><code>public double getSalary()
+{
+    double baseSalary = super.getSalary();
+    return baseSalary + bonus;
+}  
+</code></pre><p>super在构造器中的应用：  </p>
+<pre><code>public Manager(String n , double s , int year , int month , int day)
+{
+    super(n , s , year , month , day);
+    bonus = 0 ; 
+}
+</code></pre><h2 id="2、-final的使用"><a href="#2、-final的使用" class="headerlink" title="2、 final的使用"></a>2、 final的使用</h2><p>final修饰类，则该类不允许被继承<br>final修饰方法，则该方法不允许被覆盖（重写）<br>final修饰属性，则该类的属性不会进行隐式的初始化（类的初始化属性必须有值）或在构造方法中赋值（只能选其一）<br>final修饰变量，则该变量的值只能赋一次值，即变为常量  </p>
+<h2 id="3、super的应用"><a href="#3、super的应用" class="headerlink" title="3、super的应用"></a>3、super的应用</h2><p>子类的构造过程中必须调用其父类的构造方法。  </p>
+<p>如果子类的构造方法中没有显示的调用父类的构造方法，则系统默认调用父类无参的构造方法。  </p>
+<p>如果是显示的调用构造方法，必须在子类的构造方法的第一行。  </p>
+<h2 id="4、object类equals-方法"><a href="#4、object类equals-方法" class="headerlink" title="4、object类equals()方法"></a>4、object类equals()方法</h2><p>equals()是内容（含义）相等，“==”是引用相等。  </p>
+<p>比较的是对象的引用是否指向同一块内存地址，“==”也是比较地址<br>注：字符串的equals()是数值比较，“==”是存放地址比较 。（和这里是一样的情况）<br>要比较值，需要重写equals（）方法，在elipse的source下有自动重写。<br>b</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/15/七 继承/" data-id="cjxg3xhn60002bq6cb9yny7ap" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-六 对象和类" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/15/六 对象和类/" class="article-date">
+  <time datetime="2018-05-15T02:47:21.000Z" itemprop="datePublished">2018-05-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/15/六 对象和类/">六、对象和类</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="六、对象和类"><a href="#六、对象和类" class="headerlink" title="六、对象和类"></a>六、对象和类</h1><h2 id="1、基础知识"><a href="#1、基础知识" class="headerlink" title="1、基础知识"></a>1、基础知识</h2><p><strong>类：</strong><br>在一个源文件中，只能有一个公有类，但可以有任意数目的非公有类。  </p>
+<p>封装–不能让类中的方法直接访问其他类的实例域，程序仅通过对象的方法与对象数据进行交互。提高了程序的重用性和可靠性。<br>继承–扩展已有的类，扩展后的新类具有所扩展的类的全部属性和方法。  </p>
+<p><strong>对象：</strong><br>对象行为：可以对对象施加哪些操作或者方法？<br>对象状态：施加那些方法时，对象如何响应？<br>对象标识：如何辨别具有相同行为与状态的不同对象？<br>注：对象的行为是用可调用的方法定义的。  </p>
+<p>类的设计经验：寻找名词可以成为类，寻找动词可以成为方法  </p>
+<p><strong>类之间的关系：</strong><br>依赖：如果一个类的方法操纵另一个类的对象，我们就说一个类依赖于另一个类。<br>聚合：类A的对象包含类B的对象。<br>继承：如果类A扩展类B，类A不但包含从类B继承的方法，还会拥有一些额外的功能。  </p>
+<p><strong>对象和对象变量：</strong><br>它们的区别，例如：  </p>
+<pre><code>Date deadline;//deadline没有指向任何对象
+</code></pre><p>对象变量可以引用Date类型的对象，但它不是对象，也没有引用对象，任何Date方法都不能应用于这个变量上。如：  </p>
+<pre><code>s = deadline.toString();//这是不合法的  
+</code></pre><p>可以初始化：  </p>
+<pre><code>deadline = new Date();  
+</code></pre><p>或者   </p>
+<pre><code>deadline = birthday;
+</code></pre><p>现在两个变量引用同一个对象（就是存放在同一个地方的对象）。<br><strong>注意：</strong>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象。java中任何对象变量的值都是对存储在另外一个地方的一个对象的引用。  </p>
+<h2 id="2、-GregorianCalendar类"><a href="#2、-GregorianCalendar类" class="headerlink" title="2、 GregorianCalendar类"></a>2、 GregorianCalendar类</h2><p>Date类是用来表示时间点的类。<br>GregorianCalendar类是用来表示日历表示法的类。  </p>
+<p>日历提供某个时间点的年、月、日等信息。这些信息查询使用<strong>get方法</strong>：  </p>
+<pre><code>GregorianCalendar now = new GregorianCalendar;
+int month = now.get(Calendar.MONTH);
+int weekday = nw.get(Calendar.DAY_OF_WEEK);
+</code></pre><p>调用<strong>set方法</strong>可以改变对象的状态：  </p>
+<pre><code>deadline.set(Calendar.YEAR,2008);
+deadline.set(Calendar.MONTH,Calendar.APRIL);
+deadline.set(Calendar.DAY_OF_MONTH,15);
+</code></pre><p>更方便设置年、月、日方法如下：  </p>
+<pre><code>deadline.set(2008 , Calendar.APTIL , 15);
+</code></pre><p>还可以为给定的日期增加天数、星期数、月份，<strong>add方法</strong>：  </p>
+<pre><code>deadline.add(Calendar.MONTH , 3);
+</code></pre><p><strong><a href="http://tool.oschina.net/apidocs/apidoc?api=jdk-zh" target="_blank" rel="noopener">GregorianCalendar类API文档-java.util.GregorianCalendar</a></strong>  </p>
+<h2 id="3、自定义类"><a href="#3、自定义类" class="headerlink" title="3、自定义类"></a>3、自定义类</h2><pre><code>class ClassName{
+    fields 1;
+    fields 2;
+    ...
+    constructor 1;
+    constructor 2;
+    ...
+    method 1;
+    method 2;
+    ...
+}
+</code></pre><h2 id="4、方法参数"><a href="#4、方法参数" class="headerlink" title="4、方法参数"></a>4、方法参数</h2><p>Java程序设计总是采用按值调用。也就是说，方法得到的所有参数值得一个拷贝，特别是，方法不能修改传递给它的任何参数变量的内容。  </p>
+<h2 id="5、对象构造"><a href="#5、对象构造" class="headerlink" title="5、对象构造"></a>5、对象构造</h2><p><strong>重载：</strong><br>多个方法具有相同的名字、不同的参数，便产生了重载。编译器通过各个方法给出的参数类型与特定方法调用所使用的值类型进行匹配来挑选出相应的方法。  </p>
+<h2 id="6、构造方法"><a href="#6、构造方法" class="headerlink" title="6、构造方法"></a>6、构造方法</h2><p>构造方法是定义在Java类中的一个用来初始化对象的方法。<br>构造方法名与类同名且没有返回值。  没有参数的叫无参构造方法，有参的叫有参构造方法。</p>
+<pre><code>public 构造方法名(参数){
+    //初始化代码
+}
+</code></pre><hr>
+<pre><code>//无参构造方法
+public Employee(){
+    name = &quot;&quot;;
+    salary = 0;
+    hireDay = new Date();
+}
+</code></pre><hr>
+<pre><code>//有参构造方法
+public Employee(String aName , double aSalary){
+    name = aName;
+    salary = aSalary;
+}
+//或者
+public Employee(String  name , double salary){
+    this.name = name;
+    this.salary = salary;
+}
+</code></pre><p>在一个类中没有构造器，系统就会提供一个无参构造器，所有实例域都是默认值。如果类中提供了至少一个构造器，但是没有参数，则在构造对象时如果没有提供参数就会视为不合法。  </p>
+<pre><code>//构造器
+Employee(String name , double salary , int y , int m ,int d)
+//构造默认的employee对象属于不合法
+e = new Employee();//产生错误，不合法
+</code></pre><h2 id="7、static使用之静态变量"><a href="#7、static使用之静态变量" class="headerlink" title="7、static使用之静态变量"></a>7、static使用之静态变量</h2><p>我们可以基于一个类型创建多个该类的对象，每个对象都拥有自己的成员，互相独立。然而某些时候，我们更希望该类所有的对象共享同一个成员，就需要static  </p>
+<p>Java中被static修饰的成员称为静态成员或类成员。它属于整个类所有，而不是某个对象所有，即被类的所有对象共享。静态成员可以使用类名直接访问，也可以使用对象名进行访问。推荐使用类名直接访问。</p>
+<pre><code>public class HelloWorld{
+    static String hello = &quot;hello 007&quot;;//static修饰的静态变量，所有类的对象共享hello  
+    System.out.println(&quot;通过类名访问hello&quot;+ HelloWord.hello);//直接类名访问
+    //创建对象名来访问静态变量
+    HelloWorld world = new HelloWorld();
+    System.out.println(&quot;通过对象名访问hello&quot;+ world.hello);//通过对象名访问
+    world.hello = &quot;hello 001&quot;;//使用对象名的形式修改变量的值
+    //再次使用类名访问静态变量，值已被修改
+    System.out.println(&quot;通过类名访问hello：&quot;+ HelloWorld.hello);
+}
+</code></pre><p>最后输出的结果如下：    </p>
+<pre><code>通过类名访问hello：hello 007
+通过对象名访问hello：hello 007
+通过类名访问hello：hello 001
+</code></pre><h2 id="8、static使用之静态方法"><a href="#8、static使用之静态方法" class="headerlink" title="8、static使用之静态方法"></a>8、static使用之静态方法</h2><p>使用static关键字声明静态方法：  </p>
+<pre><code>public static void print(){
+    System.out.println(&quot;&quot;hello , 007);
+}
+</code></pre><p>可以使用类名调用静态方法：  </p>
+<pre><code>HelloWorld.print();
+</code></pre><p>也可以通过对象名调用，推荐使用类名调用。  </p>
+<p>注意：<br>1、静态方法可以直接调用同类中的静态成员，但不能调用非静态成员。如果需要在静态方法中调用非静态变量，可以通过创建类的对象，然后通过对象来访问非静态变量。<br>2、普通成员方法中，可以直接访问同类中的非静态变量和静态变量。<br>3、 静态方法中不能直接调用非静态方法，需要通过对象来访问非静态方法，但是可以直接调用静态方法。  </p>
+<p>##9、static使用之静态初始化块<br>在类的声明中，可以包含多个初始化块，当创建类的实例时，就好一次执行这些代码块。如果使用static修饰初始化块，就称为静态初始化块。  </p>
+<p><strong>注：静态初始化块只在类加载时执行，且只会执行一次，同时静态初始化块只能给静态变量赋值，不能初始化普通的成员变量</strong></p>
+<pre><code>public class HelloWorld{
+    int num1;
+    int num2;
+    static int num3;
+
+    public HelloWorld(){  //构造方法
+        num1 = 91;
+        System.out.println(&quot;通过构造方法为变量num1赋值&quot;);
+    }
+
+    {  //初始化块
+        num2 = 74;
+        System.out.println(&quot;通过初始化块为变量num2赋值&quot;);
+    }
+
+    static {  //静态初始化
+        num3 = 83;
+        System.out.println(&quot;通过静态初始化为静态变量num3赋值&quot;);
+    }
+
+    public static void main(String[] args){
+        HelloWorld hello =new HelloWorld();//创建类的对象hello
+        System.out.println(&quot;num1:&quot; + hello.num1);
+        System.out.println(&quot;num2:&quot;+ hello.num2);
+        System.out.println(&quot;num3&quot;+ num3);
+        HelloWorld hello2 = new HelloWorld();//创建类的对象hello2
+    }
+}
+</code></pre><p>运行结果如下：  </p>
+<pre><code>通过静态初始化为静态变量num3赋值
+通过初始化块为变量num2赋值
+通过构造方法为变量num1赋值
+num1:91
+num2:74
+num3:83
+通过初始化块为num2赋值
+通过初始化块为num3赋值
+</code></pre><p>通过输出结果可以看到，程序运行时静态初始化块最先被执行，然后执行普通初始化块，最后才执行构造方法。由于静态初始化块只在类加载时执行一次，所以当再次创建对象hello2时并未执行静态初始化块。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/15/六 对象和类/" data-id="cjxg3xhnm000fbq6crzg8wvri" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-五 大数值和数组" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/14/五 大数值和数组/" class="article-date">
+  <time datetime="2018-05-14T07:26:01.000Z" itemprop="datePublished">2018-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/14/五 大数值和数组/">五、大数值和数组</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="五、大数值和数组"><a href="#五、大数值和数组" class="headerlink" title="五、大数值和数组"></a>五、大数值和数组</h1><h2 id="1、大数值"><a href="#1、大数值" class="headerlink" title="1、大数值"></a>1、大数值</h2><p>基本的整数和浮点数不能满足需求，可以使用java.math包中的两个类BigInteger和BigDecimal,可以处理包含任意长度数字序列的数值。    </p>
+<p>程序前面添加一行,后面可以直接使用这两个类：  </p>
+<pre><code>import java.math.*;  
+</code></pre><p>   使用valueOf方法可以将普通的数值转换为大数值：  </p>
+<pre><code>BigInteger a = BigInteger.valueOf(100);
+</code></pre><p>但是不能使用算数运算符，运算操作如下：  </p>
+<pre><code>BigInteger add(BigInteger other)
+BigInteger subtract(BigInteger other)
+BigInteger mutiply(BigInteger other)
+BigInteger devide(BigInteger other)
+BigInteger mod(BigInteger other)
+</code></pre><p>返回一个大整数和另外一个大整数other的和、差、积、商、余数。  </p>
+<pre><code>int compareTo(BigInteger other)
+</code></pre><p>一个大整数和other比较，相等返回0；大于other返回正数；小于other返回负数。  </p>
+<pre><code>static BigInteger valueOf(long x)
+</code></pre><p>返回值为x的大整数</p>
+<p>例如：  </p>
+<pre><code>BigInteger c = a.add(b);
+</code></pre><p><strong>注：同样的BigDecimal</strong></p>
+<h2 id="2、数组"><a href="#2、数组" class="headerlink" title="2、数组"></a>2、数组</h2><p>数组一旦创建，大小不可更改。<br>数组声明:    </p>
+<pre><code>int[] a;  
+</code></pre><p>数组初始化：  </p>
+<pre><code>int[] a = new int[100];
+String[] names = new String[100];
+</code></pre><p>数字数组所有元素初始化为0，boolean数组元素初始化为false，对象数组的元素初始化为null<br>赋予初始值的方法，不需要new  </p>
+<pre><code>int[] a = {1,2,3,4,5,6};
+</code></pre><h3 id="1）for-each循环"><a href="#1）for-each循环" class="headerlink" title="1）for each循环"></a>1）for each循环</h3><p>依次处理数组中的每个元素，不必指定下标：</p>
+<pre><code>for(variable:collection) statement
+</code></pre><p>变量用于暂存集合中每一个元素，并执行语句；collection是数组或者Iterable接口的类对象（列表）。  </p>
+<pre><code>for(int element : a)
+    System.out.println(element);
+</code></pre><h3 id="2）数组拷贝"><a href="#2）数组拷贝" class="headerlink" title="2）数组拷贝"></a>2）数组拷贝</h3><p>使用Arrays类的copyOf方法  </p>
+<pre><code>int[] copiedLuckyNumbers = Arrays.copyOf(luckyNumbers,luckyNumbers.length);
+</code></pre><p>第二个参数是新数组的长度，这样可以增加新数组的大小，  </p>
+<pre><code>luckNumbers = Arrays.copyOf(luckyNumbers,2*luckyNumbers.length);
+</code></pre><p>数组是数值型，多余的元素赋值为0；布尔型的赋值为false；如果新长度小于原长度，只拷贝最前面的数据元素。</p>
+<h3 id="3）数组排序"><a href="#3）数组排序" class="headerlink" title="3）数组排序"></a>3）数组排序</h3><p>使用Arrays类的sort方法  </p>
+<pre><code>int[] a = new int[100];
+...
+Arrays.sort(a);
+</code></pre><h3 id="4）数组转换为字符串"><a href="#4）数组转换为字符串" class="headerlink" title="4）数组转换为字符串"></a>4）数组转换为字符串</h3><p> 使用Arrays类的toString()方法  </p>
+<pre><code>Arrays.toString(数组名);
+</code></pre><h3 id="5）二维数组"><a href="#5）二维数组" class="headerlink" title="5）二维数组"></a>5）二维数组</h3><p>快速打印二维数组：  </p>
+<pre><code>System.out.println(Arrays.deepToString(a));
+</code></pre><p>for each处理：  </p>
+<pre><code>for(double[] row :  a )
+    for(double value : row)
+        statement;  
+</code></pre><h3 id="6）数组常见操作参考"><a href="#6）数组常见操作参考" class="headerlink" title="6）数组常见操作参考"></a>6）数组常见操作参考</h3><p><strong><a href="http://tool.oschina.net/apidocs/apidoc?api=jdk-zh" target="_blank" rel="noopener">Arrays官方API文档–java.util.Arrays</a></strong>    </p>
+<p><strong><a href="https://www.cnblogs.com/epeter/p/5664926.html" target="_blank" rel="noopener">数组常见操作</a></strong>  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/14/五 大数值和数组/" data-id="cjxg3xhni000bbq6c5xaben9y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-四 流程控制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/14/四 流程控制/" class="article-date">
+  <time datetime="2018-05-14T06:07:52.000Z" itemprop="datePublished">2018-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/14/四 流程控制/">四、控制流程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="四、控制流程"><a href="#四、控制流程" class="headerlink" title="四、控制流程"></a>四、控制流程</h1><h2 id="1、if语句"><a href="#1、if语句" class="headerlink" title="1、if语句"></a>1、if语句</h2><pre><code>if( condition){
+    statement 1;
+    statement 2;
+}
+</code></pre><hr>
+<pre><code>if( condition){
+    statement 1;
+    statement 2;
+}
+else
+{
+    statement 3;
+    statement 4;
+}
+</code></pre><hr>
+<pre><code>if( condition1){
+    statement 1;
+}
+else if(condition 2)
+{
+    statement 2;
+}
+else if(condition 3)
+{
+    statement 3;
+}
+else
+{
+    statement 4;
+}
+</code></pre><h2 id="2、while语句"><a href="#2、while语句" class="headerlink" title="2、while语句"></a>2、while语句</h2><pre><code>while(condition){
+    statement 1;
+}
+</code></pre><hr>
+<pre><code>do
+{
+    statement 1;
+}
+while(condition);
+</code></pre><h2 id="3、for语句，确定循环"><a href="#3、for语句，确定循环" class="headerlink" title="3、for语句，确定循环"></a>3、for语句，确定循环</h2><pre><code>for(i=1; i&lt;=10 ; i++)
+    System.out.println(i);  
+</code></pre><h2 id="4、多重选择：switch语句"><a href="#4、多重选择：switch语句" class="headerlink" title="4、多重选择：switch语句"></a>4、多重选择：switch语句</h2><pre><code>switch(choice)
+{
+    case 1:
+    ...
+        break;
+    case 2:
+    ...
+        break;
+    ...
+}
+</code></pre><h2 id="5、中断控制语句"><a href="#5、中断控制语句" class="headerlink" title="5、中断控制语句"></a>5、中断控制语句</h2><p>break跳出循环<br>带标签的break语句，用于跳出多重嵌套的循环语句，标签放在希望跳出的最外层循环之前，并且必须紧跟一个冒号。  如下<strong>read_data:</strong></p>
+<pre><code>Scanner in = new Scanner(System.in);
+int n;
+read_data:
+while(...)
+{
+    ...
+    for(...)
+    {
+        ......
+        n = in.nextInt();
+        if(n &lt; 0)
+            break read_data;
+        ...
+    }
+}  
+</code></pre><h2 id="6、-continue语句"><a href="#6、-continue语句" class="headerlink" title="6、 continue语句"></a>6、 continue语句</h2><p>continue语句将控制转移到最内层循环的首部。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/14/四 流程控制/" data-id="cjxg3xhnp000jbq6ca6o1ezqn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-三 输入输出" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/14/三 输入输出/" class="article-date">
+  <time datetime="2018-05-14T02:32:25.000Z" itemprop="datePublished">2018-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/14/三 输入输出/">三、输入输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="三、输入输出"><a href="#三、输入输出" class="headerlink" title="三、输入输出"></a>三、输入输出</h1><h2 id="1、Scanner类输入"><a href="#1、Scanner类输入" class="headerlink" title="1、Scanner类输入"></a>1、Scanner类输入</h2><p>Scanner类定义在java.util包中，使用需要在程序开始添加一行  </p>
+<pre><code>import java.util.*;  
+</code></pre><h3 id="读取输入"><a href="#读取输入" class="headerlink" title="读取输入"></a>读取输入</h3><p>  1、构建一个Scanner类并关联“标准输入流”System.in  </p>
+<pre><code>Scanner in = new  Scanner(Sysytem.in);  
+</code></pre><p>  2、实现输入操作<br>nextLine()  输入一行（有可能包含空格）：  </p>
+<pre><code>String name = in.nextLine();  
+</code></pre><p>next() 读取一个单词，以空白符作为分隔符： </p>
+<pre><code>String familyName = in.next();  
+</code></pre><p>读取一个整数nextInt(),读取一个下一个浮点数nextDouble()，检测输入中是否还有其他单词 boolean hasNext(),检测是否还有整数boolean hasNextInt(),检测是否还有浮点数boolean hasNextdouble()<br>例如：<br><img src="输入输出.PNG" alt="输入"></p>
+<h2 id="2、Console类输入"><a href="#2、Console类输入" class="headerlink" title="2、Console类输入"></a>2、Console类输入</h2><p>Scanner类不适合从控制台输入密码，要想读取密码引入Console类实现这个目的<br>采用Console对象每次只能读取一行输入，没有读取一个单词和一个整数    </p>
+<p>例如读取密码：  </p>
+<pre><code>Console cons = System.console();
+String userName = cons.readLine(&quot;User name:&quot;);
+cha[] passwd = cons.readPassword(&quot;Password:&quot;);  
+</code></pre><p> 输入的密码经过了处理，用户名没有。<br><img src="./Console类使用.PNG" alt="Console处理了密码">  </p>
+<p>使用Console类需要添加一行：    </p>
+<pre><code>import java.io.Console;  
+</code></pre><h2 id="3、输出"><a href="#3、输出" class="headerlink" title="3、输出"></a>3、输出</h2><p>Java沿用了C语言库函数中的printf方法格式化输出<br>1、例如使用8字符宽度和小数点后2位的精度打印x：  </p>
+<pre><code>System.out.printf(&quot;%8.2f&quot;,x);  
+</code></pre><p>2、例如使用多个参数：  </p>
+<pre><code>System.out.printf(&quot;hello, %s Next year,you&apos;ll be %d&quot;,name,age);    
+</code></pre><p>3、输出时间  </p>
+<pre><code>System.out.printf(&quot;%tc&quot;,new Date());
+</code></pre><p>格式化以t开始，c表示是完整的日期和时间，也可以是其它的转换符。  </p>
+<h2 id="4、file类"><a href="#4、file类" class="headerlink" title="4、file类"></a>4、file类</h2><p>java.io.File类用于表示文件（目录），只能用于表示文件（目录）的信息（名称、大小），不能用于内容的访问。  </p>
+<pre><code>import java.io.*;
+
+public class FileDemo{
+    public static void main(String[] args) {
+        File file = new File(&quot;/Users/zhangqin07/Documents/Java学习&quot;);
+        System.out.println(file.exists());
+
+        System.out.println(file.getPath());
+    }
+}
+</code></pre><p><a href="https://blog.csdn.net/summer_ck/article/details/51396631" target="_blank" rel="noopener">file类常用API：</a><br>file.exists() ; file.mkdir() ; file.delete(); file.isDirectory();creatNewFile(); ……    </p>
+<h2 id="5、IO流（输入流、输出流）"><a href="#5、IO流（输入流、输出流）" class="headerlink" title="5、IO流（输入流、输出流）"></a>5、IO流（输入流、输出流）</h2><p>处理字节或者二进制对象用字节流；</p>
+<h3 id="1）字节流"><a href="#1）字节流" class="headerlink" title="1）字节流"></a>1）字节流</h3><p>InputStream：抽象了应用程序读取数据的方式<br>OutputStream:抽象了应用程序写出数据的方式    </p>
+<p>读到文件结束：<br>EOF = End  ,读到-1 就是结尾    </p>
+<p><strong>输入流基本方法：</strong>  </p>
+<pre><code>int b = in.read();读取一个字节无符号填充到int低8位，-1是EOF
+in.read(byte[] buf);
+in.read(byte[],int start , int size);
+</code></pre><p><strong>输出流基本方法：</strong>  </p>
+<pre><code>out.write(int b);//写一个byte到流，b的低8位
+out.write(byte[] buf); //将buf字节数组都写入到流
+out.write(byte[] buf , int start , int size);//字节数组从start位置开始写size长度的字节到流
+</code></pre><p>输出的另外两个方法：  </p>
+<pre><code>public void flush();//刷新缓存，实际写入到文件、网络
+public void close();//关闭流  
+</code></pre><p>FileInputStream:具体实现了在文件上读取数据  </p>
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class TestFile{
+    public static void main(String[] args) {
+        try{
+            IOUtil.printHex(&quot;/Users/zhangqin07/Projects/JAVA测试练习程序/myfile.txt&quot;);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+
+class IOUtil{
+/**
+读取指定文件内容，按照16进制输出到控制台，每行输出10个byte
+*/
+public static void printHex(String fileName) throws IOException{
+    //把文件作为字节流进行操作
+    FileInputStream in = new FileInputStream(fileName);
+    int b ;
+    int i = 1;
+    while((b=in.read())!=-1){
+        //单的位数前面补0对齐
+        if(b&lt;=0xf){
+            System.out.print(&quot;0&quot;);
+        }
+
+        System.out.print(Integer.toHexString(b) + &quot; &quot;);
+        if(i++%10==0){
+            System.out.println();
+        }
+    }
+    in.close();
+    }
+}
+</code></pre><hr>
+<pre><code>public static void printHexByByteArray(String fileName) throws IOException{
+    FileInputStream in = new FileInputStream(fileName);
+    byte[] buf = new byte[20*1024];
+    //从in中批量读取字节，放入到buf这个数组中，从第0个位置开始，最多放buf.length个
+    //返回的是读到的字节的个数，bytes个
+    int bytes = in.read(buf , 0 ,buf.length);//一次性读完，说明字节数组足够大
+    int j = 1;
+    for(int i= 0; i &lt; bytes ; i++){
+        if(buf[i]&lt;=0xf){
+            System.out.print(&quot;0&quot;);
+        }
+        System.out.print(Integer.toHexString(buf[i]&amp;0xff)+&quot; &quot;);
+        if(j++%10 == 0){
+            System.out.println();
+        }
+    }
+    in.close();
+}
+</code></pre><hr>
+<pre><code>public static void printHexByString(String fileName) throws IOException{
+    FileInputStream in = new FileInputStream(fileName);
+    byte[] buf = new byte[20*1024];
+    //从in中批量读取字节，放入到buf这个数组中，从第0个位置开始，最多放buf.length个
+    //返回的是读到的字节的个数，bytes个
+    int bytes = in.read(buf , 0 ,buf.length);//一次性读完，说明字节数组足够大
+    //String方法
+    String str = new String(buf);
+    System.out.println(str);
+
+    in.close();
+} 
+</code></pre><h3 id="2）字符流"><a href="#2）字符流" class="headerlink" title="2）字符流"></a>2）字符流</h3><p>  字符流：<br>Reader ：输入<br>writer ： 输出<br>和InputStream类似，差别在于读取的是字符（char），而不是字节。  </p>
+<p><strong>Reader的重要方法read()</strong>  </p>
+<pre><code>public int read(); //需要将int转成char
+public int read(char b[]);
+public int read(char[] b , int off ,int len);
+</code></pre><p><strong>Writer的重要方法write():</strong>  </p>
+<pre><code>public void write(int b);//将b的低2个字节写入到输出流 
+public void write(char b[]);//将字符数组b中的全部字节按顺序写入到输出流
+public void write(char[] b ,int off ,int len);//将字符数组从off开始的len个字节写入到输出流
+public void write(String s);//将字符串写入到流中
+public void write(String s ,int off ,int len);//将字符串写入到流中，位置为off，长度为len
+public void flush();//刷新流
+public void close();//关闭流
+</code></pre><h3 id="3）典型IO操作示例"><a href="#3）典型IO操作示例" class="headerlink" title="3）典型IO操作示例"></a>3）典型IO操作示例</h3><pre><code>BufferedReader  in  =  new BufferedReader(  //封装成BufferedReader
+                        new InputStreamReader(  //封装成字节流
+                            new FileInputStream(file , &quot;utf-8&quot;) //开始是一个一个的字节，指定编码方式
+                        )
+                    );
+s = in.readLine();//BufferedReader可以一行一行的读了
+</code></pre><p><strong>FileInputStream</strong><br>具体实现了在文件上读取数据<br><strong>FileOutputStream</strong>    </p>
+<p><strong><a href="https://www.cnblogs.com/zhaoyanjun/p/6292384.html" target="_blank" rel="noopener">IO流学习总结</a></strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/14/三 输入输出/" data-id="cjxg3xhna0005bq6cidfkpima" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

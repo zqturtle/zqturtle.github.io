@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>二、活动（Activity） | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="二、活动（Activity）活动（Activity）是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。 1、活动基本用法1.1、手动创建活动Activity Name：FirstActivity；Generate Layout File：表示会自动为FirstActivity创建一个对应的布局文件；Launcher Activity：表示自动将FirstA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二、活动（Activity）">
+<meta property="og:url" content="http://yoursite.com/2018/06/03/二、活动(Activity)/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="二、活动（Activity）活动（Activity）是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。 1、活动基本用法1.1、手动创建活动Activity Name：FirstActivity；Generate Layout File：表示会自动为FirstActivity创建一个对应的布局文件；Launcher Activity：表示自动将FirstA">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-26T09:34:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二、活动（Activity）">
+<meta name="twitter:description" content="二、活动（Activity）活动（Activity）是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。 1、活动基本用法1.1、手动创建活动Activity Name：FirstActivity；Generate Layout File：表示会自动为FirstActivity创建一个对应的布局文件；Launcher Activity：表示自动将FirstA">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-二、活动(Activity)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/03/二、活动(Activity)/" class="article-date">
+  <time datetime="2018-06-03T11:49:34.000Z" itemprop="datePublished">2018-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      二、活动（Activity）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="二、活动（Activity）"><a href="#二、活动（Activity）" class="headerlink" title="二、活动（Activity）"></a>二、活动（Activity）</h1><p>活动（Activity）是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。</p>
+<h2 id="1、活动基本用法"><a href="#1、活动基本用法" class="headerlink" title="1、活动基本用法"></a>1、活动基本用法</h2><h3 id="1-1、手动创建活动"><a href="#1-1、手动创建活动" class="headerlink" title="1.1、手动创建活动"></a>1.1、手动创建活动</h3><p>Activity Name：FirstActivity；<br>Generate Layout File：表示会自动为FirstActivity创建一个对应的布局文件；<br>Launcher Activity：表示自动将FirstActivity设置为当前项目的主活动；<br>Backwards Compatibility：表示为项目启用向下兼容的模式。  </p>
+<p>项目的任何活动都应该重写Activity的onCreate()方法，如FirstActivity中Android Studio的默认实现：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {//重写onCreate方法,主要是加载一些组件
+        super.onCreate(savedInstanceState);          //调用父类的onCreate方法，参数的作用是保持
+    }
+}
+</code></pre><h3 id="1-2、创建和加载布局"><a href="#1-2、创建和加载布局" class="headerlink" title="1.2、创建和加载布局"></a>1.2、创建和加载布局</h3><p>Android程序的设计讲究逻辑和视图分离，最好每一个活动都能对应一个布局，布局就是用来显示界面内容。  </p>
+<h4 id="1-2-1创建布局"><a href="#1-2-1创建布局" class="headerlink" title="1.2.1创建布局"></a>1.2.1创建布局</h4><p>在app/src/main/res目录右击-&gt;New-&gt;Directory创建layout目录。layout目录右击-&gt;New-&gt;Layout resource file,命名布局文件为first_layout，根元素选择LinearLayout。创建完成。<br>在Android Studio的下方的Design是可视化布局编辑器，不仅可以预览当前的布局，还可以通过拖放的方式编辑布局；Text是通过XML文件的方式来编辑布局的，其代码如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;/LinearLayout&gt;  
+</code></pre><p>布局文件中已经有一个LinearLayout元素，添加一个按钮：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;Button
+  //android:id是给当前元素定义一个唯一标识符，代码可以对其进行操作；     //在XML中引用一个id就用@id/id_name语法；在XML中定义一个id就用@+id/id_name语法
+android:id=&quot;@+id/button_1&quot;
+       android:layout_width=&quot;match_parent&quot;  //当前元素宽度，match_parent表示和父元素一样宽
+    android:layout_height=&quot;wrap_content&quot; //当前元素高度，wrap_content表示高度更好包含里面的内容就行
+    android:text=&quot;Button 1&quot;  //指定元素中显示的文字内容
+    /&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><h4 id="1-2-2在活动中加载布局"><a href="#1-2-2在活动中加载布局" class="headerlink" title="1.2.2在活动中加载布局"></a>1.2.2在活动中加载布局</h4><p>在FirstActivity中的onCreate方法中加入代码：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.first_layout);//给当前活动加载布局，一般传入布局文件的id
+    }
+}
+</code></pre><p>项目的添加的任何资源都会在R文件中生成一个相应的资源id，first_layout.xml布局的id也添加到R文件中了，R.layout.first_layout就可以得到first_layout.xml布局的id。  </p>
+<h4 id="1-2-3在AndroidManifest文件中注册"><a href="#1-2-3在AndroidManifest文件中注册" class="headerlink" title="1.2.3在AndroidManifest文件中注册"></a>1.2.3在AndroidManifest文件中注册</h4><p>所有的活动都要在AndroidManifest.xml文件中注册才能生效，FirstActivity在AndroidManifest.xml中注册过了，app/src/main/AndroidManifest.xml：  </p>
+<pre><code>    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+        package=&quot;com.example.xxxxxx.activitytest&quot;&gt;
+
+    &lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@mipmap/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
+    android:supportsRtl=&quot;true&quot;
+    android:theme=&quot;@style/AppTheme&quot;&gt;
+    &lt;activity android:name=&quot;.FirstActivity&quot;&gt;&lt;/activity&gt;
+&lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre><p>活动的注册在<application>标签内，通过<activity>注册，android:name来指定具体注册哪一个活动，.FirstActivity是一个缩写，<manifest>标签的package指定了包名。<br>仅仅注册不能运行，还需要为程序配置主活动，在AndroidManifest.xml中使用<intent-filter>标签：  </intent-filter></manifest></activity></application></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.xxxxx.activitytest&quot;&gt;
+
+&lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@mipmap/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
+    android:supportsRtl=&quot;true&quot;
+    android:theme=&quot;@style/AppTheme&quot;&gt;
+    &lt;activity android:name=&quot;.FirstActivity&quot;
+        android:label=&quot;This is FirstActivity&quot;&gt;//指定活动标题栏内容，会话顶部，还是启动器中应用程序的名称
+        &lt;intent-filter&gt;  //标签内配置主活动
+            &lt;action android:name = &quot;android.intent.action.MAIN&quot;/&gt;  //使用这两句声明来配置
+            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+&lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre><h4 id="1-2-4在活动中使用Toast"><a href="#1-2-4在活动中使用Toast" class="headerlink" title="1.2.4在活动中使用Toast"></a>1.2.4在活动中使用Toast</h4><p>Toast是Android系统提供的一种非常好的提醒方式，在程序中可以使用它将一些短小的信息通知给用户，这些信息一段时间后会自动消失，不会占用任何屏幕空间。<br>定义一个Toast触发点，使用界面中的按钮，在onCreate方法中添加代码：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.first_layout);
+
+    Button button1 = (Button) findViewById(R.id.button_1);//获取布局文件中定义的元素实例，first_layout.xml中通过android:id指定的
+    button1.setOnClickListener(new View.OnClickListener() {//这个方法为按钮注册一个监听器，点击按钮就会执行onClick方法
+        @Override
+        public void onClick(View v) {//弹出Toast的功能
+        //通过静态方法makeText创建Toast对象，然后调用show显示出来
+        //第一个参数Context，Toast要求的上下文;第二个参数显示的文本内容；第三个参数显示时长
+            Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+        }
+    });
+    }
+}
+</code></pre><h4 id="1-2-5在活动中使用Menu"><a href="#1-2-5在活动中使用Menu" class="headerlink" title="1.2.5在活动中使用Menu"></a>1.2.5在活动中使用Menu</h4><p>使得菜单能得到展示并不占用屏幕。<br>在res目录右击-&gt;New-&gt;Directory,输入menu；文件夹下新建main菜单，menu右击-&gt;New-&gt;Menu resource file，在main.xml中添加代码：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+        &lt;item   //item标签用来创建某一个菜单项
+            android:id=&quot;@+id/add_item&quot;  //给菜单项指定一个唯一标识符
+            android:title=&quot;Add&quot;/&gt;     //给菜单项指定一个名称
+        &lt;item
+            android:id=&quot;@+id/remove_item&quot;
+            android:title=&quot;Remove&quot;/&gt;
+&lt;/menu&gt;
+</code></pre><p>在FirstActivity中重写onCreateOptionMenu()方法（MAC中control+O）:  </p>
+<pre><code>@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main , menu);//获得MenuInflater对象，调用inflate方法给当前活动创建菜单
+//inflate()方法2个参数，第一个指定通过哪一个资源文件来创建菜单；第二个参数指定我们的菜单项添加到哪一个Menu对象中，此处使用了传入的参数
+    return true;
+}
+</code></pre><p>要菜单真正可用，还要在定义菜单响应事件，通过在FirstActivity中重写onOptionItemSelected()方法：</p>
+<pre><code>    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){//判断点击的是哪一个菜单项
+            case R.id.add_item:
+            Toast.makeText(this,&quot;You clicked Add&quot;,Toast.LENGTH_SHORT).show();
+            break;
+           case R.id.remove_item:
+                Toast.makeText(this,&quot;You clicked Remove&quot;,Toast.LENGTH_SHORT).show();
+                break;
+        default:
+    }
+    return true;
+}
+</code></pre><h4 id="1-2-6销毁一个活动"><a href="#1-2-6销毁一个活动" class="headerlink" title="1.2.6销毁一个活动"></a>1.2.6销毁一个活动</h4><p>除了返回键销毁活动外，在代码中销毁可以使用Activity类提供的finish()方法，例如修改按钮监听器中的代码：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+           @Override
+        public void onClick(View v) {
+            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    });
+</code></pre><p>点击Button 1就销毁了活动。  </p>
+<h2 id="2、使用Intent在活动中切换"><a href="#2、使用Intent在活动中切换" class="headerlink" title="2、使用Intent在活动中切换"></a>2、使用Intent在活动中切换</h2><p>点击启动器只会进入到应用的主活动中，所以需要从主活动跳转到其他活动。<br>Intent是Android程序中各组件交互的一种重要方式，不仅可以指明当前组件想要执行的动作，还可以在不同组件直接传递数据。一般可用于启动活动、启动服务以及发送广播等。  </p>
+<h3 id="2-1使用显示Intent"><a href="#2-1使用显示Intent" class="headerlink" title="2.1使用显示Intent"></a>2.1使用显示Intent</h3><h4 id="2-1-1创建另外一个活动"><a href="#2-1-1创建另外一个活动" class="headerlink" title="2.1.1创建另外一个活动"></a>2.1.1创建另外一个活动</h4><p>右击包名-&gt;New-&gt;Activity-&gt;Empty Activity,创建SecondActivity，布局为second_layout，不选Launcher Activity。编辑second_layout.xml如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;Button
+    android:id=&quot;@+id/button_2&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Button 2&quot;
+    /&gt;
+
+&lt;/LinearLayout&gt;  
+</code></pre><p>任何一个活动都需要在AndroidManifest.xml中注册，Android Studio已自动完成，由于不是主活动，不需要配置<intent-filter>标签里的内容。FirstActivity和SecondActivity注册对比如下：  </intent-filter></p>
+<pre><code>&lt;activity
+        android:name=&quot;.FirstActivity&quot;
+        android:label=&quot;This is FirstActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+
+    &lt;activity android:name=&quot;.SecondActivity&quot;&gt;&lt;/activity&gt;
+</code></pre><h4 id="2-1-2显示Intent"><a href="#2-1-2显示Intent" class="headerlink" title="2.1.2显示Intent"></a>2.1.2显示Intent</h4><p>Intent的构造函数之一：  </p>
+<pre><code>Intent(Context packageContext , Class&lt;?&gt;cls)
+</code></pre><p>第一个参数表示启动活动的上下文，第二个指想要启动的目标活动。<br>Activity类中提供的一个startActivity()方法接收一个Intent参数，专门用于启动活动。修改FirstActivity中按钮的点击事件：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+           Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+           startActivities(intent);
+       }
+   });
+</code></pre><h3 id="2-2隐式Intent"><a href="#2-2隐式Intent" class="headerlink" title="2.2隐式Intent"></a>2.2隐式Intent</h3><p>不明确指出想要启动哪一个活动，而是指定一系列更为抽象的action和category等信息，然后交由系统分析这个Intent。<br>通过AndroidManifest.xml文件中的<activity>标签下配置<intent-filter>的内容，指定当前活动能够响应action和category：  </intent-filter></activity></p>
+<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
+            &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre><p>只有<action>和<category>中的内容同时匹配上Intent中指定的action和category时，这个活动才响应该Intent。<br>修改FirstActivity中按钮的点击事件：  </category></action></p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+            //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+    //使用了Intent的另外一个构造函数，传递action字符串
+            Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
+            startActivity(intent);
+        }
+</code></pre><p>一个Intent只能指定一个action，但是能指定多个category。在AndroidManifest.xml的<intent-filter>中添加一个category：  </intent-filter></p>
+<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
+               &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+            &lt;category android:name=&quot;android.intent.category.MY_CATEGORY&quot;/&gt;//声明自定义的category
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre><hr>
+<pre><code>       @Override
+    public void onClick(View v) {
+        //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+        //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+        Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
+        intent.addCategory(&quot;com.example.xxxxx.activitytest.MY_CATEGORY&quot;);//添加一个category
+        startActivity(intent);
+    }
+});
+</code></pre><h4 id="2-2-1隐式Intent的多种用法"><a href="#2-2-1隐式Intent的多种用法" class="headerlink" title="2.2.1隐式Intent的多种用法"></a>2.2.1隐式Intent的多种用法</h4><p>隐式Intent不仅可以起到自己程序内的活动，还可以起到其他程序的活动，使得Android多个应用程序之间功能共享。例如，调用系统浏览器打开网页，修改FirstActivity中按钮事件代码：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           Intent intent = new Intent(Intent.ACTION_VIEW);//Intent的action是Intent.ACTION_VIEW,系统内置的动作
+           intent.setData(Uri.parse(&quot;http://www.baidu.com&quot;));//Uri.parse方法将网址字符串解析成一个Uri对象，setData将对象传递进去
+           startActivity(intent);
+       }
+   });
+</code></pre><p>还可以在<intent-fileter>标签中配置<data>标签，更精确的指定当前活动响应什么类型数据。<data>标签主要可以配置以下内容：<br>android:scheme   指定数据的协议部分，如http<br>android:host    指定数据的主机部分，如<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br>android:port    指定数据的端口部分<br>android:path   指定主机名和端口之后的部分<br>android:mineType   指定可以处理的数据类型，允许使用通配符方式指定<br><data>标签指定的内容和Intent携带的data完全一致时，当前活动才能够响应Intent。  </data></data></data></intent-fileter></p>
+<p>拨打电话：  </p>
+<pre><code> button1.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse(&quot;tel:10086&quot;));
+        startActivity(intent);
+    }
+});
+</code></pre><h3 id="2-3向下一个活动传递数据"><a href="#2-3向下一个活动传递数据" class="headerlink" title="2.3向下一个活动传递数据"></a>2.3向下一个活动传递数据</h3><p>Intent中提供了一系列putExtra()方法的重载，可以把我们需要传递的数据暂存在Intent中，启动另一个活动后，将数据从Intent中取出。例如FirstActivity中的一个字符串传递到SecondActivity中去：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           String data = &quot;Hello SecondActivity&quot;;
+           Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
+           intent.putExtra(&quot;extra_data&quot; , data); //通过putExtra传递一个字符串，第一个参数是键，用于后面从Intent中取值，data是要传的数据
+           startActivity(intent);
+       }
+   });
+</code></pre><hr>
+<pre><code>//在SecondActivity中将传递的数据取出，并打印出来
+public class SecondActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.second_layout);
+
+        Intent intent = getIntent();//次方法获取用于启动SecondActivity的Intent
+        String data = intent.getStringExtra(&quot;extra_data&quot;);//获取传递的数据
+        Log.d(&quot;SecondActivity&quot;,data);
+
+        }
+}
+</code></pre><h3 id="2-4返回数据给上一个活动"><a href="#2-4返回数据给上一个活动" class="headerlink" title="2.4返回数据给上一个活动"></a>2.4返回数据给上一个活动</h3><p>使用Activity中的一个startActivityForResult(）方法启动活动，这个方法当活动销毁时能够返回一个结果给上一个活动。两个参数，第一个参数Intent，第二个是请求码，用于在之后回调中判断数据的来源。  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
+            startActivityForResult(intent , 1);//请求码是唯一值就可以
+    }
+}
+</code></pre><p>在SecondActivity中给按钮注册点击事件，并在点击事件中添加数据的逻辑：  </p>
+<pre><code>public class SecondActivity extends AppCompatActivity {
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.second_layout);
+   Button button2 = (Button)findViewById(R.id.button_2);
+    button2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();//构建一个Intent，仅仅传递数据，没指向任何“意图”
+            intent.putExtra(&quot;data_rerutn&quot; , &quot;Hello FirstActivity&quot;);
+            setResult(RESULT_OK,intent);//向上一活动返回数据,第一个参数返回处理结果，_OK和_CANCELED两个值，第二个参数把带有数据的intent传递回去
+            finish(); //销毁当前活动
+        }
+    });
+    }
+}
+</code></pre><p>startActivityForResylt()方法启动SecondActivity后，在SecondActivity被销毁后回调上一个活动的onActivityResult()方法，因此需要重写FirstActivity中的这个方法得到返回的数据：  </p>
+<pre><code>@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode){
+        case 1:
+            if(resultCode == RESULT_OK){
+                String returnedData = data.getStringExtra(&quot;data_return&quot;);
+                Log.d(&quot;FirstActivity&quot; , returnedData);
+
+            }
+            break;
+        default:
+    }
+}
+</code></pre><p>三个参数，第一个requestCode是启动活动时传入的请求码；resultCode返回数据时传入的处理结果；data是携带返回数据的Intent。由于一个活动可能启动多个活动，每个活动返回的数据都回调到onActivityResult()方法中，因此，首先检查requestCode的值判断数据来源。  </p>
+<p>还可以通过Back键回到FirstActivity，需要重写onBackPressed()方法来解决：  </p>
+<pre><code>@override
+public void onBackPressed(){
+    Intent intent = new Intent();
+    intent.putExtra(&quot;data_return&quot;,&quot;Hello FirstActivity&quot;);
+    setResult(RESULT_OK,intent);
+    finish();
+}
+</code></pre><h2 id="3、活动的生命周期"><a href="#3、活动的生命周期" class="headerlink" title="3、活动的生命周期"></a>3、活动的生命周期</h2><p>Android中的活动是可以层叠的，使用任务(Task)管理活动，一个任务就是一组存放在栈里的活动的集合，这个栈称为返回栈。启动一个新的活动就会在返回栈中入栈，处于栈顶；当调用finish()或者按back键销毁活动后就出栈。</p>
+<h3 id="3-1活动状态"><a href="#3-1活动状态" class="headerlink" title="3.1活动状态"></a>3.1活动状态</h3><p><strong>运行状态：</strong>活动处于返回栈的栈顶<br><strong>暂停状态：</strong>活动不处于栈顶，但任然可见；这是因为不是每一个活动都会占满整个屏幕，暂停状态的活动仍然完全存活，如果内存极低系统会考虑回收这种活动<br><strong>停止状态：</strong>活动不处于栈顶，并且完全不可见；系统会保存相应的状态和成员变量，但是也有可能被回收<br><strong>销毁状态：</strong>活动从返回栈移除  </p>
+<h3 id="3-2活动的生存期"><a href="#3-2活动的生存期" class="headerlink" title="3.2活动的生存期"></a>3.2活动的生存期</h3><p>Activity类定义了7个回调方法，覆盖生命周期的每一个环节。<br><strong>onCreate()：</strong>每个活动都要重写这个方法，会在活动第一次被创建的时候调用；在方法中完成活动的初始化，如加载布局、绑定事件<br><strong>onStart():</strong>由不可见变为可见的时候调用<br><strong>onResume()：</strong>活动准备好和用户进行交互的时候调用，此时活动处于栈顶运行状态<br><strong>onPause()：</strong>在系统准备去启动或者恢复另外一个活动的时候调用<br><strong>onStop():</strong>活动完全不可见的时候调用，如果启动的是另外一个活动是对话框式的那么执行onPause而不是onStop<br><strong>onDestroy()：</strong>活动呗销毁之前调用，之后活动变为销毁状态<br><strong>onRestart()：</strong>活动由停止活动变为运行状态前调用，活动被重新启动<br>以上方法除了onRestart方法，其他都是两两相对的，因此活动又可以分为3种生存期：<br><strong>完整生存期：</strong>活动在onCreate和onDestroy之间所经历的<br><strong>可见生存期：</strong>活动在onStart和onStop之间所经历的，此期间活动对用户总是可见<br><strong>前台生存期：</strong>活动在onResume和onPause之间所经历的，活动总是处于运行状态，可以和用户进行交互  </p>
+<h3 id="3-3活动被回收了咋办"><a href="#3-3活动被回收了咋办" class="headerlink" title="3.3活动被回收了咋办"></a>3.3活动被回收了咋办</h3><p>应用场景：应用中有一个活动A，活动A启动了活动B，活动A进入停止状态，这个时候由于系统内存不足活动A被回收了，然后back键返回活动A时，活动A还是要会正常显示，此时并不会执行onRestart方法，而是会执行onCreate方法，活动A呗重新创建一次。但是，活动A中如果有一个文本框，你输入了一段文字，如果被回收了，返回到活动A时出入的文字没了。<br>为了解决这个问题，Activity中还提供了一个onSaveInstance()回调方法，这个方法可以保证还活动被回收前一定会被调用，可以通过这个方法来解决活动被回收时零时数据得不到保存的问题。  </p>
+<p>onSaveInstanceState()方法携带一个Bundle类型参数。<br>Bundle提供了一系列保存数据的方法，puString() 、putInt()，每个方法2个参数，第一个参数是键，用于后面从Bundle中取值，第二个参数是真正要保存的内容。<br>MainActivity中将临时数据保存：  </p>
+<pre><code>@Override
+protected void onSaveInstanceState(Bundle outState){
+    super.onSaveInstanceState(outState);
+    String tempData = &quot;Something you just typed&quot;;
+    outState.putString(&quot;data_key&quot; , tempData);
+}
+</code></pre><p>保存之后恢复，onCreate()方法也有一个Bundle类型参数，一般为null，如果活动被回收之前通过onSaveInstanceState()方法来保存数据，这个参数就会带有之前所保存的全部数据。修改MainActivity的onCreate()方法：  </p>
+<pre><code>@Override
+protected vodi onCreate(Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+    Log.d(TAG , &quot;onCreate&quot;);
+    setContentView(R.layout.activity_main);
+    if(savedInstanceState != null){
+        String tempData = savedInstanceState.getString(&quot;data_key&quot;);
+        Log.d(TAG , tempData);
+    }
+}
+</code></pre><p>取出之后就可以做相应的恢复操作，此处只是简单打印。  </p>
+<h2 id="4、活动的启动模式"><a href="#4、活动的启动模式" class="headerlink" title="4、活动的启动模式"></a>4、活动的启动模式</h2><p>启动模式一共有4种：standard  singleTop  singleTask  singleInstance<br>可以在AndroidManifest.xml中通过给<activity>标签指定android:launchMode属性来选择启动模式。  </activity></p>
+<h3 id="4-1standard"><a href="#4-1standard" class="headerlink" title="4.1standard"></a>4.1standard</h3><p>默认的启动模式，不显示指定的情况下，所有活动都会自动使用这种模式。使用这种模式的活动，系统不会在乎这个活动是否已经在返回栈中存在，每次启动都会创建该活动的一个新的实例。每当启动一个新的活动，就会在返回栈中入栈，并处于栈顶位置。</p>
+<h3 id="4-2singleTop"><a href="#4-2singleTop" class="headerlink" title="4.2singleTop"></a>4.2singleTop</h3><p>启动活动时如果发现返回栈的栈顶已经是该活动，则认为可以直接使用它，不会再创建新的活动实例。</p>
+<h3 id="4-3singleTask"><a href="#4-3singleTask" class="headerlink" title="4.3singleTask"></a>4.3singleTask</h3><p>每次启动该活动系统只会首先在返回栈中检查是否存在该活动的实例，如果发现已经存在则直接使用该活动实例，并把这个活动之上的所有活动统统出栈，如果没有发现就会创建一个新的活动实例。</p>
+<h3 id="4-4singleInstance"><a href="#4-4singleInstance" class="headerlink" title="4.4singleInstance"></a>4.4singleInstance</h3><p>指定为singleInstance模式的活动会启动一个新的返回栈来管理这个活动。如果程序中的一个活动是允许其他程序调用的，要实现其他程序和我们的程序共享这个活动的实例，就需要这个模式创建一个单独的返回栈管理这个活动，不管哪个应用程序来访问这个活动，都共用的同一个返回栈。</p>
+<h2 id="5、活动的最佳实践技巧"><a href="#5、活动的最佳实践技巧" class="headerlink" title="5、活动的最佳实践技巧"></a>5、活动的最佳实践技巧</h2><h3 id="5-1获取当前是哪一个活动"><a href="#5-1获取当前是哪一个活动" class="headerlink" title="5.1获取当前是哪一个活动"></a>5.1获取当前是哪一个活动</h3><p>在ActivityTest项目中新建一个BaseActivity类，右击包-&gt;New-&gt;Java Class，不需要注册，只需要创建普通的Java类，让BaseActivity继承自AppCompatActivity，并重写onCreate方法：  </p>
+<pre><code>public class BaseActivity extends AppCompatActivity {
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());//获取当前实例的类名，通过Log打印出来
+    }
+}
+</code></pre><p>让BaseActivity成为ActivityTest项目中所有活动的父类，继承自BaseActivity，而BaseActivity也是继承自AppCompatActivity的，所以所有活动的现有功能并不受影响。运行后每当进入一个界面，就会在Logcat中打印信息，从而知道当前界面对应哪个活动。  </p>
+<h3 id="5-2随时随地退出程序"><a href="#5-2随时随地退出程序" class="headerlink" title="5.2随时随地退出程序"></a>5.2随时随地退出程序</h3><p>不需要按几次返回键退出，思路是用一个专门的集合类对所有活动进行管理。新建一个ActivityCollector类作为活动管理器：  </p>
+<pre><code>public class ActivityCollector{
+    public static List&lt;Activity&gt; activities = new ArrayList&lt;&gt;();//通过List暂存活动
+    public static void addActivity(Activity activity){ //向List中添加活动
+        activities.add(activity);
+    }
+    public static void removeActivity(Activity activity){//从List中移除活动
+        activities.remove(activity);
+    }
+    public static void finishAll(){   //将List中存储的活动全部销毁
+        for(Activity activity: activities){
+            if(!activity.isFinishing()){
+                activity.finish();
+            }
+        }
+    }
+}
+</code></pre><hr>
+<pre><code>//修改BaseActivity中的代码
+public class BaseActivity extends AppCompatActivity {
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());
+    ActivityCollector.addActivity(this);//将当前创建的活动添加到活动管理器
+    }
+    @Override
+    protected void onDestroy(){//重写onDestroy方法
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);//将马上销毁的活动从活动管理器中移除
+    }
+}
+</code></pre><hr>
+<pre><code>//调用ActivityCollector.finishAll()不管在什么地方都可以退出程序
+public class SecondActivity extends BaseActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.second_layout);
+
+    Button button2 = (Button)findViewById(R.id.button_2);
+    button2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+           ActivityCollector.finishAll();
+        }
+    });
+}
+</code></pre><p>}</p>
+<p>保证程序完全退出可以杀掉进程：  </p>
+<pre><code>android.os.Process.killProcess(android.os.Process.myPid());//myPid获取当前进程的id，killProcess只能杀掉当前程序的进程，不能用来杀掉其他程序
+</code></pre><h3 id="5-3启动活动的最佳写法"><a href="#5-3启动活动的最佳写法" class="headerlink" title="5.3启动活动的最佳写法"></a>5.3启动活动的最佳写法</h3><p>一般方法通过Intent构建当前“意图”，然后调用startActivity()或者startActivityForResult()方法将活动启动，如果有数据传递使用Intent完成。如：  </p>
+<pre><code>Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
+intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
+startActivity(intent);
+</code></pre><p>但是有一个对接问题，你不清楚这个活动需要传递哪些数据。修改SecondActivity中代码：  </p>
+<pre><code>public class SecondActivity extends BaseActivity{
+    public static void actionStart(Content context , String data1 , String data2){
+        Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+        intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
+        intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
+        startActivity(intent);
+    }
+}
+</code></pre><p>添加一个actionStart(）方法完成Intent构建，SecondActivity中需要的数据通过此方法的参数传递过来。启动SecondActivity：  </p>
+<pre><code>button1.setOnClickListener(new OnClickListener){
+    @Override
+    public void onClick(View v){
+        SecondActivity.actionStart(FirstActivity.this , &quot;data1&quot;,&quot;data2&quot;);
+    }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/03/二、活动(Activity)/" data-id="cjxg3xho5000nbq6c1hkf3x82" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/05/三、UI开发工具(控件)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          三、UI开发工具
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/03/一、Android简介/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一、Android简介</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>三、UI开发工具 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="三、UI开发工具1、常用控件的使用方法1.1TextView主要用于在界面中显示一段文本信息。   &amp;lt;TextView     android:id=&amp;quot;@+id/text_view&amp;quot;   //定义控件唯一标识符     android:layout_width=&amp;quot;match_parent&amp;quot;   //控件宽度，和父布局大小一样     android:l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三、UI开发工具">
+<meta property="og:url" content="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="三、UI开发工具1、常用控件的使用方法1.1TextView主要用于在界面中显示一段文本信息。   &amp;lt;TextView     android:id=&amp;quot;@+id/text_view&amp;quot;   //定义控件唯一标识符     android:layout_width=&amp;quot;match_parent&amp;quot;   //控件宽度，和父布局大小一样     android:l">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-26T09:31:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="三、UI开发工具">
+<meta name="twitter:description" content="三、UI开发工具1、常用控件的使用方法1.1TextView主要用于在界面中显示一段文本信息。   &amp;lt;TextView     android:id=&amp;quot;@+id/text_view&amp;quot;   //定义控件唯一标识符     android:layout_width=&amp;quot;match_parent&amp;quot;   //控件宽度，和父布局大小一样     android:l">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-三、UI开发工具(控件)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/05/三、UI开发工具(控件)/" class="article-date">
+  <time datetime="2018-06-05T03:54:16.000Z" itemprop="datePublished">2018-06-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      三、UI开发工具
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="三、UI开发工具"><a href="#三、UI开发工具" class="headerlink" title="三、UI开发工具"></a>三、UI开发工具</h1><h2 id="1、常用控件的使用方法"><a href="#1、常用控件的使用方法" class="headerlink" title="1、常用控件的使用方法"></a>1、常用控件的使用方法</h2><h3 id="1-1TextView"><a href="#1-1TextView" class="headerlink" title="1.1TextView"></a>1.1TextView</h3><p>主要用于在界面中显示一段文本信息。  </p>
+<pre><code>&lt;TextView
+    android:id=&quot;@+id/text_view&quot;   //定义控件唯一标识符
+    android:layout_width=&quot;match_parent&quot;   //控件宽度，和父布局大小一样
+    android:layout_height=&quot;wrap_content&quot;  //控件高度，控件大小刚好包含里面的内容
+    android:text=&quot;This is TextView&quot;  /&gt;    //显示的文本内容
+</code></pre><p>所有控件都有2个属性，三种值：match_parent、fill_parent、wrap_content。<br>前两个一样，表示布局和父布局的大小一样，推荐match_parent; wrap_content表示当前控件的大小能够刚好包含住里面的内容就行。也可以对高度和宽度指定固定大小，但是这样会出现不同手机屏幕适配方面的问题。<br>指定文字的对齐方式android:gravity  </p>
+<pre><code>android:gravity=&quot;center&quot;  //还有top、bottom、left、right，可以用“|”同时指定多个值
+</code></pre><p>android:textSize 指定文字大小，android中以sp作为字体大小单位；<br>android:textColor 指定文字颜色  </p>
+<h3 id="1-2Button"><a href="#1-2Button" class="headerlink" title="1.2Button"></a>1.2Button</h3><p>程序用于和用户进行交互的重要控件。  </p>
+<pre><code>&lt;Button
+    android:id=&quot;@+id/button&quot;   //定义控件唯一标识符
+    android:layout_width=&quot;match_parent&quot;   //控件宽度，和父布局大小一样
+    android:layout_height=&quot;wrap_content&quot;  //控件高度，控件大小刚好包含里面的内容
+    android:text=&quot;Button&quot;  /&gt;  //系统对Button中字母进行大写转换
+</code></pre><p>android:textAllCaps=”false” 禁用大写转换。<br>在MainActivity中为Button点击事件注册监听器：  </p>
+<pre><code>public class MainActivity extends AppCompatActivity{
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button = (Button)findViewById(R.id.button);
+        button.setOnclickListener(new View.OnClickListener){
+            @Override
+            public void onClick(View v){
+                //此处添加逻辑
+            }
+        }
+    }
+}
+</code></pre><h3 id="1-3EditText"><a href="#1-3EditText" class="headerlink" title="1.3EditText"></a>1.3EditText</h3><p>用于和用户进行交互的一个重要控件，允许用户在控件里输入和编辑内容，并可以在程序中对这些内容进行处理。  </p>
+<pre><code>&lt;EditText
+    android:id = &quot;@+id/edit_text&quot;
+    android:layout_width = &quot;match_parent&quot;
+    android:layout_height = &quot;wrap_content&quot;
+/&gt;
+</code></pre><p>在输入框中显示一些提示性的文字，用户输入任何内容，提示性文字就会消失：  </p>
+<pre><code>android:hint = &quot;Type something here&quot; 
+</code></pre><p>输入内容长度限制：  </p>
+<pre><code>android:maxLines = &quot;2&quot;  //最大行数为两行,超过2行文本会向上滚动
+</code></pre><h3 id="1-4ImageView"><a href="#1-4ImageView" class="headerlink" title="1.4ImageView"></a>1.4ImageView</h3><p>用于在界面展示图片，图片通常放在以drawable开头的目录下。<br>指定一张图片android:src  </p>
+<pre><code>&lt;ImageView
+    ...
+    android:src=&quot;@drawable/img_1&quot; /&gt;
+</code></pre><p>代码中动态修改ImageView中的图片：  </p>
+<pre><code>package com.example.xxxxx.uiwidgettest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+private ImageView imageView;
+   private EditText editText;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Button button = (Button)findViewById(R.id.button);
+    editText = (EditText)findViewById(R.id.edit_text);
+    imageView = (ImageView)findViewById(R.id.image_view);
+    button.setOnClickListener(this);
+}
+
+@Override
+public void onClick(View v) {
+    switch (v.getId()){
+        case R.id.button:
+            imageView.setImageResource(R.drawable.img_2);//将图片改为img_2
+    }
+    }
+}
+</code></pre><h3 id="1-5ProgressBar"><a href="#1-5ProgressBar" class="headerlink" title="1.5ProgressBar"></a>1.5ProgressBar</h3><p>用于在界面上显示一个进度条，表示程序正在加载一些数据。  </p>
+<pre><code>&lt;ProgressBar
+  android:id=&quot;@+id/progress_bar&quot;
+  android:layout_width=&quot;match_parent&quot;
+  android:layout_height=&quot;wrap_content&quot; /&gt;
+</code></pre><p>Android控件的可见属性，通过android:visibility进行指定，三种值：visible、invisible、gone<br>visible：可见的，默认值<br>invisible：不可见，任然占据原来的位置和大小，相当于透明<br>gone：不可见也不占用屏幕空间<br>通过代码设置控件的可见性，setVisibility()方法，传入View.VISIBLE、View.INVISIBLE、View.GONE<br>判断ProgressBar的可见性：  </p>
+<pre><code>progressBar.getVisibility() == View.GONE//判断是否是GONE
+progressBar.setVisibility(View.VISIBLE);//修改可见性为可见
+</code></pre><p>指定ProgressBar不同的样式，通过style属性可以将它指定成水平进度条：  </p>
+<pre><code>&lt;ProgressBar
+   android:id=&quot;@+id/progress_bar&quot;
+   android:layout_width=&quot;match_parent&quot;
+   android:layout_height=&quot;wrap_content&quot; 
+   style=&quot;?android:attr/progressBarStyleHorizontal&quot;//设置为水平进度条
+   android:max=&quot;100&quot;/&gt;   //进度条最大值为100
+</code></pre><h3 id="1-6AlertDialog"><a href="#1-6AlertDialog" class="headerlink" title="1.6AlertDialog"></a>1.6AlertDialog</h3><p>在当前界面弹出一个对话框，这个对话框是置顶于所有界面元素之上的，能够屏蔽掉其他控件的交互能力。一般用于提示一些非常重要的内容或者警告信息。  </p>
+<pre><code>public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private ImageView imageView;
+    private EditText editText;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button button = (Button)findViewById(R.id.button);
+        editText = (EditText)findViewById(R.id.edit_text);
+        imageView = (ImageView)findViewById(R.id.image_view);
+        button.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.button:
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);//创建AlertDialog实例
+            dialog.setTitle(&quot;this is dialog&quot;);//设置对话框标题
+            dialog.setMessage(&quot;something important&quot;);//设置内容
+            dialog.setCancelable(false);//是否可取消
+            dialog.setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() {//设置确定按钮的点击事件
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialog.setNegativeButton(&quot;Cancle&quot;, new DialogInterface.OnClickListener() {//设置取消按钮的点击事件
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialog.show();//调用show方法将对话框显示出来
+            break;
+        default:
+            break;
+    }
+}
+</code></pre><p>}</p>
+<h3 id="1-7ProgressDialog"><a href="#1-7ProgressDialog" class="headerlink" title="1.7ProgressDialog"></a>1.7ProgressDialog</h3><p>和AlertDialog类似，不过ProgressDialog会在对话框中显示一个进度条，一般用于标识操作比较耗时，让用户等待。  </p>
+<pre><code>@Override
+public void onClick(View v) {
+    switch (v.getId()){
+        case R.id.button:
+            ProgressDialog processDialog = new ProgressDialog(MainActivity.this);
+            processDialog.setTitle(&quot;This is ProgressDialog&quot;);
+            processDialog.setMessage(&quot;Loading...&quot;);
+            processDialog.setCancelable(true);
+            processDialog.show();
+            break;
+        default:
+            break;
+    }
+}
+</code></pre><p>如果setCancelable中传入false，则不能通过back键取消掉，那么在代码中需要加载完成后必须调用ProgressDialog的dimiss()方法关闭对话框，否则会一直存在。</p>
+<h2 id="2、四种基本布局"><a href="#2、四种基本布局" class="headerlink" title="2、四种基本布局"></a>2、四种基本布局</h2><p>布局是一种可以放置很多空间的容器，可以按照一定的规律调整内部空间的位置。布局的内部出了放置控件外，也可以放置布局，通过多层布局的嵌套。  </p>
+<h3 id="2-1线性布局"><a href="#2-1线性布局" class="headerlink" title="2.1线性布局"></a>2.1线性布局</h3><p>排列方向：  </p>
+<pre><code>android:orientation=&quot;vertical&quot;  //垂直排列
+android:orientation=&quot;horizontal&quot;  //水平排列
+
+android:layout_gravity =  &quot;top&quot;//控件在布局中的对齐方式
+</code></pre><p>线性布局中可以用比例的方式指定控件的大小android:layout_weight，设置了这个属性控件的宽度就不应该在由android:layout_width来决定。LinearLayout下所有控件指定的layout_weight相加，得到一个总值，该控件的layout_weight值除以总值就是占屏幕的宽度的大小。</p>
+<h3 id="2-2相对布局"><a href="#2-2相对布局" class="headerlink" title="2.2相对布局"></a>2.2相对布局</h3><p>RelativeLayout是非常常用的布局，和LinearLayout排列规则不同，RelativeLayout更加随意，可以通过相对定位的方式让控件出现在布局的任何位置。  </p>
+<pre><code>&lt;RelativeLayout  ...
+    ...
+    &lt;Button
+        android:id=&quot;@+id/button3&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_centerInparent=&quot;true&quot;
+        android:text=&quot;Button3&quot; /&gt;
+      &lt;Button
+        android:id=&quot;@+id/button2&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_above=&quot;@id/button3&quot; //在button3的上方
+        android:layout_toLeftOf=&quot;@id/button3&quot;  //在button3的左边
+        android:text=&quot;Button2&quot; /&gt;
+    ...
+&lt;/RelativeLayout&gt;
+</code></pre><p>一个控件去引用另外一个控件的id时，该控件一定要定义在引用控件的后面，不然会出现找不到id的情况。  </p>
+<h3 id="2-3帧布局"><a href="#2-3帧布局" class="headerlink" title="2.3帧布局"></a>2.3帧布局</h3><p>FrameLayout应用场景较少，所有的控件都默认摆放在布局的左上角。<br>也可以使用android:layout_gravity来指定对齐方式。  </p>
+<h3 id="2-4百分比布局"><a href="#2-4百分比布局" class="headerlink" title="2.4百分比布局"></a>2.4百分比布局</h3><p>之前的布局只要LineLayout支持使用layout_weight属性来实现比例指定控件大小的功能。引入百分比布局来解决，这种布局中不再使用wrap_content、match_parent等方式指定控件大小，而是直接指定控件在布局中所占的百分比，这样可以轻松实现任意比例分割布局。<br>百分比布局只为FrameLayout和RelativeLayout进行功能扩展，提供了PercentFrameLayout和PercentRelativeLayout这两个全新布局。<br>在项目的build.gradle中添加百分比布局库的依赖就能保证百分比布局在Android所有系统版本上兼容。 </p>
+<pre><code>&lt;android.support.percent.PercentFrameLayout
+    ...
+    &lt;Button
+        ...
+        app:layout_widthPercent=&quot;50%&quot;
+        app:layout_heightPercent=&quot;50%&quot; /&gt;
+    ...
+
+&lt;/android.support.percent.PercentFrameLayout&gt;
+</code></pre><h2 id="3、创建自定义控件"><a href="#3、创建自定义控件" class="headerlink" title="3、创建自定义控件"></a>3、创建自定义控件</h2><p>所有控件都是直接或间接继承自View，所有布局都是直接或间接继承自ViewGroup。View是Android中最基本的一种UI组件，它可以在屏幕上绘制一块矩形区域，并能响应这块区域的各种事件，我们使用的控件就是在View的基础之上又添加各自特有的功能。  </p>
+<h3 id="3-1引入布局创建控件"><a href="#3-1引入布局创建控件" class="headerlink" title="3.1引入布局创建控件"></a>3.1引入布局创建控件</h3><p>新建一个title.xml文件  </p>
+<pre><code>  &lt;LinearLayout ...
+    ...
+    &lt;Button
+        .. /&gt;
+    &lt;TextView
+        ... /&gt;
+    ...
+&lt;/LinearLayout&gt;
+
+//部分属性说明
+android:background = &quot;@drawable/edit_png&quot;//为布局或控件指定背景，可以使用颜色或图片填充
+android:layout_margin = &quot;5dp&quot;//指定控件在各个方向上偏移的距离
+android:layout_marginLeft或者android:layout_marginTop
+</code></pre><p>在程序中使用，在activity_main.xml中添加：  </p>
+<pre><code>&lt;LinearLayout ...
+    ...
+    &lt;include layout=&quot;@layout/title&quot;/&gt;  //include语句引入
+&lt;/LinearLayout&gt;
+</code></pre><h3 id="3-2创建自定义控件"><a href="#3-2创建自定义控件" class="headerlink" title="3.2创建自定义控件"></a>3.2创建自定义控件</h3><p>新建TitleLayout继承自LinearLayout，让它成为自定义的标题栏控件：  </p>
+<pre><code>pulic class TitleLayout extends LinearLayout{
+    public TitleLayout(Context context , AttributeSet attrs){//布局中引入TitleLayout控件就会调用这个构造函数
+        super(context,attrs);
+        //借助LayoutInflater实现标题栏布局多态加载，from方法构建一个LayoutInflater对象
+        LayoutInflater.from(context).inflate(R.layout.title,this);//inflate方法可以多态加载一个布局文件。
+        //inflate第一个参数是加载的布局文件的id，第二个参数是给加载好的布局在添加一个父布局
+    }
+}
+</code></pre><p>创建好布局文件后，在布局文件中添加自定义控件，修改activity_main.xml中的代码：  </p>
+<pre><code>&lt;LinearLayout ...
+    ...
+    &lt;com.example.uicustomviews.TitleLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+</code></pre><p>给标题栏的按钮注册点击事件，修改TitleLayout代码：  </p>
+<pre><code>pulic class TitleLayout extends LinearLayout{
+    public TitleLayout(Context context , AttributeSet attrs){
+        super(context,attrs);
+        LayoutInflater.from(context).inflate(R.layout.title,this);
+        Button titleBack =(Button)findViewByid(R.id.title_back);
+        Button titleBack =(Button)findViewByid(R.ID.title_edit);
+        titleBack.setOnClickListener(new OnClickListener){
+            @Override
+            public void onClick(View v){
+                ((Activity)getContext()).finish();
+            }
+        };
+        titleEdit.setOnClickListener(new OnClickListener){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(getContext(),&quot;You Clicked Edit button&quot;,Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+}
+</code></pre><h2 id="4、滚动控件-ReyclerView-134页，未完成"><a href="#4、滚动控件-ReyclerView-134页，未完成" class="headerlink" title="4、滚动控件-ReyclerView(134页，未完成)"></a>4、滚动控件-ReyclerView(134页，未完成)</h2><p>ReyclerView也属于新增的控件，为了让RecyclerView在所有Android版本上都能使用，将其定义在support库中。在app/build.gradle文件中添加：  </p>
+<pre><code>dependencies {
+implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
+implementation &apos;com.android.support:appcompat-v7:27.1.1&apos;
+implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
+testImplementation &apos;junit:junit:4.12&apos;
+androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
+androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
+implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加内容
+</code></pre><p>}<br>点击Sync Now进行同步。 修改activity_main.xml中的代码：  </p>
+<pre><code>&lt;android.support.v7.widget.RecyclerView  //添加RecyclerView控件
+    android:id=&quot;@+id/recycler_view&quot;
+        android:layout_height=&quot;match_parent&quot;
+    android:layout_width=&quot;match_parent&quot; /&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/" data-id="cjxg3xhnt000kbq6cvcyyr18q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/06/四、广播/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/03/二、活动(Activity)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">二、活动（Activity）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

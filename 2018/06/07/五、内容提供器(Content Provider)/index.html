@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>五、内容提供器 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="五、内容提供器内容提供器(Content Provider)主要用于在不同的应用程序之间实现数据的共享功能，它提供了一套完整的机制，允许一个程序访问另外一个程序中的数据，同时还能有效保证被访问数据的安全性。是Android实现跨程序共享数据的标准方式。     1、运行时权限1.1Android权限机制详解访问系统的网络状态以及监听开机广播，在AndroidManifest.xml中添加权限声明：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="五、内容提供器">
+<meta property="og:url" content="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="五、内容提供器内容提供器(Content Provider)主要用于在不同的应用程序之间实现数据的共享功能，它提供了一套完整的机制，允许一个程序访问另外一个程序中的数据，同时还能有效保证被访问数据的安全性。是Android实现跨程序共享数据的标准方式。     1、运行时权限1.1Android权限机制详解访问系统的网络状态以及监听开机广播，在AndroidManifest.xml中添加权限声明：">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-26T09:34:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="五、内容提供器">
+<meta name="twitter:description" content="五、内容提供器内容提供器(Content Provider)主要用于在不同的应用程序之间实现数据的共享功能，它提供了一套完整的机制，允许一个程序访问另外一个程序中的数据，同时还能有效保证被访问数据的安全性。是Android实现跨程序共享数据的标准方式。     1、运行时权限1.1Android权限机制详解访问系统的网络状态以及监听开机广播，在AndroidManifest.xml中添加权限声明：">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-五、内容提供器(Content Provider)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/07/五、内容提供器(Content Provider)/" class="article-date">
+  <time datetime="2018-06-07T13:41:00.000Z" itemprop="datePublished">2018-06-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      五、内容提供器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="五、内容提供器"><a href="#五、内容提供器" class="headerlink" title="五、内容提供器"></a>五、内容提供器</h1><p>内容提供器(Content Provider)主要用于在不同的应用程序之间实现数据的共享功能，它提供了一套完整的机制，允许一个程序访问另外一个程序中的数据，同时还能有效保证被访问数据的安全性。是Android实现跨程序共享数据的标准方式。    </p>
+<h2 id="1、运行时权限"><a href="#1、运行时权限" class="headerlink" title="1、运行时权限"></a>1、运行时权限</h2><h3 id="1-1Android权限机制详解"><a href="#1-1Android权限机制详解" class="headerlink" title="1.1Android权限机制详解"></a>1.1Android权限机制详解</h3><p>访问系统的网络状态以及监听开机广播，在AndroidManifest.xml中添加权限声明：  </p>
+<pre><code>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.xxxxx.broadcasttest&quot;&gt;
+
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;  //访问网络状态权限声明
+   &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;  //监听开机广播权限声明
+&lt;/manifest&gt;
+</code></pre><p>访问系统的网络状态和监听开机广播涉及到用户设备的安全性，因此必须在AndroidManifest.xml中加入权限声明，否则程序会崩溃。<br>常用软件普遍存在滥用权限的情况，不管到底用不用得到先把权限申请了再说。所有Android开发团队从6.0系统加入了运行时权限功能。<br>Android现在的所有权限分为两类，普通权限和危险权限。普通权限是安心不会直接威胁到用户的安全和隐私的权限，系统会帮我们进行授权，不需要用户操作。危险权限则表示哪些可能会触及用户隐私或对社保安全性造成影响的权限，如获取设备联系人、定位设备的地理位置等，这些需要用户手动点击授权，否则程序无法使用相应的功能。  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">权限组名</th>
+<th style="text-align:center">权限名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CALENDAR</td>
+<td style="text-align:center">READ_CALENDAR</td>
+</tr>
+<tr>
+<td style="text-align:left">CALENDAR</td>
+<td style="text-align:center">WRITE_CALENDAR</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">CAMERA</td>
+<td style="text-align:center">CAMERA</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">CONTACTS</td>
+<td style="text-align:center">READ_CONTACTS</td>
+</tr>
+<tr>
+<td style="text-align:left">CONTACTS</td>
+<td style="text-align:center">WRITE_CONTACTS</td>
+</tr>
+<tr>
+<td style="text-align:left">CONTACTS</td>
+<td style="text-align:center">GET_CONTACTS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">LOCATION</td>
+<td style="text-align:center">ACCESS_FINE_LOCATION</td>
+</tr>
+<tr>
+<td style="text-align:left">LOCATION</td>
+<td style="text-align:center">ACCESS_COARSE_LOCATION</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">MICROPHONE</td>
+<td style="text-align:center">RECORD_AUDIO</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">READ_PHONE_STATE</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">CALL_PHONE</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">READ_CALL_LOG</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">WRITE_CALL_STATE</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">ADD_VOICEMAIL</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">USE_SIP</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">PROCESS_OUTGOING_CALLS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">SENSORS</td>
+<td style="text-align:center">BODY_SENSORS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">SEND_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">RECEIVE_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">READ_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">RECEIVE_WAP_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">RECEIVE_MMS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">STORAGE</td>
+<td style="text-align:center">READ_EXTERNAL_STORAGE</td>
+</tr>
+<tr>
+<td style="text-align:left">STORAGE</td>
+<td style="text-align:center">WRITE_EXTERNAL_STORAGE</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+</tbody>
+</table>
+<p>使用权限时，如果属于这张表的权限，就需要进行运行时权限处理，如果不在这样表中那么只需要在AndroidManifest.xml文件中添加一下权限声明就可以。<br>权限处理时处理的是权限名，但是用户授权后对应的权限组中其他的权限也会同时被授权。  </p>
+<h3 id="1-2运行时权限申请（262页）"><a href="#1-2运行时权限申请（262页）" class="headerlink" title="1.2运行时权限申请（262页）"></a>1.2运行时权限申请（262页）</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/" data-id="cjxg3xhnl000ebq6clptufar4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/19/三(1)、ListView和RecycleView/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          三(1)、ListView和RecyclerView
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/06/四、广播/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

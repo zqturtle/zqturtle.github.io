@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>六、对象和类 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="六、对象和类1、基础知识类：在一个源文件中，只能有一个公有类，但可以有任意数目的非公有类。   封装–不能让类中的方法直接访问其他类的实例域，程序仅通过对象的方法与对象数据进行交互。提高了程序的重用性和可靠性。继承–扩展已有的类，扩展后的新类具有所扩展的类的全部属性和方法。   对象：对象行为：可以对对象施加哪些操作或者方法？对象状态：施加那些方法时，对象如何响应？对象标识：如何辨别具有相同行为与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="六、对象和类">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/六 对象和类/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="六、对象和类1、基础知识类：在一个源文件中，只能有一个公有类，但可以有任意数目的非公有类。   封装–不能让类中的方法直接访问其他类的实例域，程序仅通过对象的方法与对象数据进行交互。提高了程序的重用性和可靠性。继承–扩展已有的类，扩展后的新类具有所扩展的类的全部属性和方法。   对象：对象行为：可以对对象施加哪些操作或者方法？对象状态：施加那些方法时，对象如何响应？对象标识：如何辨别具有相同行为与">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-13T15:19:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="六、对象和类">
+<meta name="twitter:description" content="六、对象和类1、基础知识类：在一个源文件中，只能有一个公有类，但可以有任意数目的非公有类。   封装–不能让类中的方法直接访问其他类的实例域，程序仅通过对象的方法与对象数据进行交互。提高了程序的重用性和可靠性。继承–扩展已有的类，扩展后的新类具有所扩展的类的全部属性和方法。   对象：对象行为：可以对对象施加哪些操作或者方法？对象状态：施加那些方法时，对象如何响应？对象标识：如何辨别具有相同行为与">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-六 对象和类" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/15/六 对象和类/" class="article-date">
+  <time datetime="2018-05-15T02:47:21.000Z" itemprop="datePublished">2018-05-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      六、对象和类
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="六、对象和类"><a href="#六、对象和类" class="headerlink" title="六、对象和类"></a>六、对象和类</h1><h2 id="1、基础知识"><a href="#1、基础知识" class="headerlink" title="1、基础知识"></a>1、基础知识</h2><p><strong>类：</strong><br>在一个源文件中，只能有一个公有类，但可以有任意数目的非公有类。  </p>
+<p>封装–不能让类中的方法直接访问其他类的实例域，程序仅通过对象的方法与对象数据进行交互。提高了程序的重用性和可靠性。<br>继承–扩展已有的类，扩展后的新类具有所扩展的类的全部属性和方法。  </p>
+<p><strong>对象：</strong><br>对象行为：可以对对象施加哪些操作或者方法？<br>对象状态：施加那些方法时，对象如何响应？<br>对象标识：如何辨别具有相同行为与状态的不同对象？<br>注：对象的行为是用可调用的方法定义的。  </p>
+<p>类的设计经验：寻找名词可以成为类，寻找动词可以成为方法  </p>
+<p><strong>类之间的关系：</strong><br>依赖：如果一个类的方法操纵另一个类的对象，我们就说一个类依赖于另一个类。<br>聚合：类A的对象包含类B的对象。<br>继承：如果类A扩展类B，类A不但包含从类B继承的方法，还会拥有一些额外的功能。  </p>
+<p><strong>对象和对象变量：</strong><br>它们的区别，例如：  </p>
+<pre><code>Date deadline;//deadline没有指向任何对象
+</code></pre><p>对象变量可以引用Date类型的对象，但它不是对象，也没有引用对象，任何Date方法都不能应用于这个变量上。如：  </p>
+<pre><code>s = deadline.toString();//这是不合法的  
+</code></pre><p>可以初始化：  </p>
+<pre><code>deadline = new Date();  
+</code></pre><p>或者   </p>
+<pre><code>deadline = birthday;
+</code></pre><p>现在两个变量引用同一个对象（就是存放在同一个地方的对象）。<br><strong>注意：</strong>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象。java中任何对象变量的值都是对存储在另外一个地方的一个对象的引用。  </p>
+<h2 id="2、-GregorianCalendar类"><a href="#2、-GregorianCalendar类" class="headerlink" title="2、 GregorianCalendar类"></a>2、 GregorianCalendar类</h2><p>Date类是用来表示时间点的类。<br>GregorianCalendar类是用来表示日历表示法的类。  </p>
+<p>日历提供某个时间点的年、月、日等信息。这些信息查询使用<strong>get方法</strong>：  </p>
+<pre><code>GregorianCalendar now = new GregorianCalendar;
+int month = now.get(Calendar.MONTH);
+int weekday = nw.get(Calendar.DAY_OF_WEEK);
+</code></pre><p>调用<strong>set方法</strong>可以改变对象的状态：  </p>
+<pre><code>deadline.set(Calendar.YEAR,2008);
+deadline.set(Calendar.MONTH,Calendar.APRIL);
+deadline.set(Calendar.DAY_OF_MONTH,15);
+</code></pre><p>更方便设置年、月、日方法如下：  </p>
+<pre><code>deadline.set(2008 , Calendar.APTIL , 15);
+</code></pre><p>还可以为给定的日期增加天数、星期数、月份，<strong>add方法</strong>：  </p>
+<pre><code>deadline.add(Calendar.MONTH , 3);
+</code></pre><p><strong><a href="http://tool.oschina.net/apidocs/apidoc?api=jdk-zh" target="_blank" rel="noopener">GregorianCalendar类API文档-java.util.GregorianCalendar</a></strong>  </p>
+<h2 id="3、自定义类"><a href="#3、自定义类" class="headerlink" title="3、自定义类"></a>3、自定义类</h2><pre><code>class ClassName{
+    fields 1;
+    fields 2;
+    ...
+    constructor 1;
+    constructor 2;
+    ...
+    method 1;
+    method 2;
+    ...
+}
+</code></pre><h2 id="4、方法参数"><a href="#4、方法参数" class="headerlink" title="4、方法参数"></a>4、方法参数</h2><p>Java程序设计总是采用按值调用。也就是说，方法得到的所有参数值得一个拷贝，特别是，方法不能修改传递给它的任何参数变量的内容。  </p>
+<h2 id="5、对象构造"><a href="#5、对象构造" class="headerlink" title="5、对象构造"></a>5、对象构造</h2><p><strong>重载：</strong><br>多个方法具有相同的名字、不同的参数，便产生了重载。编译器通过各个方法给出的参数类型与特定方法调用所使用的值类型进行匹配来挑选出相应的方法。  </p>
+<h2 id="6、构造方法"><a href="#6、构造方法" class="headerlink" title="6、构造方法"></a>6、构造方法</h2><p>构造方法是定义在Java类中的一个用来初始化对象的方法。<br>构造方法名与类同名且没有返回值。  没有参数的叫无参构造方法，有参的叫有参构造方法。</p>
+<pre><code>public 构造方法名(参数){
+    //初始化代码
+}
+</code></pre><hr>
+<pre><code>//无参构造方法
+public Employee(){
+    name = &quot;&quot;;
+    salary = 0;
+    hireDay = new Date();
+}
+</code></pre><hr>
+<pre><code>//有参构造方法
+public Employee(String aName , double aSalary){
+    name = aName;
+    salary = aSalary;
+}
+//或者
+public Employee(String  name , double salary){
+    this.name = name;
+    this.salary = salary;
+}
+</code></pre><p>在一个类中没有构造器，系统就会提供一个无参构造器，所有实例域都是默认值。如果类中提供了至少一个构造器，但是没有参数，则在构造对象时如果没有提供参数就会视为不合法。  </p>
+<pre><code>//构造器
+Employee(String name , double salary , int y , int m ,int d)
+//构造默认的employee对象属于不合法
+e = new Employee();//产生错误，不合法
+</code></pre><h2 id="7、static使用之静态变量"><a href="#7、static使用之静态变量" class="headerlink" title="7、static使用之静态变量"></a>7、static使用之静态变量</h2><p>我们可以基于一个类型创建多个该类的对象，每个对象都拥有自己的成员，互相独立。然而某些时候，我们更希望该类所有的对象共享同一个成员，就需要static  </p>
+<p>Java中被static修饰的成员称为静态成员或类成员。它属于整个类所有，而不是某个对象所有，即被类的所有对象共享。静态成员可以使用类名直接访问，也可以使用对象名进行访问。推荐使用类名直接访问。</p>
+<pre><code>public class HelloWorld{
+    static String hello = &quot;hello 007&quot;;//static修饰的静态变量，所有类的对象共享hello  
+    System.out.println(&quot;通过类名访问hello&quot;+ HelloWord.hello);//直接类名访问
+    //创建对象名来访问静态变量
+    HelloWorld world = new HelloWorld();
+    System.out.println(&quot;通过对象名访问hello&quot;+ world.hello);//通过对象名访问
+    world.hello = &quot;hello 001&quot;;//使用对象名的形式修改变量的值
+    //再次使用类名访问静态变量，值已被修改
+    System.out.println(&quot;通过类名访问hello：&quot;+ HelloWorld.hello);
+}
+</code></pre><p>最后输出的结果如下：    </p>
+<pre><code>通过类名访问hello：hello 007
+通过对象名访问hello：hello 007
+通过类名访问hello：hello 001
+</code></pre><h2 id="8、static使用之静态方法"><a href="#8、static使用之静态方法" class="headerlink" title="8、static使用之静态方法"></a>8、static使用之静态方法</h2><p>使用static关键字声明静态方法：  </p>
+<pre><code>public static void print(){
+    System.out.println(&quot;&quot;hello , 007);
+}
+</code></pre><p>可以使用类名调用静态方法：  </p>
+<pre><code>HelloWorld.print();
+</code></pre><p>也可以通过对象名调用，推荐使用类名调用。  </p>
+<p>注意：<br>1、静态方法可以直接调用同类中的静态成员，但不能调用非静态成员。如果需要在静态方法中调用非静态变量，可以通过创建类的对象，然后通过对象来访问非静态变量。<br>2、普通成员方法中，可以直接访问同类中的非静态变量和静态变量。<br>3、 静态方法中不能直接调用非静态方法，需要通过对象来访问非静态方法，但是可以直接调用静态方法。  </p>
+<p>##9、static使用之静态初始化块<br>在类的声明中，可以包含多个初始化块，当创建类的实例时，就好一次执行这些代码块。如果使用static修饰初始化块，就称为静态初始化块。  </p>
+<p><strong>注：静态初始化块只在类加载时执行，且只会执行一次，同时静态初始化块只能给静态变量赋值，不能初始化普通的成员变量</strong></p>
+<pre><code>public class HelloWorld{
+    int num1;
+    int num2;
+    static int num3;
+
+    public HelloWorld(){  //构造方法
+        num1 = 91;
+        System.out.println(&quot;通过构造方法为变量num1赋值&quot;);
+    }
+
+    {  //初始化块
+        num2 = 74;
+        System.out.println(&quot;通过初始化块为变量num2赋值&quot;);
+    }
+
+    static {  //静态初始化
+        num3 = 83;
+        System.out.println(&quot;通过静态初始化为静态变量num3赋值&quot;);
+    }
+
+    public static void main(String[] args){
+        HelloWorld hello =new HelloWorld();//创建类的对象hello
+        System.out.println(&quot;num1:&quot; + hello.num1);
+        System.out.println(&quot;num2:&quot;+ hello.num2);
+        System.out.println(&quot;num3&quot;+ num3);
+        HelloWorld hello2 = new HelloWorld();//创建类的对象hello2
+    }
+}
+</code></pre><p>运行结果如下：  </p>
+<pre><code>通过静态初始化为静态变量num3赋值
+通过初始化块为变量num2赋值
+通过构造方法为变量num1赋值
+num1:91
+num2:74
+num3:83
+通过初始化块为num2赋值
+通过初始化块为num3赋值
+</code></pre><p>通过输出结果可以看到，程序运行时静态初始化块最先被执行，然后执行普通初始化块，最后才执行构造方法。由于静态初始化块只在类加载时执行一次，所以当再次创建对象hello2时并未执行静态初始化块。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/15/六 对象和类/" data-id="cjxg3xhnm000fbq6crzg8wvri" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/15/七 继承/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          七、继承
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/14/五 大数值和数组/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">五、大数值和数组</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

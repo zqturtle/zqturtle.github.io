@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>十一、异常 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="十一、异常1、异常分类异常对象都是派生于Throwable类的实例，所有的异常都是由Throwable继承而来，在下一层分解为两个分支：Error和Exception     Error类描述了Java运行时系统的内部错误和资源耗尽错误。Exception层次结构分解为两个分支，一个分支派生于RuntimeException，另一个分支包含其他异常。   由程序错误导致的异常属于RuntimeEx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十一、异常">
+<meta property="og:url" content="http://yoursite.com/2018/05/21/十一 异常/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="十一、异常1、异常分类异常对象都是派生于Throwable类的实例，所有的异常都是由Throwable继承而来，在下一层分解为两个分支：Error和Exception     Error类描述了Java运行时系统的内部错误和资源耗尽错误。Exception层次结构分解为两个分支，一个分支派生于RuntimeException，另一个分支包含其他异常。   由程序错误导致的异常属于RuntimeEx">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-13T15:25:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="十一、异常">
+<meta name="twitter:description" content="十一、异常1、异常分类异常对象都是派生于Throwable类的实例，所有的异常都是由Throwable继承而来，在下一层分解为两个分支：Error和Exception     Error类描述了Java运行时系统的内部错误和资源耗尽错误。Exception层次结构分解为两个分支，一个分支派生于RuntimeException，另一个分支包含其他异常。   由程序错误导致的异常属于RuntimeEx">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-十一 异常" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/21/十一 异常/" class="article-date">
+  <time datetime="2018-05-21T02:21:29.000Z" itemprop="datePublished">2018-05-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      十一、异常
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="十一、异常"><a href="#十一、异常" class="headerlink" title="十一、异常"></a>十一、异常</h1><h2 id="1、异常分类"><a href="#1、异常分类" class="headerlink" title="1、异常分类"></a>1、异常分类</h2><p>异常对象都是派生于Throwable类的实例，所有的异常都是由Throwable继承而来，在下一层分解为两个分支：Error和Exception    </p>
+<p>Error类描述了Java运行时系统的内部错误和资源耗尽错误。<br>Exception层次结构分解为两个分支，一个分支派生于RuntimeException，另一个分支包含其他异常。  </p>
+<p>由程序错误导致的异常属于RuntimeException,而程序本身没有问题，但由于像I/O错误这类问题导致的异常属于其他异常。<br>数组越界异常：ArrayIndexOutOfBoundsException<br>变量为空异常：NullPointerException  </p>
+<h2 id="2、基本语法"><a href="#2、基本语法" class="headerlink" title="2、基本语法"></a>2、基本语法</h2><pre><code>try{
+    语句组
+}catch(Exception e){
+    语句    
+}  
+</code></pre><p>1）抛出异常：  </p>
+<pre><code>throws 异常；//声明异常
+throw 异常对象；//抛出异常
+
+
+public static void readFile() throws IOException{//readFile方法有可能存在IO异常，此处声明有可能抛出IO异常
+    FileInputStream in = new FileInputStream(&quot;myfile.txt&quot;);
+    int b ;
+    b = in.read();
+    while(b != -1){
+        System.out.print((char)b);
+        b = in.read()
+    }
+    in.close();
+}
+</code></pre><hr>
+<pre><code>String readData(Scanner in) throws EOFException{
+    ...
+    while(...){
+        if(!in.hasNext()){
+            if(n &lt; len)
+                throw new EOFException();
+        }
+        ...
+    }
+    return s;
+}
+</code></pre><p>2）捕获异常：  </p>
+<pre><code>try{
+    语句组;
+}catch(异常类名  异常形式参数名){
+    异常处理语句组;
+}catch(异常类名  异常形式参数名){
+    异常处理语句组  ;
+}finally{
+    异常处理语句组；
+}
+</code></pre><hr>
+<pre><code>public void read(String filename){//读取文本，捕获异常
+    try{
+        InputStream in = new FileInputStream(filename);
+        int b;
+        while(b = in.read() != -1){
+            process input
+        }
+    }
+    catch(IOException exception){
+        exception.printStackTrace();
+    }
+}
+</code></pre><p>catch语句可以有0到多个，可以没有finally语句。    </p>
+<p>在main()函数中调用readFile()  </p>
+<pre><code>import java.io.*;
+public class ExceptionTest{
+    public static void main(String[] args){
+        try{
+            System.out.println(&quot;--------before-------&quot;);
+            readFile();
+            System.out.println(&quot;---------after---------&quot;);
+        }catch(IOException e){
+            System.out.println(e);
+        }
+    }
+}
+</code></pre><p>3)再次抛出异常<br>再次抛出异常的基本方法：  </p>
+<pre><code>try{
+    access the database
+}  
+catch(SQLException e){
+    throw new ServletException(&quot;database error:&quot; + e.getMessage());
+    //ServletException用带有异常信息文本的构造器构造
+}
+</code></pre><p>更好的方法如下，将原始异常设置为新异常的“原因”：  </p>
+<pre><code>try{
+    access database
+}
+catch(SQLException e){
+    Throwable se = new ServletException(&quot;database error&quot;);
+    se.initCause(e);
+    throw se;
+}
+</code></pre><p>当捕获异常后，可以重新得到原始异常：  </p>
+<pre><code>Throwable e = se.getCause();
+</code></pre><p>记录一个异常，在将它重新抛出，不做任何改变：  </p>
+<pre><code>try{
+    access database
+}
+catch(Exception e){
+    logger.log(level , message , e);
+    throw e;
+}
+</code></pre><p>4)  带资源的try语句：  </p>
+<pre><code>//try块退出时，会自动调用res.close()
+try(Resource res = ...){
+    work with res
+}  
+</code></pre><hr>
+<pre><code>//这个块正常退出时，或者存在一个异常时，就好调用in.close()方法
+try(Scanner in = new Scanner(new FileInputStream(&quot;/usrs/....&quot;))){
+    while(in.hasNext())
+        System.out.println(in.next());
+}
+</code></pre><p>5）Exception类<br>构造方法：  </p>
+<pre><code>public Exception();  
+public Exception(String message);
+public Exception(String message,Throwable cause);
+</code></pre><p>方法：  </p>
+<pre><code>getMessage();
+getCause();
+printStackTrace();
+</code></pre><h2 id="3、自定义异常"><a href="#3、自定义异常" class="headerlink" title="3、自定义异常"></a>3、自定义异常</h2><p>自定义异常类就是一个派生于Exception或者是Exception子类的类。<br>例如定义一个派生于IOException的类：  </p>
+<pre><code>class FileFormatException extends IOException{//定义的类包含2个构造器
+    public FileFormatException(){};//默认的构造器
+    public FileFormatException(String gripe){//带有详细描述信息的构造器
+        super(gripe);
+    }
+}
+</code></pre><hr>
+<pre><code>//抛出自定义的异常类型
+String readData(BufferedReader in) throws FileFormatException{
+    ...
+    while(...){
+        if(ch == -1)//EOF encountered{
+            if(n &lt; len)
+                throw new FileFormatException();
+        }
+        ...
+    }
+    return s;
+}
+</code></pre><h2 id="4、断言"><a href="#4、断言" class="headerlink" title="4、断言"></a>4、断言</h2><p>语法：  </p>
+<pre><code>assert 条件;
+//或者
+assert 条件 ： 表达式;
+</code></pre><hr>
+<pre><code>public class Assertion{
+    public static void main(String[] args){
+        assert hypoenuse(3,4) == 5: &quot;算法不正确&quot;；
+    }
+    public static double hypoenuse(double x , double y){
+        return Math.sqrt(x*x + y*y +1);
+    }
+}
+</code></pre><h2 id="5、日志"><a href="#5、日志" class="headerlink" title="5、日志"></a>5、日志</h2><p>1)、日志系统管理的默认日志记录器：Logger.global，并可以调用info方法记录日志信息。  </p>
+<pre><code>Logger.getGlobal().info(&quot;File - &gt; open menu item selected&quot;);
+//记录类容如下
+May 30,2018,15:02:20 PM LoggingImageViewer fileOpen
+INFO: File - &gt; open menu item selected
+</code></pre><p>2)、日志记录器级别<br>SEVERE  </p>
+<p>WARNING  </p>
+<p>INFO  </p>
+<p>CONFIG  </p>
+<p>FINE  </p>
+<p>FINER  </p>
+<p>FINEST  </p>
+<p>默认情况下只记录前三个级别，可以自己设置级别：  </p>
+<pre><code>logger.setLevel( Level.FINE);//可以记录FINE和更高级别的记录
+Level.ALL     //开启所有级别记录
+Level.OFF     //关闭所有级别记录
+</code></pre><p>对所有级别有下面几种记录方法：  </p>
+<pre><code>logger.warning(message);
+logger.fine(message);
+</code></pre><p>还可以使用log方法指定级别：  </p>
+<pre><code>logger.log(Level.FINE , message);
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/21/十一 异常/" data-id="cjxg3xhnk000dbq6cly0xvsu8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/24/十二、集合/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          十二、集合
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/17/十 多线程/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">十、Java多线程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

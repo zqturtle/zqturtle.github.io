@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title: 四、广播—xxxxx 四、广播Android中广播的两种类型：标准广播和有序广播标准广播：异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。有序广播：同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。   1、接收系统广播要接收广播">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/06/06/四、广播/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="title: 四、广播—xxxxx 四、广播Android中广播的两种类型：标准广播和有序广播标准广播：异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。有序广播：同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。   1、接收系统广播要接收广播">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-26T09:33:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="title: 四、广播—xxxxx 四、广播Android中广播的两种类型：标准广播和有序广播标准广播：异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。有序广播：同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。   1、接收系统广播要接收广播">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-四、广播" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/06/四、广播/" class="article-date">
+  <time datetime="2018-06-06T03:11:06.000Z" itemprop="datePublished">2018-06-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>title: 四、广播<br>—xxxxx</p>
+<h1 id="四、广播"><a href="#四、广播" class="headerlink" title="四、广播"></a>四、广播</h1><p>Android中广播的两种类型：标准广播和有序广播<br><strong>标准广播：</strong>异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。<br><strong>有序广播：</strong>同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。  </p>
+<h2 id="1、接收系统广播"><a href="#1、接收系统广播" class="headerlink" title="1、接收系统广播"></a>1、接收系统广播</h2><p>要接收广播就需要使用广播接收器。  广播接收器可以自由地对自己感兴趣的广播继续注册，注册广播一般有2种，在代码中注册（动态注册）和在AndroidManifest.xml中注册（静态注册）。  </p>
+<h3 id="1-1创建广播接收器"><a href="#1-1创建广播接收器" class="headerlink" title="1.1创建广播接收器"></a>1.1创建广播接收器</h3><p>新建一个类，让它继承自BroadcastReceiver，并重写onReceive()方法就可以。当有广播到来时，onReceive()方法就会得到执行，处理逻辑可以在方法中实现。  </p>
+<h4 id="1-1-1动态注册"><a href="#1-1-1动态注册" class="headerlink" title="1.1.1动态注册"></a>1.1.1动态注册</h4><p>通过动态注册的方式编写一个能够监听网络变化的程序：  </p>
+<pre><code>//新建BroadcastReceiver项目，修改MainActivity代码
+public class MainActivity extends AppCompatActivity {
+
+    private IntentFilter intentFilter;
+    private NetworkChangeReceiver networkChangeReceiver;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+           setContentView(R.layout.activity_main);
+        intentFilter = new IntentFilter();//创建intentfileter实例
+        /*添加action，网络发生变化时，系统发出一条值为android.net.conn.CONNECTIVITY_CHANGE的广播。要监听什么，这里添加相应的action*/
+        intentFilter.addAction(&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;);
+        networkChangeReceiver = new NetworkChangeReceiver();//创建实例
+        registerReceiver(networkChangeReceiver,intentFilter);//注册
+    }
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    unregisterReceiver(networkChangeReceiver);//动态注册的的广播接收器需要取消注册
+}
+
+class NetworkChangeReceiver extends BroadcastReceiver{//内部类并继承BroadcastReceiver
+    @Override
+    public void onReceive(Context context, Intent intent) {//重写onReceive方法
+        //getSystemService方法得到ConnectivityManager（管理网络连接的系统服务类）的实例
+        ConnectivityManager connectionManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+        if(networkInfo!=null &amp;&amp; networkInfo.isAvailable()){
+            Toast.makeText(context,&quot;network is available&quot; , Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context,&quot;network is unavailable&quot;,Toast.LENGTH_SHORT).show();
+        }
+    }
+    }
+}
+</code></pre><p>程序需要进行对用户比较敏感的操作，需要在配置文件(AndroidManifest.xml)中声明权限：  </p>
+<pre><code>uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; //添加此行  
+</code></pre><h4 id="1-1-2静态注册（实现开机启动）"><a href="#1-1-2静态注册（实现开机启动）" class="headerlink" title="1.1.2静态注册（实现开机启动）"></a>1.1.2静态注册（实现开机启动）</h4><p>动态注册的广播接收器可以自由地控制注册和注销，很灵活，但是必须要在程序启动之后才能接收广播。使用静态注册可以在程序未启动的情况下接收到广播。程序接收一条开机广播，收到后执行onReceive()方法来执行相应的逻辑。<br> 在.broadcasttest包下右击-&gt;New-&gt;Other-&gt;Broadcast Recevier,新建BootCompleteRecevier：  </p>
+<pre><code>public class BootCompeleteReceiver extends BroadcastReceiver {
+
+@Override
+public void onReceive(Context context, Intent intent) {
+    Toast.makeText(context,&quot;Boot Compelete&quot; , Toast.LENGTH_LONG).show();//弹出提示信息
+}
+}     
+</code></pre><p>静态广播接收器要在AndroidManifest.xml中注册才可以使用，Android Studio创建的已经自动注册：  </p>
+<pre><code>&lt;application
+    ...
+    &lt;receiver  //静态广播接收器注册
+        android:name=&quot;.BootCompeleteReceiver&quot;
+        android:enabled=&quot;true&quot;
+        android:exported=&quot;true&quot;&gt;
+        &lt;intent-filter&gt;  //添加action
+            &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+&lt;/application&gt;
+</code></pre><hr>
+<pre><code>//在AndroidManifest.xml中添加权限
+&lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;/&gt;
+</code></pre><h2 id="2、发送自定义广播"><a href="#2、发送自定义广播" class="headerlink" title="2、发送自定义广播"></a>2、发送自定义广播</h2><p>发送广播之前需要定义一个广播接收器来准备接收此广播才行，不然白发。  </p>
+<h3 id="2-1发送标准广播"><a href="#2-1发送标准广播" class="headerlink" title="2.1发送标准广播"></a>2.1发送标准广播</h3><p>新建一个MyBroadcastReceiver：  </p>
+<pre><code>public class MyBroadcastReceiver extends BroadcastReceiver {
+
+@Override
+public void onReceive(Context context, Intent intent) {
+    Toast.makeText(context,&quot;received in MyBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
+}
+}
+</code></pre><hr>
+<pre><code>//修改AndroidManifest.xml注册
+   &lt;receiver
+        android:name=&quot;.MyBroadcastReceiver&quot;
+        android:enabled=&quot;true&quot;
+        android:exported=&quot;true&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//接收值过滤
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+</code></pre><hr>
+<pre><code>//在activity_main.xml中定义按钮用于发送广播的触发点
+    &lt;Button
+    android:id=&quot;@+id/button&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;send broadcast&quot;/&gt;
+</code></pre><hr>
+<pre><code>//在MainActivity中修改
+    @Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Button button = (Button)findViewById(R.id.button);
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {//按钮点击事件中添加发送自定义广播逻辑
+            Intent intent = new  Intent(&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot;);//通过intent传入
+            sendBroadcast(intent);
+        }
+    });
+}
+</code></pre><h3 id="2-2发送有序广播"><a href="#2-2发送有序广播" class="headerlink" title="2.2发送有序广播"></a>2.2发送有序广播</h3><p>广播是一种可以跨进程的通信方式，我们应用程序内发出的广播，其他应用程序是可以收到的。<br>新建BroadcastTest2项目，项目下新建一个广播接收器：  </p>
+<pre><code>public class AnotherBroadcastReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context,&quot;received in AnotherBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
+        }
+}
+</code></pre><p> 在AndroidManifest.xml中修改这个广播接收器：  </p>
+<pre><code> //修改AndroidManifest.xml注册
+&lt;receiver
+     android:name=&quot;.AnotherBroadcastReceiver&quot; //注册AnotherBroadcastReceiver
+     android:enabled=&quot;true&quot;
+     android:exported=&quot;true&quot;&gt;
+     &lt;intent-filter&gt;
+         &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//同样接收...broadcasttest.MY_BROADCAST这条广播
+     &lt;/intent-filter&gt;
+ &lt;/receiver&gt;
+</code></pre><p>发送有序广播使用sendOrderBroadcast()，修改BroadcastTest项目的MainActivity代码： </p>
+<pre><code>//修改BroadcastTest项目下的MainActivity        
+...
+button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {//按钮点击事件中添加发送自定义广播逻辑
+            Intent intent = new  Intent(&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot;);//通过intent传入
+            sendOrderBroadcast(intent,null);//发送有序广播，第一个参数intent，第二个参数是权限
+        }
+    });
+...
+</code></pre><p>当目前为止，效果上和标准广播没什么区别，但是有序广播是可以有先后顺序和截断的。在BroadcastTest2项目下修改AndroidManifest.xml代码设置优先级：  </p>
+<pre><code>&lt;receiver
+        android:name=&quot;.AnotherBroadcastReceiver&quot; //注册AnotherBroadcastReceiver
+        android:enabled=&quot;true&quot;
+        android:exported=&quot;true&quot;&gt;
+        &lt;intent-filter  android:priority=&quot;100&quot;&gt;//设置接收MY_BROADCAST的优先级，越高越先收到
+            &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//同样接收...broadcasttest.MY_BROADCAST这条广播
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+</code></pre><p>这样就可以保证在AnotherBroadcastReceiver之前收到广播。<br>如果需要截断，如在MyBroadcastReceiver下调用abortBroadcast()方法将这条广播截断，后面的广播接收器就无法再接收到这条广播。  </p>
+<pre><code>public class MyBroadcastReceiver extends BroadcastReceiver {
+
+@Override
+public void onReceive(Context context, Intent intent) {
+    Toast.makeText(context,&quot;received in MyBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
+    abortBroadcast();//截断广播
+}
+}
+</code></pre><h3 id="2-3使用本地广播"><a href="#2-3使用本地广播" class="headerlink" title="2.3使用本地广播"></a>2.3使用本地广播</h3><p>前面的方式发出的广播可以被其他任何应用程序接收到，如果发送的广播携带有关键数据，可能会造成安全问题。使用本地广播机制可以使发出的广播只能够在应用程序内部进行传递，并且广播接收器也只能接收来自本应用程序发出的广播。<br>本地广播使用一个LocalBroadcastManager来对广播进行管理，并提供了发送广播和接收广播的方法。修改MainActivity中的代码：  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+    private IntentFilter intentFilter;
+  private LocalReceiver localReceiver;
+  private LocalBroadcastManager   localBroadcastManager;
+
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    localBroadcastManager = LocalBroadcastManager.getInstance(this);//获取实例
+
+    Button button = (Button)findViewById(R.id.button);
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(&quot;com.example.xxxxx.broadcasttest.LOCAL_BROADCAST&quot;);
+            localBroadcastManager.sendBroadcast(intent);//发送本地广播
+        }
+    });
+
+    intentFilter = new IntentFilter();
+    intentFilter.addAction(&quot;com.example.xxxxx.broadcasttest.LOCAL_BROADCAST&quot;);
+    localReceiver = new LocalReceiver();
+    localBroadcastManager.registerReceiver(localReceiver,intentFilter);//注册本地广播监听器
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    localBroadcastManager.unregisterReceiver(localReceiver);
+}
+
+class LocalReceiver extends BroadcastReceiver{
+  @Override
+  public void onReceive(Context context, Intent intent) {
+      Toast.makeText(context,&quot;received local broadcast&quot;,Toast.LENGTH_SHORT).show();
+  }
+ }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/06/四、广播/" data-id="cjxg3xhnu000lbq6c33k787oo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/07/五、内容提供器(Content Provider)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          五、内容提供器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/05/三、UI开发工具(控件)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">三、UI开发工具</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

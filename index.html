@@ -114,13 +114,13 @@
         android:paddingTop=&quot;13dp&quot;
         android:textSize=&quot;14sp&quot; /&gt;
 &lt;/LinearLayout&gt;
-</code></pre><h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><p>编译的时候不会报错，运行时报错信息如下：<br><img src="inflate导致的空指针/test.jpg" alt="test">  </p>
+</code></pre><h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><p>编译的时候不会报错，运行时报错信息如下：<br>android.view.InflateException: Binary XML file  …</p>
 <h1 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h1><p>从报错信息中可见是在我们inflate的时候空指针了，资源文件名都没问题。最终查看xml文件里面的时候发现分割线的view写成小写了，导致崩溃。<br>这里的问题就在于view的v写成小写AS并不会报错，只有在运行时才崩溃，所以排查起来很坑爹。<br>总结：不要手残。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjxg3ldij00028u6c6wvvvp8l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjxg3xhn90004bq6cbtb7qgfh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
@@ -162,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="cjxg3ldig00018u6c3395tx35" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="cjxg3xhn30001bq6cly0ydr08" class="article-share-link">Share</a>
       
       
     </footer>
@@ -207,7 +207,1801 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="cjxg3ldic00008u6c4g6nepa4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="cjxg3xhmz0000bq6cmovskti1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-六、Material Design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/22/六、Material Design/" class="article-date">
+  <time datetime="2018-06-22T06:24:40.000Z" itemprop="datePublished">2018-06-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/22/六、Material Design/">六、Material Design</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Material Design是2014年在Google I/O大会上推出的一套全新的界面设计语言。它基于传统优秀的设计原则，结合了丰富的创意和科学技术，包含了视觉、运动、互动效果等特性。</p>
+<h1 id="1、Toolbar"><a href="#1、Toolbar" class="headerlink" title="1、Toolbar"></a>1、Toolbar</h1><p>Toolbar是一个Material控件，具有灵活和美观的特点。可以配合其他控件完成一些Material Design效果。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/22/六、Material Design/" data-id="cjxg3xhnj000cbq6c856yy5n9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-三(1)、ListView和RecycleView" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/19/三(1)、ListView和RecycleView/" class="article-date">
+  <time datetime="2018-06-19T12:45:07.000Z" itemprop="datePublished">2018-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1、ListView"><a href="#1、ListView" class="headerlink" title="1、ListView"></a>1、ListView</h1><p>程序中有大量数据需要展示的时候就可以借助ListView来实现，ListView允许用户通过手指上下滑动的方式将屏幕外的数据滚动到屏幕内，同时屏幕上原有的数据则会滚动出屏幕。  </p>
+<h2 id="1-1ListView简单用法"><a href="#1-1ListView简单用法" class="headerlink" title="1.1ListView简单用法"></a>1.1ListView简单用法</h2><p>新建ListViewTest项目，修改activity_main.xml代码,在布局中加入ListView控件：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;match_parent&quot;
+tools:context=&quot;.MainActivity&quot;&gt;
+
+&lt;ListView
+    android:id=&quot;@+id/list_view&quot;    //指定id
+    android:layout_width=&quot;match_parent&quot;    //占满整个布局空间
+    android:layout_height=&quot;match_parent&quot;&gt;&lt;/ListView&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>修改MainActivity中的代码：  </p>
+<pre><code>package com.example.xxxxx.listviewtest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private String[] data = {&quot;Apple&quot; , &quot;Banana&quot; , &quot;Orange&quot; , &quot;Watermelon&quot; , &quot;Pear&quot; ,&quot;Grape&quot; ,
+           &quot;Pineapple&quot; , &quot;Strawberry&quot; , &quot;Cherry&quot; , &quot;Mango&quot; ,&quot;Apple&quot; , &quot;Banana&quot; , &quot;Orange&quot; ,
+        &quot;Watermelon&quot; , &quot;Pear&quot; ,&quot;Grape&quot; , &quot;Pineapple&quot; , &quot;Strawberry&quot; , &quot;Cherry&quot; , &quot;Mango&quot;};
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //数组中的数据无法直接传递给ListView，需要借助适配器完成，此处使用ArrayAdapter
+    //通过泛型指定要适配的数控类型，然后在构造函数中传入要适配的数据
+    ArrayAdapter&lt;String&gt; adapter = new ArrayAdapter&lt;String&gt;(MainActivity.this,android.R.layout.simple_list_item_1,data);
+
+    ListView listView = (ListView)findViewById(R.id.list_view);
+    //将构建好的适配器对象传递进去，使ListView和数据之间建立关联
+    listView.setAdapter(adapter);
+}
+}
+</code></pre><p>ArrayAdapter的构造函数中依次传入当前上下文、ListView子项布局的id，以及要适配的数据。使用android.R.layout.simple_list_item_1作为ListView子项布局的id，这是一个Android内置的布局文件，里面只有一个TextView，可用于简单地显示一段文本。  </p>
+<h2 id="1-2定制ListView的界面"><a href="#1-2定制ListView的界面" class="headerlink" title="1.2定制ListView的界面"></a>1.2定制ListView的界面</h2><p>让它显示更加丰富的内容，不仅仅是一段文本。为水果配置图片。<br>新建一个实体类Fruit，作为ListView适配器的适配类型。代码如下：  </p>
+<pre><code>package com.example.xxxxxxxxxx.listviewtest;
+public class Fruit {
+    private String name;
+    private  int imageId;
+
+public Fruit(String name , int imageId){
+    this.name = name;
+    this.imageId = imageId;
+}
+
+public String getName(){
+    return name;
+}
+public int getImageId(){
+    return imageId;
+}
+}
+</code></pre><p>name表示水果的名字，imageId表示水果对应图片的资源id。<br>然后需要为ListView的子项指定一个我们自定义的布局，在layout目录下新建fruit_item.xml，代码如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.constraint.ConstraintLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; 
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;ImageView
+    android:id=&quot;@+id/fruit_image&quot;
+    android:layout_width=&quot;60dp&quot;
+    android:layout_height=&quot;60dp&quot; /&gt;
+
+&lt;TextView
+    android:id=&quot;@+id/fruit_name&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot; 
+    android:layout_gravity = &quot;center_vertical&quot;  //垂直居中显示
+    android:layout_marginLeft=&quot;10dp&quot;/&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>接下来需要创建一个自定义的适配器，这个适配器继承自ArrayAdapter，并将泛型指定为Fruit。新建FruitAdapter，代码如下：  </p>
+<pre><code>package com.example.xxxxx.listviewtest;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.List;
+
+public class FruitAdapter extends ArrayAdapter&lt;Fruit&gt; {
+    private int resourceId;
+    //重写父类的一组构造函数，用于将上下文、ListView子项布局id和数据传递进来。
+    public FruitAdapter(Context context, int textViewResourceId, List&lt;Fruit&gt;objects){
+        super(context, textViewResourceId, objects);
+        resourceId = textViewResourceId;
+    }
+
+@Override
+//重写getView方法，在每个子项被滚动到屏幕的时候就会被调用此方法
+public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    //获取当前项的Fruit实例
+    Fruit fruit = getItem(position);
+    //使用LayoutInflater为每个子项加载我们传入的布局
+    //第三个参数false表示只让我们在父布局中声明的layout属性生效，不为这个view添加父布局，因为一旦添加父布局
+    //之后，它就不能再添加到ListView中了（ListView的标准写法）
+    View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+
+    //获取ImageView和TextView的实例
+    ImageView fruitImage = (ImageView)view.findViewById(R.id.fruit_image);
+    TextView fruitName = (TextView)view.findViewById(R.id.fruit_name);
+    //设置显示的图片和文字
+    fruitImage.setImageResource(fruit.getImageId());
+    fruitName.setText(fruit.getName());
+    return view;  //返回布局
+}
+}
+</code></pre><p>修改MainActivity中的代码：  </p>
+<pre><code>package com.example.xxxxx.listviewtest;
+
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private List&lt;Fruit&gt; fruitList = new ArrayList&lt;&gt;();
+
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //初始化水果数据
+    initFruits();
+
+    //构建FruitAdapter对象，并将FruitAdapter作为适配器传递给ListView。
+    FruitAdapter adapter = new FruitAdapter(MainActivity.this, R.layout.fruit_item, fruitList);
+    ListView listView = (ListView)findViewById(R.id.list_view);
+    listView.setAdapter(adapter);
+}
+
+//初始化水果数据，传入水果的名字和图片id，并将对象添加到水果列表中。
+private void initFruits(){
+    for (int i = 0; i&lt;2; i++){
+        Fruit apple = new Fruit(&quot;Apple&quot;,R.drawable.apple_pic);
+        fruitList.add(apple);
+        Fruit banana = new Fruit(&quot;Banana&quot;, R.drawable.banana_pic);
+        fruitList.add(banana);
+        Fruit orange = new Fruit(&quot;Orange&quot;,R.drawable.orange_pic);
+        fruitList.add(orange);
+        Fruit watermelon = new Fruit(&quot;Watermelon&quot;, R.drawable.watermelon_pic);
+        fruitList.add(watermelon);
+        Fruit pear = new Fruit(&quot;Pear&quot;,R.drawable.pear_pic);
+        fruitList.add(pear);
+        Fruit grape = new Fruit(&quot;Grape&quot;, R.drawable.grape_pic);
+        fruitList.add(grape);
+        Fruit pineapple = new Fruit(&quot;Pineapple&quot;, R.drawable.pineapple_pic);
+        fruitList.add(pineapple);
+        Fruit strawberry = new Fruit(&quot;Strawberry&quot;, R.drawable.strawberry_pic);
+        fruitList.add(strawberry);
+        Fruit cherry = new Fruit(&quot;Cherry&quot;, R.drawable.cherry_pic);
+        fruitList.add(cherry);
+        Fruit mango = new Fruit(&quot;Mango&quot;, R.drawable.mango_pic);
+        fruitList.add(mango);
+    }
+}
+}
+</code></pre><h2 id="1-3ListView的点击事件"><a href="#1-3ListView的点击事件" class="headerlink" title="1.3ListView的点击事件"></a>1.3ListView的点击事件</h2><p>ListView如何响应用户的点击事件，修改MainActivity中代码：  </p>
+<pre><code>...
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //初始化水果数据
+    initFruits();
+
+    //构建FruitAdapter对象，并将FruitAdapter作为适配器传递给ListView。
+    FruitAdapter adapter = new FruitAdapter(MainActivity.this, R.layout.fruit_item, fruitList);
+    ListView listView = (ListView)findViewById(R.id.list_view);
+    listView.setAdapter(adapter);
+    //响应点击事件
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
+            Fruit fruit = fruitList.get(position);
+            Toast.makeText(MainActivity.this, fruit.getName(),Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+...
+</code></pre><h1 id="2、RecyclerView"><a href="#2、RecyclerView" class="headerlink" title="2、RecyclerView"></a>2、RecyclerView</h1><p>新建RecyclerView项目。  </p>
+<h2 id="2-1RecyclerView基本用法"><a href="#2-1RecyclerView基本用法" class="headerlink" title="2.1RecyclerView基本用法"></a>2.1RecyclerView基本用法</h2><p>ReyclerView也属于新增的控件，为了让RecyclerView在所有Android版本上都能使用，将其定义在support库中。在app/build.gradle文件中添加：  </p>
+<pre><code>dependencies {
+implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
+implementation &apos;com.android.support:appcompat-v7:27.1.1&apos;
+implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
+testImplementation &apos;junit:junit:4.12&apos;
+androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
+androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
+implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加内容
+}
+</code></pre><p>点击Sync Now进行同步。 修改activity_main.xml中的代码：  </p>
+<pre><code>&lt;android.support.v7.widget.RecyclerView  //添加RecyclerView控件
+    android:id=&quot;@+id/recycler_view&quot;
+        android:layout_height=&quot;match_parent&quot;
+    android:layout_width=&quot;match_parent&quot; /&gt;
+</code></pre><p>新建Fruit类和fruit_item.xml都和ListViewTest的一样。<br>然后为RecyclerView准备一个适配器，新建FruitAdapter类，让这个适配器继承自RecyclerView.Adapter，并将泛型指定为FruitAdapter.ViewHolder。ViewHolder是在FruitAdapter中定义的一个内部类。准备适配器代码如下：  </p>
+<pre><code>package com.example.xxxxx.recyclerview;
+
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.List;
+
+public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt; {
+    private List&lt;Fruit&gt; mFruitList;
+
+//定义一个内部类，继承RecyclerView.ViewHolder
+static class ViewHolder extends RecyclerView.ViewHolder{
+    ImageView fruitImage;
+    TextView fruitName;
+
+    //构造函数的参数view就是RecyclerView子项的最外层布局，然后就可以获取ImageView和TextView实例
+    public ViewHolder(View view){
+        super(view);
+        fruitImage = (ImageView)view.findViewById(R.id.fruit_image);
+        fruitName = (TextView)view.findViewById(R.id.fruit_name);
+    }
+}
+
+//构造函数用于将要展示的数据源传进来，并赋值给全局变量，方便后续对其操作
+public FruitAdapter(List&lt;Fruit&gt; fruitList){
+    mFruitList = fruitList;
+}
+
+//继承自RecyclerView.ViewHolder就必须冲写这三个方法
+@Override
+//将fruit_item加载进来，然后创建一个ViewHolder实例
+public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fruit_item, parent, false);
+    ViewHolder holder = new ViewHolder(view);
+    return  holder;
+}
+
+//对RecyclerView子项的数据进行赋值，在每个子项滚动到屏幕内的时候执行，通过position参数得到当前的fruit实例
+@Override
+public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    Fruit fruit = mFruitList.get(position);
+    holder.fruitImage.setImageResource(fruit.getImageId());
+    holder.fruitName.setText(fruit.getName());
+}
+
+//RecyclerView一共有多少子项
+@Override
+public int getItemCount() {
+    return mFruitList.size();
+}
+}
+</code></pre><p>  准备好适配器之后就可以使用RecyclerView，修改MainActivity中代码：  </p>
+<pre><code>package com.example.xxxxx.recyclerview;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+private List&lt;Fruit&gt; fruitList = new ArrayList&lt;&gt;();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    initFruits();
+    //获取RecyclerView实例
+    RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+
+    //LinearLayoutManager是线性布局的意思，实现和ListView类似的效果
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(layoutManager);
+    FruitAdapter adapter = new FruitAdapter(fruitList);
+    recyclerView.setAdapter(adapter);
+}
+
+//初始化水果数据，传入水果的名字和图片id，并将对象添加到水果列表中。
+private void initFruits(){
+    for (int i = 0; i&lt;3; i++){
+        Fruit apple = new Fruit(&quot;Apple&quot;,R.drawable.apple_pic);
+        fruitList.add(apple);
+        Fruit banana = new Fruit(&quot;Banana&quot;, R.drawable.banana_pic);
+        fruitList.add(banana);
+        Fruit orange = new Fruit(&quot;Orange&quot;,R.drawable.orange_pic);
+        fruitList.add(orange);
+        Fruit watermelon = new Fruit(&quot;Watermelon&quot;, R.drawable.watermelon_pic);
+        fruitList.add(watermelon);
+        Fruit pear = new Fruit(&quot;Pear&quot;,R.drawable.pear_pic);
+        fruitList.add(pear);
+        Fruit grape = new Fruit(&quot;Grape&quot;, R.drawable.grape_pic);
+        fruitList.add(grape);
+        Fruit pineapple = new Fruit(&quot;Pineapple&quot;, R.drawable.pineapple_pic);
+        fruitList.add(pineapple);
+        Fruit strawberry = new Fruit(&quot;Strawberry&quot;, R.drawable.strawberry_pic);
+        fruitList.add(strawberry);
+        Fruit cherry = new Fruit(&quot;Cherry&quot;, R.drawable.cherry_pic);
+        fruitList.add(cherry);
+        Fruit mango = new Fruit(&quot;Mango&quot;, R.drawable.mango_pic);
+        fruitList.add(mango);
+    }
+}
+}  
+</code></pre><h2 id="2-2实现横向滚动"><a href="#2-2实现横向滚动" class="headerlink" title="2.2实现横向滚动"></a>2.2实现横向滚动</h2><p>修改fruit_item布局，目前这个布局里面的元素是水平排列的，适用于纵向滚动的场景，如果要实现横向滚动，应该把fruit_item里的元素改成垂直排列才合理。修改fruit_item.xml中的代码：  </p>
+<pre><code>&lt;LinearLayout
+xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:orientation=&quot;vertical&quot;
+android:layout_width=&quot;100dp&quot;
+android:layout_height=&quot;wrap_content&quot;&gt;
+
+&lt;ImageView
+android:id=&quot;@+id/fruit_image&quot;
+android:layout_width=&quot;50dp&quot;
+android:layout_height=&quot;50dp&quot;
+android:layout_gravity=&quot;center_horizontal&quot;/&gt;
+&lt;TextView
+android:id=&quot;@+id/fruit_name&quot;
+android:layout_width=&quot;wrap_content&quot;
+android:layout_height=&quot;wrap_content&quot;
+android:layout_gravity=&quot;center_horizontal&quot;
+android:layout_marginTop=&quot;10dp&quot;/&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><p>将LinearLayout改成垂直方向排列，并把宽度设置为100dp。将ImageView和TextView设置成在布局中水平居中，使用layout_marginTop属性让文字和图片直接保持一些距离。<br>修改MainActivity中的代码：  </p>
+<pre><code>...
+public class MainActivity extends AppCompatActivity {
+
+private List&lt;Fruit&gt; fruitList = new ArrayList&lt;&gt;();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    initFruits();
+    //获取RecyclerView实例
+    RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+
+    //LinearLayoutManager是线性布局的意思，实现和ListView类似的效果
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    //recyclerView.setLayoutManager(layoutManager);
+    //FruitAdapter adapter = new FruitAdapter(fruitList);
+    //实现横向滚动
+    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+    recyclerView.setLayoutManager(layoutManager);
+    FruitAdapter adapter = new FruitAdapter(fruitList);
+    recyclerView.setAdapter(adapter);
+}
+}
+</code></pre><h2 id="2-3其它布局"><a href="#2-3其它布局" class="headerlink" title="2.3其它布局"></a>2.3其它布局</h2><p>除了LinearLayoutManager之外，RecyclerView还提供了GridLayoutManager和StaggeredGridLayoutManager这两种内置的布局排列方式。GridLayoutManager可以用于实现网络布局，StaggeredGridLayoutManager可以用于实现瀑布流布局。  </p>
+<h2 id="2-4RecyclerView的点击事件"><a href="#2-4RecyclerView的点击事件" class="headerlink" title="2.4RecyclerView的点击事件"></a>2.4RecyclerView的点击事件</h2><p>RecyclerView的所有点击事件都是由具体的View去注册的。在RecyclerView中注册点击事件，首先修改FruitAdapter中的代码：  </p>
+<pre><code>public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt; {
+    private List&lt;Fruit&gt; mFruitList;
+
+//定义一个内部类，继承RecyclerView.ViewHolder
+static class ViewHolder extends RecyclerView.ViewHolder{
+    View fruitView;  //新增代码
+    ImageView fruitImage;
+    TextView fruitName;
+
+    //构造函数的参数view就是RecyclerView子项的最外层布局，然后就可以获取ImageView和TextView实例
+    public ViewHolder(View view){
+        super(view);
+        fruitView = view; //新增代码
+        fruitImage = (ImageView)view.findViewById(R.id.fruit_image);
+        fruitName = (TextView)view.findViewById(R.id.fruit_name);
+    }
+}
+
+//构造函数用于将要展示的数据源传进来，并赋值给全局变量，方便后续对其操作
+public FruitAdapter(List&lt;Fruit&gt; fruitList){
+    mFruitList = fruitList;
+}
+
+//继承自RecyclerView.ViewHolder就必须冲写这三个方法
+@Override
+//将fruit_item加载进来，然后创建一个ViewHolder实例
+public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fruit_item, parent, false);
+
+    //新增代码
+    final ViewHolder holder = new ViewHolder(view);
+    //ViewHolder holder = new ViewHolder(view);
+    holder.fruitView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = holder.getAdapterPosition();
+            Fruit fruit = mFruitList.get(position);
+            Toast.makeText(v.getContext(),&quot;you clicked view&quot;+fruit.getName(),Toast.LENGTH_SHORT).show();
+        }
+    });
+    return  holder;
+}
+
+//对RecyclerView子项的数据进行赋值，在每个子项滚动到屏幕内的时候执行，通过position参数得到当前的fruit实例
+@Override
+public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    Fruit fruit = mFruitList.get(position);
+    holder.fruitImage.setImageResource(fruit.getImageId());
+    holder.fruitName.setText(fruit.getName());
+}
+
+//RecyclerView一共有多少子项
+@Override
+public int getItemCount() {
+    return mFruitList.size();
+}
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="cjxg3xho3000mbq6c3xfkgxh4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-五、内容提供器(Content Provider)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/07/五、内容提供器(Content Provider)/" class="article-date">
+  <time datetime="2018-06-07T13:41:00.000Z" itemprop="datePublished">2018-06-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/07/五、内容提供器(Content Provider)/">五、内容提供器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="五、内容提供器"><a href="#五、内容提供器" class="headerlink" title="五、内容提供器"></a>五、内容提供器</h1><p>内容提供器(Content Provider)主要用于在不同的应用程序之间实现数据的共享功能，它提供了一套完整的机制，允许一个程序访问另外一个程序中的数据，同时还能有效保证被访问数据的安全性。是Android实现跨程序共享数据的标准方式。    </p>
+<h2 id="1、运行时权限"><a href="#1、运行时权限" class="headerlink" title="1、运行时权限"></a>1、运行时权限</h2><h3 id="1-1Android权限机制详解"><a href="#1-1Android权限机制详解" class="headerlink" title="1.1Android权限机制详解"></a>1.1Android权限机制详解</h3><p>访问系统的网络状态以及监听开机广播，在AndroidManifest.xml中添加权限声明：  </p>
+<pre><code>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.xxxxx.broadcasttest&quot;&gt;
+
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;  //访问网络状态权限声明
+   &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;  //监听开机广播权限声明
+&lt;/manifest&gt;
+</code></pre><p>访问系统的网络状态和监听开机广播涉及到用户设备的安全性，因此必须在AndroidManifest.xml中加入权限声明，否则程序会崩溃。<br>常用软件普遍存在滥用权限的情况，不管到底用不用得到先把权限申请了再说。所有Android开发团队从6.0系统加入了运行时权限功能。<br>Android现在的所有权限分为两类，普通权限和危险权限。普通权限是安心不会直接威胁到用户的安全和隐私的权限，系统会帮我们进行授权，不需要用户操作。危险权限则表示哪些可能会触及用户隐私或对社保安全性造成影响的权限，如获取设备联系人、定位设备的地理位置等，这些需要用户手动点击授权，否则程序无法使用相应的功能。  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">权限组名</th>
+<th style="text-align:center">权限名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CALENDAR</td>
+<td style="text-align:center">READ_CALENDAR</td>
+</tr>
+<tr>
+<td style="text-align:left">CALENDAR</td>
+<td style="text-align:center">WRITE_CALENDAR</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">CAMERA</td>
+<td style="text-align:center">CAMERA</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">CONTACTS</td>
+<td style="text-align:center">READ_CONTACTS</td>
+</tr>
+<tr>
+<td style="text-align:left">CONTACTS</td>
+<td style="text-align:center">WRITE_CONTACTS</td>
+</tr>
+<tr>
+<td style="text-align:left">CONTACTS</td>
+<td style="text-align:center">GET_CONTACTS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">LOCATION</td>
+<td style="text-align:center">ACCESS_FINE_LOCATION</td>
+</tr>
+<tr>
+<td style="text-align:left">LOCATION</td>
+<td style="text-align:center">ACCESS_COARSE_LOCATION</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">MICROPHONE</td>
+<td style="text-align:center">RECORD_AUDIO</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">READ_PHONE_STATE</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">CALL_PHONE</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">READ_CALL_LOG</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">WRITE_CALL_STATE</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">ADD_VOICEMAIL</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">USE_SIP</td>
+</tr>
+<tr>
+<td style="text-align:left">PHONE</td>
+<td style="text-align:center">PROCESS_OUTGOING_CALLS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">SENSORS</td>
+<td style="text-align:center">BODY_SENSORS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">SEND_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">RECEIVE_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">READ_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">RECEIVE_WAP_SMS</td>
+</tr>
+<tr>
+<td style="text-align:left">SMS</td>
+<td style="text-align:center">RECEIVE_MMS</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+<tr>
+<td style="text-align:left">STORAGE</td>
+<td style="text-align:center">READ_EXTERNAL_STORAGE</td>
+</tr>
+<tr>
+<td style="text-align:left">STORAGE</td>
+<td style="text-align:center">WRITE_EXTERNAL_STORAGE</td>
+</tr>
+<tr>
+<td style="text-align:left">—————————</td>
+<td style="text-align:center">————————————-</td>
+</tr>
+</tbody>
+</table>
+<p>使用权限时，如果属于这张表的权限，就需要进行运行时权限处理，如果不在这样表中那么只需要在AndroidManifest.xml文件中添加一下权限声明就可以。<br>权限处理时处理的是权限名，但是用户授权后对应的权限组中其他的权限也会同时被授权。  </p>
+<h3 id="1-2运行时权限申请（262页）"><a href="#1-2运行时权限申请（262页）" class="headerlink" title="1.2运行时权限申请（262页）"></a>1.2运行时权限申请（262页）</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/" data-id="cjxg3xhnl000ebq6clptufar4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-四、广播" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/06/四、广播/" class="article-date">
+  <time datetime="2018-06-06T03:11:06.000Z" itemprop="datePublished">2018-06-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>title: 四、广播<br>—xxxxx</p>
+<h1 id="四、广播"><a href="#四、广播" class="headerlink" title="四、广播"></a>四、广播</h1><p>Android中广播的两种类型：标准广播和有序广播<br><strong>标准广播：</strong>异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。<br><strong>有序广播：</strong>同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。  </p>
+<h2 id="1、接收系统广播"><a href="#1、接收系统广播" class="headerlink" title="1、接收系统广播"></a>1、接收系统广播</h2><p>要接收广播就需要使用广播接收器。  广播接收器可以自由地对自己感兴趣的广播继续注册，注册广播一般有2种，在代码中注册（动态注册）和在AndroidManifest.xml中注册（静态注册）。  </p>
+<h3 id="1-1创建广播接收器"><a href="#1-1创建广播接收器" class="headerlink" title="1.1创建广播接收器"></a>1.1创建广播接收器</h3><p>新建一个类，让它继承自BroadcastReceiver，并重写onReceive()方法就可以。当有广播到来时，onReceive()方法就会得到执行，处理逻辑可以在方法中实现。  </p>
+<h4 id="1-1-1动态注册"><a href="#1-1-1动态注册" class="headerlink" title="1.1.1动态注册"></a>1.1.1动态注册</h4><p>通过动态注册的方式编写一个能够监听网络变化的程序：  </p>
+<pre><code>//新建BroadcastReceiver项目，修改MainActivity代码
+public class MainActivity extends AppCompatActivity {
+
+    private IntentFilter intentFilter;
+    private NetworkChangeReceiver networkChangeReceiver;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+           setContentView(R.layout.activity_main);
+        intentFilter = new IntentFilter();//创建intentfileter实例
+        /*添加action，网络发生变化时，系统发出一条值为android.net.conn.CONNECTIVITY_CHANGE的广播。要监听什么，这里添加相应的action*/
+        intentFilter.addAction(&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;);
+        networkChangeReceiver = new NetworkChangeReceiver();//创建实例
+        registerReceiver(networkChangeReceiver,intentFilter);//注册
+    }
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    unregisterReceiver(networkChangeReceiver);//动态注册的的广播接收器需要取消注册
+}
+
+class NetworkChangeReceiver extends BroadcastReceiver{//内部类并继承BroadcastReceiver
+    @Override
+    public void onReceive(Context context, Intent intent) {//重写onReceive方法
+        //getSystemService方法得到ConnectivityManager（管理网络连接的系统服务类）的实例
+        ConnectivityManager connectionManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+        if(networkInfo!=null &amp;&amp; networkInfo.isAvailable()){
+            Toast.makeText(context,&quot;network is available&quot; , Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context,&quot;network is unavailable&quot;,Toast.LENGTH_SHORT).show();
+        }
+    }
+    }
+}
+</code></pre><p>程序需要进行对用户比较敏感的操作，需要在配置文件(AndroidManifest.xml)中声明权限：  </p>
+<pre><code>uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; //添加此行  
+</code></pre><h4 id="1-1-2静态注册（实现开机启动）"><a href="#1-1-2静态注册（实现开机启动）" class="headerlink" title="1.1.2静态注册（实现开机启动）"></a>1.1.2静态注册（实现开机启动）</h4><p>动态注册的广播接收器可以自由地控制注册和注销，很灵活，但是必须要在程序启动之后才能接收广播。使用静态注册可以在程序未启动的情况下接收到广播。程序接收一条开机广播，收到后执行onReceive()方法来执行相应的逻辑。<br> 在.broadcasttest包下右击-&gt;New-&gt;Other-&gt;Broadcast Recevier,新建BootCompleteRecevier：  </p>
+<pre><code>public class BootCompeleteReceiver extends BroadcastReceiver {
+
+@Override
+public void onReceive(Context context, Intent intent) {
+    Toast.makeText(context,&quot;Boot Compelete&quot; , Toast.LENGTH_LONG).show();//弹出提示信息
+}
+}     
+</code></pre><p>静态广播接收器要在AndroidManifest.xml中注册才可以使用，Android Studio创建的已经自动注册：  </p>
+<pre><code>&lt;application
+    ...
+    &lt;receiver  //静态广播接收器注册
+        android:name=&quot;.BootCompeleteReceiver&quot;
+        android:enabled=&quot;true&quot;
+        android:exported=&quot;true&quot;&gt;
+        &lt;intent-filter&gt;  //添加action
+            &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+&lt;/application&gt;
+</code></pre><hr>
+<pre><code>//在AndroidManifest.xml中添加权限
+&lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;/&gt;
+</code></pre><h2 id="2、发送自定义广播"><a href="#2、发送自定义广播" class="headerlink" title="2、发送自定义广播"></a>2、发送自定义广播</h2><p>发送广播之前需要定义一个广播接收器来准备接收此广播才行，不然白发。  </p>
+<h3 id="2-1发送标准广播"><a href="#2-1发送标准广播" class="headerlink" title="2.1发送标准广播"></a>2.1发送标准广播</h3><p>新建一个MyBroadcastReceiver：  </p>
+<pre><code>public class MyBroadcastReceiver extends BroadcastReceiver {
+
+@Override
+public void onReceive(Context context, Intent intent) {
+    Toast.makeText(context,&quot;received in MyBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
+}
+}
+</code></pre><hr>
+<pre><code>//修改AndroidManifest.xml注册
+   &lt;receiver
+        android:name=&quot;.MyBroadcastReceiver&quot;
+        android:enabled=&quot;true&quot;
+        android:exported=&quot;true&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//接收值过滤
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+</code></pre><hr>
+<pre><code>//在activity_main.xml中定义按钮用于发送广播的触发点
+    &lt;Button
+    android:id=&quot;@+id/button&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;send broadcast&quot;/&gt;
+</code></pre><hr>
+<pre><code>//在MainActivity中修改
+    @Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Button button = (Button)findViewById(R.id.button);
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {//按钮点击事件中添加发送自定义广播逻辑
+            Intent intent = new  Intent(&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot;);//通过intent传入
+            sendBroadcast(intent);
+        }
+    });
+}
+</code></pre><h3 id="2-2发送有序广播"><a href="#2-2发送有序广播" class="headerlink" title="2.2发送有序广播"></a>2.2发送有序广播</h3><p>广播是一种可以跨进程的通信方式，我们应用程序内发出的广播，其他应用程序是可以收到的。<br>新建BroadcastTest2项目，项目下新建一个广播接收器：  </p>
+<pre><code>public class AnotherBroadcastReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context,&quot;received in AnotherBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
+        }
+}
+</code></pre><p> 在AndroidManifest.xml中修改这个广播接收器：  </p>
+<pre><code> //修改AndroidManifest.xml注册
+&lt;receiver
+     android:name=&quot;.AnotherBroadcastReceiver&quot; //注册AnotherBroadcastReceiver
+     android:enabled=&quot;true&quot;
+     android:exported=&quot;true&quot;&gt;
+     &lt;intent-filter&gt;
+         &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//同样接收...broadcasttest.MY_BROADCAST这条广播
+     &lt;/intent-filter&gt;
+ &lt;/receiver&gt;
+</code></pre><p>发送有序广播使用sendOrderBroadcast()，修改BroadcastTest项目的MainActivity代码： </p>
+<pre><code>//修改BroadcastTest项目下的MainActivity        
+...
+button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {//按钮点击事件中添加发送自定义广播逻辑
+            Intent intent = new  Intent(&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot;);//通过intent传入
+            sendOrderBroadcast(intent,null);//发送有序广播，第一个参数intent，第二个参数是权限
+        }
+    });
+...
+</code></pre><p>当目前为止，效果上和标准广播没什么区别，但是有序广播是可以有先后顺序和截断的。在BroadcastTest2项目下修改AndroidManifest.xml代码设置优先级：  </p>
+<pre><code>&lt;receiver
+        android:name=&quot;.AnotherBroadcastReceiver&quot; //注册AnotherBroadcastReceiver
+        android:enabled=&quot;true&quot;
+        android:exported=&quot;true&quot;&gt;
+        &lt;intent-filter  android:priority=&quot;100&quot;&gt;//设置接收MY_BROADCAST的优先级，越高越先收到
+            &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//同样接收...broadcasttest.MY_BROADCAST这条广播
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+</code></pre><p>这样就可以保证在AnotherBroadcastReceiver之前收到广播。<br>如果需要截断，如在MyBroadcastReceiver下调用abortBroadcast()方法将这条广播截断，后面的广播接收器就无法再接收到这条广播。  </p>
+<pre><code>public class MyBroadcastReceiver extends BroadcastReceiver {
+
+@Override
+public void onReceive(Context context, Intent intent) {
+    Toast.makeText(context,&quot;received in MyBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
+    abortBroadcast();//截断广播
+}
+}
+</code></pre><h3 id="2-3使用本地广播"><a href="#2-3使用本地广播" class="headerlink" title="2.3使用本地广播"></a>2.3使用本地广播</h3><p>前面的方式发出的广播可以被其他任何应用程序接收到，如果发送的广播携带有关键数据，可能会造成安全问题。使用本地广播机制可以使发出的广播只能够在应用程序内部进行传递，并且广播接收器也只能接收来自本应用程序发出的广播。<br>本地广播使用一个LocalBroadcastManager来对广播进行管理，并提供了发送广播和接收广播的方法。修改MainActivity中的代码：  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+    private IntentFilter intentFilter;
+  private LocalReceiver localReceiver;
+  private LocalBroadcastManager   localBroadcastManager;
+
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    localBroadcastManager = LocalBroadcastManager.getInstance(this);//获取实例
+
+    Button button = (Button)findViewById(R.id.button);
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(&quot;com.example.xxxxx.broadcasttest.LOCAL_BROADCAST&quot;);
+            localBroadcastManager.sendBroadcast(intent);//发送本地广播
+        }
+    });
+
+    intentFilter = new IntentFilter();
+    intentFilter.addAction(&quot;com.example.xxxxx.broadcasttest.LOCAL_BROADCAST&quot;);
+    localReceiver = new LocalReceiver();
+    localBroadcastManager.registerReceiver(localReceiver,intentFilter);//注册本地广播监听器
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    localBroadcastManager.unregisterReceiver(localReceiver);
+}
+
+class LocalReceiver extends BroadcastReceiver{
+  @Override
+  public void onReceive(Context context, Intent intent) {
+      Toast.makeText(context,&quot;received local broadcast&quot;,Toast.LENGTH_SHORT).show();
+  }
+ }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/06/四、广播/" data-id="cjxg3xhnu000lbq6c33k787oo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-三、UI开发工具(控件)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/05/三、UI开发工具(控件)/" class="article-date">
+  <time datetime="2018-06-05T03:54:16.000Z" itemprop="datePublished">2018-06-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/05/三、UI开发工具(控件)/">三、UI开发工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="三、UI开发工具"><a href="#三、UI开发工具" class="headerlink" title="三、UI开发工具"></a>三、UI开发工具</h1><h2 id="1、常用控件的使用方法"><a href="#1、常用控件的使用方法" class="headerlink" title="1、常用控件的使用方法"></a>1、常用控件的使用方法</h2><h3 id="1-1TextView"><a href="#1-1TextView" class="headerlink" title="1.1TextView"></a>1.1TextView</h3><p>主要用于在界面中显示一段文本信息。  </p>
+<pre><code>&lt;TextView
+    android:id=&quot;@+id/text_view&quot;   //定义控件唯一标识符
+    android:layout_width=&quot;match_parent&quot;   //控件宽度，和父布局大小一样
+    android:layout_height=&quot;wrap_content&quot;  //控件高度，控件大小刚好包含里面的内容
+    android:text=&quot;This is TextView&quot;  /&gt;    //显示的文本内容
+</code></pre><p>所有控件都有2个属性，三种值：match_parent、fill_parent、wrap_content。<br>前两个一样，表示布局和父布局的大小一样，推荐match_parent; wrap_content表示当前控件的大小能够刚好包含住里面的内容就行。也可以对高度和宽度指定固定大小，但是这样会出现不同手机屏幕适配方面的问题。<br>指定文字的对齐方式android:gravity  </p>
+<pre><code>android:gravity=&quot;center&quot;  //还有top、bottom、left、right，可以用“|”同时指定多个值
+</code></pre><p>android:textSize 指定文字大小，android中以sp作为字体大小单位；<br>android:textColor 指定文字颜色  </p>
+<h3 id="1-2Button"><a href="#1-2Button" class="headerlink" title="1.2Button"></a>1.2Button</h3><p>程序用于和用户进行交互的重要控件。  </p>
+<pre><code>&lt;Button
+    android:id=&quot;@+id/button&quot;   //定义控件唯一标识符
+    android:layout_width=&quot;match_parent&quot;   //控件宽度，和父布局大小一样
+    android:layout_height=&quot;wrap_content&quot;  //控件高度，控件大小刚好包含里面的内容
+    android:text=&quot;Button&quot;  /&gt;  //系统对Button中字母进行大写转换
+</code></pre><p>android:textAllCaps=”false” 禁用大写转换。<br>在MainActivity中为Button点击事件注册监听器：  </p>
+<pre><code>public class MainActivity extends AppCompatActivity{
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button = (Button)findViewById(R.id.button);
+        button.setOnclickListener(new View.OnClickListener){
+            @Override
+            public void onClick(View v){
+                //此处添加逻辑
+            }
+        }
+    }
+}
+</code></pre><h3 id="1-3EditText"><a href="#1-3EditText" class="headerlink" title="1.3EditText"></a>1.3EditText</h3><p>用于和用户进行交互的一个重要控件，允许用户在控件里输入和编辑内容，并可以在程序中对这些内容进行处理。  </p>
+<pre><code>&lt;EditText
+    android:id = &quot;@+id/edit_text&quot;
+    android:layout_width = &quot;match_parent&quot;
+    android:layout_height = &quot;wrap_content&quot;
+/&gt;
+</code></pre><p>在输入框中显示一些提示性的文字，用户输入任何内容，提示性文字就会消失：  </p>
+<pre><code>android:hint = &quot;Type something here&quot; 
+</code></pre><p>输入内容长度限制：  </p>
+<pre><code>android:maxLines = &quot;2&quot;  //最大行数为两行,超过2行文本会向上滚动
+</code></pre><h3 id="1-4ImageView"><a href="#1-4ImageView" class="headerlink" title="1.4ImageView"></a>1.4ImageView</h3><p>用于在界面展示图片，图片通常放在以drawable开头的目录下。<br>指定一张图片android:src  </p>
+<pre><code>&lt;ImageView
+    ...
+    android:src=&quot;@drawable/img_1&quot; /&gt;
+</code></pre><p>代码中动态修改ImageView中的图片：  </p>
+<pre><code>package com.example.xxxxx.uiwidgettest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+private ImageView imageView;
+   private EditText editText;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Button button = (Button)findViewById(R.id.button);
+    editText = (EditText)findViewById(R.id.edit_text);
+    imageView = (ImageView)findViewById(R.id.image_view);
+    button.setOnClickListener(this);
+}
+
+@Override
+public void onClick(View v) {
+    switch (v.getId()){
+        case R.id.button:
+            imageView.setImageResource(R.drawable.img_2);//将图片改为img_2
+    }
+    }
+}
+</code></pre><h3 id="1-5ProgressBar"><a href="#1-5ProgressBar" class="headerlink" title="1.5ProgressBar"></a>1.5ProgressBar</h3><p>用于在界面上显示一个进度条，表示程序正在加载一些数据。  </p>
+<pre><code>&lt;ProgressBar
+  android:id=&quot;@+id/progress_bar&quot;
+  android:layout_width=&quot;match_parent&quot;
+  android:layout_height=&quot;wrap_content&quot; /&gt;
+</code></pre><p>Android控件的可见属性，通过android:visibility进行指定，三种值：visible、invisible、gone<br>visible：可见的，默认值<br>invisible：不可见，任然占据原来的位置和大小，相当于透明<br>gone：不可见也不占用屏幕空间<br>通过代码设置控件的可见性，setVisibility()方法，传入View.VISIBLE、View.INVISIBLE、View.GONE<br>判断ProgressBar的可见性：  </p>
+<pre><code>progressBar.getVisibility() == View.GONE//判断是否是GONE
+progressBar.setVisibility(View.VISIBLE);//修改可见性为可见
+</code></pre><p>指定ProgressBar不同的样式，通过style属性可以将它指定成水平进度条：  </p>
+<pre><code>&lt;ProgressBar
+   android:id=&quot;@+id/progress_bar&quot;
+   android:layout_width=&quot;match_parent&quot;
+   android:layout_height=&quot;wrap_content&quot; 
+   style=&quot;?android:attr/progressBarStyleHorizontal&quot;//设置为水平进度条
+   android:max=&quot;100&quot;/&gt;   //进度条最大值为100
+</code></pre><h3 id="1-6AlertDialog"><a href="#1-6AlertDialog" class="headerlink" title="1.6AlertDialog"></a>1.6AlertDialog</h3><p>在当前界面弹出一个对话框，这个对话框是置顶于所有界面元素之上的，能够屏蔽掉其他控件的交互能力。一般用于提示一些非常重要的内容或者警告信息。  </p>
+<pre><code>public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private ImageView imageView;
+    private EditText editText;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button button = (Button)findViewById(R.id.button);
+        editText = (EditText)findViewById(R.id.edit_text);
+        imageView = (ImageView)findViewById(R.id.image_view);
+        button.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.button:
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);//创建AlertDialog实例
+            dialog.setTitle(&quot;this is dialog&quot;);//设置对话框标题
+            dialog.setMessage(&quot;something important&quot;);//设置内容
+            dialog.setCancelable(false);//是否可取消
+            dialog.setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() {//设置确定按钮的点击事件
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialog.setNegativeButton(&quot;Cancle&quot;, new DialogInterface.OnClickListener() {//设置取消按钮的点击事件
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialog.show();//调用show方法将对话框显示出来
+            break;
+        default:
+            break;
+    }
+}
+</code></pre><p>}</p>
+<h3 id="1-7ProgressDialog"><a href="#1-7ProgressDialog" class="headerlink" title="1.7ProgressDialog"></a>1.7ProgressDialog</h3><p>和AlertDialog类似，不过ProgressDialog会在对话框中显示一个进度条，一般用于标识操作比较耗时，让用户等待。  </p>
+<pre><code>@Override
+public void onClick(View v) {
+    switch (v.getId()){
+        case R.id.button:
+            ProgressDialog processDialog = new ProgressDialog(MainActivity.this);
+            processDialog.setTitle(&quot;This is ProgressDialog&quot;);
+            processDialog.setMessage(&quot;Loading...&quot;);
+            processDialog.setCancelable(true);
+            processDialog.show();
+            break;
+        default:
+            break;
+    }
+}
+</code></pre><p>如果setCancelable中传入false，则不能通过back键取消掉，那么在代码中需要加载完成后必须调用ProgressDialog的dimiss()方法关闭对话框，否则会一直存在。</p>
+<h2 id="2、四种基本布局"><a href="#2、四种基本布局" class="headerlink" title="2、四种基本布局"></a>2、四种基本布局</h2><p>布局是一种可以放置很多空间的容器，可以按照一定的规律调整内部空间的位置。布局的内部出了放置控件外，也可以放置布局，通过多层布局的嵌套。  </p>
+<h3 id="2-1线性布局"><a href="#2-1线性布局" class="headerlink" title="2.1线性布局"></a>2.1线性布局</h3><p>排列方向：  </p>
+<pre><code>android:orientation=&quot;vertical&quot;  //垂直排列
+android:orientation=&quot;horizontal&quot;  //水平排列
+
+android:layout_gravity =  &quot;top&quot;//控件在布局中的对齐方式
+</code></pre><p>线性布局中可以用比例的方式指定控件的大小android:layout_weight，设置了这个属性控件的宽度就不应该在由android:layout_width来决定。LinearLayout下所有控件指定的layout_weight相加，得到一个总值，该控件的layout_weight值除以总值就是占屏幕的宽度的大小。</p>
+<h3 id="2-2相对布局"><a href="#2-2相对布局" class="headerlink" title="2.2相对布局"></a>2.2相对布局</h3><p>RelativeLayout是非常常用的布局，和LinearLayout排列规则不同，RelativeLayout更加随意，可以通过相对定位的方式让控件出现在布局的任何位置。  </p>
+<pre><code>&lt;RelativeLayout  ...
+    ...
+    &lt;Button
+        android:id=&quot;@+id/button3&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_centerInparent=&quot;true&quot;
+        android:text=&quot;Button3&quot; /&gt;
+      &lt;Button
+        android:id=&quot;@+id/button2&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_above=&quot;@id/button3&quot; //在button3的上方
+        android:layout_toLeftOf=&quot;@id/button3&quot;  //在button3的左边
+        android:text=&quot;Button2&quot; /&gt;
+    ...
+&lt;/RelativeLayout&gt;
+</code></pre><p>一个控件去引用另外一个控件的id时，该控件一定要定义在引用控件的后面，不然会出现找不到id的情况。  </p>
+<h3 id="2-3帧布局"><a href="#2-3帧布局" class="headerlink" title="2.3帧布局"></a>2.3帧布局</h3><p>FrameLayout应用场景较少，所有的控件都默认摆放在布局的左上角。<br>也可以使用android:layout_gravity来指定对齐方式。  </p>
+<h3 id="2-4百分比布局"><a href="#2-4百分比布局" class="headerlink" title="2.4百分比布局"></a>2.4百分比布局</h3><p>之前的布局只要LineLayout支持使用layout_weight属性来实现比例指定控件大小的功能。引入百分比布局来解决，这种布局中不再使用wrap_content、match_parent等方式指定控件大小，而是直接指定控件在布局中所占的百分比，这样可以轻松实现任意比例分割布局。<br>百分比布局只为FrameLayout和RelativeLayout进行功能扩展，提供了PercentFrameLayout和PercentRelativeLayout这两个全新布局。<br>在项目的build.gradle中添加百分比布局库的依赖就能保证百分比布局在Android所有系统版本上兼容。 </p>
+<pre><code>&lt;android.support.percent.PercentFrameLayout
+    ...
+    &lt;Button
+        ...
+        app:layout_widthPercent=&quot;50%&quot;
+        app:layout_heightPercent=&quot;50%&quot; /&gt;
+    ...
+
+&lt;/android.support.percent.PercentFrameLayout&gt;
+</code></pre><h2 id="3、创建自定义控件"><a href="#3、创建自定义控件" class="headerlink" title="3、创建自定义控件"></a>3、创建自定义控件</h2><p>所有控件都是直接或间接继承自View，所有布局都是直接或间接继承自ViewGroup。View是Android中最基本的一种UI组件，它可以在屏幕上绘制一块矩形区域，并能响应这块区域的各种事件，我们使用的控件就是在View的基础之上又添加各自特有的功能。  </p>
+<h3 id="3-1引入布局创建控件"><a href="#3-1引入布局创建控件" class="headerlink" title="3.1引入布局创建控件"></a>3.1引入布局创建控件</h3><p>新建一个title.xml文件  </p>
+<pre><code>  &lt;LinearLayout ...
+    ...
+    &lt;Button
+        .. /&gt;
+    &lt;TextView
+        ... /&gt;
+    ...
+&lt;/LinearLayout&gt;
+
+//部分属性说明
+android:background = &quot;@drawable/edit_png&quot;//为布局或控件指定背景，可以使用颜色或图片填充
+android:layout_margin = &quot;5dp&quot;//指定控件在各个方向上偏移的距离
+android:layout_marginLeft或者android:layout_marginTop
+</code></pre><p>在程序中使用，在activity_main.xml中添加：  </p>
+<pre><code>&lt;LinearLayout ...
+    ...
+    &lt;include layout=&quot;@layout/title&quot;/&gt;  //include语句引入
+&lt;/LinearLayout&gt;
+</code></pre><h3 id="3-2创建自定义控件"><a href="#3-2创建自定义控件" class="headerlink" title="3.2创建自定义控件"></a>3.2创建自定义控件</h3><p>新建TitleLayout继承自LinearLayout，让它成为自定义的标题栏控件：  </p>
+<pre><code>pulic class TitleLayout extends LinearLayout{
+    public TitleLayout(Context context , AttributeSet attrs){//布局中引入TitleLayout控件就会调用这个构造函数
+        super(context,attrs);
+        //借助LayoutInflater实现标题栏布局多态加载，from方法构建一个LayoutInflater对象
+        LayoutInflater.from(context).inflate(R.layout.title,this);//inflate方法可以多态加载一个布局文件。
+        //inflate第一个参数是加载的布局文件的id，第二个参数是给加载好的布局在添加一个父布局
+    }
+}
+</code></pre><p>创建好布局文件后，在布局文件中添加自定义控件，修改activity_main.xml中的代码：  </p>
+<pre><code>&lt;LinearLayout ...
+    ...
+    &lt;com.example.uicustomviews.TitleLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+</code></pre><p>给标题栏的按钮注册点击事件，修改TitleLayout代码：  </p>
+<pre><code>pulic class TitleLayout extends LinearLayout{
+    public TitleLayout(Context context , AttributeSet attrs){
+        super(context,attrs);
+        LayoutInflater.from(context).inflate(R.layout.title,this);
+        Button titleBack =(Button)findViewByid(R.id.title_back);
+        Button titleBack =(Button)findViewByid(R.ID.title_edit);
+        titleBack.setOnClickListener(new OnClickListener){
+            @Override
+            public void onClick(View v){
+                ((Activity)getContext()).finish();
+            }
+        };
+        titleEdit.setOnClickListener(new OnClickListener){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(getContext(),&quot;You Clicked Edit button&quot;,Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+}
+</code></pre><h2 id="4、滚动控件-ReyclerView-134页，未完成"><a href="#4、滚动控件-ReyclerView-134页，未完成" class="headerlink" title="4、滚动控件-ReyclerView(134页，未完成)"></a>4、滚动控件-ReyclerView(134页，未完成)</h2><p>ReyclerView也属于新增的控件，为了让RecyclerView在所有Android版本上都能使用，将其定义在support库中。在app/build.gradle文件中添加：  </p>
+<pre><code>dependencies {
+implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
+implementation &apos;com.android.support:appcompat-v7:27.1.1&apos;
+implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
+testImplementation &apos;junit:junit:4.12&apos;
+androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
+androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
+implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加内容
+</code></pre><p>}<br>点击Sync Now进行同步。 修改activity_main.xml中的代码：  </p>
+<pre><code>&lt;android.support.v7.widget.RecyclerView  //添加RecyclerView控件
+    android:id=&quot;@+id/recycler_view&quot;
+        android:layout_height=&quot;match_parent&quot;
+    android:layout_width=&quot;match_parent&quot; /&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/" data-id="cjxg3xhnt000kbq6cvcyyr18q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-二、活动(Activity)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/03/二、活动(Activity)/" class="article-date">
+  <time datetime="2018-06-03T11:49:34.000Z" itemprop="datePublished">2018-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/二、活动(Activity)/">二、活动（Activity）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="二、活动（Activity）"><a href="#二、活动（Activity）" class="headerlink" title="二、活动（Activity）"></a>二、活动（Activity）</h1><p>活动（Activity）是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。</p>
+<h2 id="1、活动基本用法"><a href="#1、活动基本用法" class="headerlink" title="1、活动基本用法"></a>1、活动基本用法</h2><h3 id="1-1、手动创建活动"><a href="#1-1、手动创建活动" class="headerlink" title="1.1、手动创建活动"></a>1.1、手动创建活动</h3><p>Activity Name：FirstActivity；<br>Generate Layout File：表示会自动为FirstActivity创建一个对应的布局文件；<br>Launcher Activity：表示自动将FirstActivity设置为当前项目的主活动；<br>Backwards Compatibility：表示为项目启用向下兼容的模式。  </p>
+<p>项目的任何活动都应该重写Activity的onCreate()方法，如FirstActivity中Android Studio的默认实现：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {//重写onCreate方法,主要是加载一些组件
+        super.onCreate(savedInstanceState);          //调用父类的onCreate方法，参数的作用是保持
+    }
+}
+</code></pre><h3 id="1-2、创建和加载布局"><a href="#1-2、创建和加载布局" class="headerlink" title="1.2、创建和加载布局"></a>1.2、创建和加载布局</h3><p>Android程序的设计讲究逻辑和视图分离，最好每一个活动都能对应一个布局，布局就是用来显示界面内容。  </p>
+<h4 id="1-2-1创建布局"><a href="#1-2-1创建布局" class="headerlink" title="1.2.1创建布局"></a>1.2.1创建布局</h4><p>在app/src/main/res目录右击-&gt;New-&gt;Directory创建layout目录。layout目录右击-&gt;New-&gt;Layout resource file,命名布局文件为first_layout，根元素选择LinearLayout。创建完成。<br>在Android Studio的下方的Design是可视化布局编辑器，不仅可以预览当前的布局，还可以通过拖放的方式编辑布局；Text是通过XML文件的方式来编辑布局的，其代码如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;/LinearLayout&gt;  
+</code></pre><p>布局文件中已经有一个LinearLayout元素，添加一个按钮：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;Button
+  //android:id是给当前元素定义一个唯一标识符，代码可以对其进行操作；     //在XML中引用一个id就用@id/id_name语法；在XML中定义一个id就用@+id/id_name语法
+android:id=&quot;@+id/button_1&quot;
+       android:layout_width=&quot;match_parent&quot;  //当前元素宽度，match_parent表示和父元素一样宽
+    android:layout_height=&quot;wrap_content&quot; //当前元素高度，wrap_content表示高度更好包含里面的内容就行
+    android:text=&quot;Button 1&quot;  //指定元素中显示的文字内容
+    /&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><h4 id="1-2-2在活动中加载布局"><a href="#1-2-2在活动中加载布局" class="headerlink" title="1.2.2在活动中加载布局"></a>1.2.2在活动中加载布局</h4><p>在FirstActivity中的onCreate方法中加入代码：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.first_layout);//给当前活动加载布局，一般传入布局文件的id
+    }
+}
+</code></pre><p>项目的添加的任何资源都会在R文件中生成一个相应的资源id，first_layout.xml布局的id也添加到R文件中了，R.layout.first_layout就可以得到first_layout.xml布局的id。  </p>
+<h4 id="1-2-3在AndroidManifest文件中注册"><a href="#1-2-3在AndroidManifest文件中注册" class="headerlink" title="1.2.3在AndroidManifest文件中注册"></a>1.2.3在AndroidManifest文件中注册</h4><p>所有的活动都要在AndroidManifest.xml文件中注册才能生效，FirstActivity在AndroidManifest.xml中注册过了，app/src/main/AndroidManifest.xml：  </p>
+<pre><code>    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+        package=&quot;com.example.xxxxxx.activitytest&quot;&gt;
+
+    &lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@mipmap/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
+    android:supportsRtl=&quot;true&quot;
+    android:theme=&quot;@style/AppTheme&quot;&gt;
+    &lt;activity android:name=&quot;.FirstActivity&quot;&gt;&lt;/activity&gt;
+&lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre><p>活动的注册在<application>标签内，通过<activity>注册，android:name来指定具体注册哪一个活动，.FirstActivity是一个缩写，<manifest>标签的package指定了包名。<br>仅仅注册不能运行，还需要为程序配置主活动，在AndroidManifest.xml中使用<intent-filter>标签：  </intent-filter></manifest></activity></application></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.xxxxx.activitytest&quot;&gt;
+
+&lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@mipmap/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
+    android:supportsRtl=&quot;true&quot;
+    android:theme=&quot;@style/AppTheme&quot;&gt;
+    &lt;activity android:name=&quot;.FirstActivity&quot;
+        android:label=&quot;This is FirstActivity&quot;&gt;//指定活动标题栏内容，会话顶部，还是启动器中应用程序的名称
+        &lt;intent-filter&gt;  //标签内配置主活动
+            &lt;action android:name = &quot;android.intent.action.MAIN&quot;/&gt;  //使用这两句声明来配置
+            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+&lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre><h4 id="1-2-4在活动中使用Toast"><a href="#1-2-4在活动中使用Toast" class="headerlink" title="1.2.4在活动中使用Toast"></a>1.2.4在活动中使用Toast</h4><p>Toast是Android系统提供的一种非常好的提醒方式，在程序中可以使用它将一些短小的信息通知给用户，这些信息一段时间后会自动消失，不会占用任何屏幕空间。<br>定义一个Toast触发点，使用界面中的按钮，在onCreate方法中添加代码：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.first_layout);
+
+    Button button1 = (Button) findViewById(R.id.button_1);//获取布局文件中定义的元素实例，first_layout.xml中通过android:id指定的
+    button1.setOnClickListener(new View.OnClickListener() {//这个方法为按钮注册一个监听器，点击按钮就会执行onClick方法
+        @Override
+        public void onClick(View v) {//弹出Toast的功能
+        //通过静态方法makeText创建Toast对象，然后调用show显示出来
+        //第一个参数Context，Toast要求的上下文;第二个参数显示的文本内容；第三个参数显示时长
+            Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+        }
+    });
+    }
+}
+</code></pre><h4 id="1-2-5在活动中使用Menu"><a href="#1-2-5在活动中使用Menu" class="headerlink" title="1.2.5在活动中使用Menu"></a>1.2.5在活动中使用Menu</h4><p>使得菜单能得到展示并不占用屏幕。<br>在res目录右击-&gt;New-&gt;Directory,输入menu；文件夹下新建main菜单，menu右击-&gt;New-&gt;Menu resource file，在main.xml中添加代码：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+        &lt;item   //item标签用来创建某一个菜单项
+            android:id=&quot;@+id/add_item&quot;  //给菜单项指定一个唯一标识符
+            android:title=&quot;Add&quot;/&gt;     //给菜单项指定一个名称
+        &lt;item
+            android:id=&quot;@+id/remove_item&quot;
+            android:title=&quot;Remove&quot;/&gt;
+&lt;/menu&gt;
+</code></pre><p>在FirstActivity中重写onCreateOptionMenu()方法（MAC中control+O）:  </p>
+<pre><code>@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main , menu);//获得MenuInflater对象，调用inflate方法给当前活动创建菜单
+//inflate()方法2个参数，第一个指定通过哪一个资源文件来创建菜单；第二个参数指定我们的菜单项添加到哪一个Menu对象中，此处使用了传入的参数
+    return true;
+}
+</code></pre><p>要菜单真正可用，还要在定义菜单响应事件，通过在FirstActivity中重写onOptionItemSelected()方法：</p>
+<pre><code>    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){//判断点击的是哪一个菜单项
+            case R.id.add_item:
+            Toast.makeText(this,&quot;You clicked Add&quot;,Toast.LENGTH_SHORT).show();
+            break;
+           case R.id.remove_item:
+                Toast.makeText(this,&quot;You clicked Remove&quot;,Toast.LENGTH_SHORT).show();
+                break;
+        default:
+    }
+    return true;
+}
+</code></pre><h4 id="1-2-6销毁一个活动"><a href="#1-2-6销毁一个活动" class="headerlink" title="1.2.6销毁一个活动"></a>1.2.6销毁一个活动</h4><p>除了返回键销毁活动外，在代码中销毁可以使用Activity类提供的finish()方法，例如修改按钮监听器中的代码：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+           @Override
+        public void onClick(View v) {
+            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    });
+</code></pre><p>点击Button 1就销毁了活动。  </p>
+<h2 id="2、使用Intent在活动中切换"><a href="#2、使用Intent在活动中切换" class="headerlink" title="2、使用Intent在活动中切换"></a>2、使用Intent在活动中切换</h2><p>点击启动器只会进入到应用的主活动中，所以需要从主活动跳转到其他活动。<br>Intent是Android程序中各组件交互的一种重要方式，不仅可以指明当前组件想要执行的动作，还可以在不同组件直接传递数据。一般可用于启动活动、启动服务以及发送广播等。  </p>
+<h3 id="2-1使用显示Intent"><a href="#2-1使用显示Intent" class="headerlink" title="2.1使用显示Intent"></a>2.1使用显示Intent</h3><h4 id="2-1-1创建另外一个活动"><a href="#2-1-1创建另外一个活动" class="headerlink" title="2.1.1创建另外一个活动"></a>2.1.1创建另外一个活动</h4><p>右击包名-&gt;New-&gt;Activity-&gt;Empty Activity,创建SecondActivity，布局为second_layout，不选Launcher Activity。编辑second_layout.xml如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;Button
+    android:id=&quot;@+id/button_2&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Button 2&quot;
+    /&gt;
+
+&lt;/LinearLayout&gt;  
+</code></pre><p>任何一个活动都需要在AndroidManifest.xml中注册，Android Studio已自动完成，由于不是主活动，不需要配置<intent-filter>标签里的内容。FirstActivity和SecondActivity注册对比如下：  </intent-filter></p>
+<pre><code>&lt;activity
+        android:name=&quot;.FirstActivity&quot;
+        android:label=&quot;This is FirstActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+
+    &lt;activity android:name=&quot;.SecondActivity&quot;&gt;&lt;/activity&gt;
+</code></pre><h4 id="2-1-2显示Intent"><a href="#2-1-2显示Intent" class="headerlink" title="2.1.2显示Intent"></a>2.1.2显示Intent</h4><p>Intent的构造函数之一：  </p>
+<pre><code>Intent(Context packageContext , Class&lt;?&gt;cls)
+</code></pre><p>第一个参数表示启动活动的上下文，第二个指想要启动的目标活动。<br>Activity类中提供的一个startActivity()方法接收一个Intent参数，专门用于启动活动。修改FirstActivity中按钮的点击事件：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+           Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+           startActivities(intent);
+       }
+   });
+</code></pre><h3 id="2-2隐式Intent"><a href="#2-2隐式Intent" class="headerlink" title="2.2隐式Intent"></a>2.2隐式Intent</h3><p>不明确指出想要启动哪一个活动，而是指定一系列更为抽象的action和category等信息，然后交由系统分析这个Intent。<br>通过AndroidManifest.xml文件中的<activity>标签下配置<intent-filter>的内容，指定当前活动能够响应action和category：  </intent-filter></activity></p>
+<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
+            &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre><p>只有<action>和<category>中的内容同时匹配上Intent中指定的action和category时，这个活动才响应该Intent。<br>修改FirstActivity中按钮的点击事件：  </category></action></p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+            //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+    //使用了Intent的另外一个构造函数，传递action字符串
+            Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
+            startActivity(intent);
+        }
+</code></pre><p>一个Intent只能指定一个action，但是能指定多个category。在AndroidManifest.xml的<intent-filter>中添加一个category：  </intent-filter></p>
+<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
+               &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+            &lt;category android:name=&quot;android.intent.category.MY_CATEGORY&quot;/&gt;//声明自定义的category
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre><hr>
+<pre><code>       @Override
+    public void onClick(View v) {
+        //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+        //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+        Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
+        intent.addCategory(&quot;com.example.xxxxx.activitytest.MY_CATEGORY&quot;);//添加一个category
+        startActivity(intent);
+    }
+});
+</code></pre><h4 id="2-2-1隐式Intent的多种用法"><a href="#2-2-1隐式Intent的多种用法" class="headerlink" title="2.2.1隐式Intent的多种用法"></a>2.2.1隐式Intent的多种用法</h4><p>隐式Intent不仅可以起到自己程序内的活动，还可以起到其他程序的活动，使得Android多个应用程序之间功能共享。例如，调用系统浏览器打开网页，修改FirstActivity中按钮事件代码：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           Intent intent = new Intent(Intent.ACTION_VIEW);//Intent的action是Intent.ACTION_VIEW,系统内置的动作
+           intent.setData(Uri.parse(&quot;http://www.baidu.com&quot;));//Uri.parse方法将网址字符串解析成一个Uri对象，setData将对象传递进去
+           startActivity(intent);
+       }
+   });
+</code></pre><p>还可以在<intent-fileter>标签中配置<data>标签，更精确的指定当前活动响应什么类型数据。<data>标签主要可以配置以下内容：<br>android:scheme   指定数据的协议部分，如http<br>android:host    指定数据的主机部分，如<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br>android:port    指定数据的端口部分<br>android:path   指定主机名和端口之后的部分<br>android:mineType   指定可以处理的数据类型，允许使用通配符方式指定<br><data>标签指定的内容和Intent携带的data完全一致时，当前活动才能够响应Intent。  </data></data></data></intent-fileter></p>
+<p>拨打电话：  </p>
+<pre><code> button1.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse(&quot;tel:10086&quot;));
+        startActivity(intent);
+    }
+});
+</code></pre><h3 id="2-3向下一个活动传递数据"><a href="#2-3向下一个活动传递数据" class="headerlink" title="2.3向下一个活动传递数据"></a>2.3向下一个活动传递数据</h3><p>Intent中提供了一系列putExtra()方法的重载，可以把我们需要传递的数据暂存在Intent中，启动另一个活动后，将数据从Intent中取出。例如FirstActivity中的一个字符串传递到SecondActivity中去：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           String data = &quot;Hello SecondActivity&quot;;
+           Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
+           intent.putExtra(&quot;extra_data&quot; , data); //通过putExtra传递一个字符串，第一个参数是键，用于后面从Intent中取值，data是要传的数据
+           startActivity(intent);
+       }
+   });
+</code></pre><hr>
+<pre><code>//在SecondActivity中将传递的数据取出，并打印出来
+public class SecondActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.second_layout);
+
+        Intent intent = getIntent();//次方法获取用于启动SecondActivity的Intent
+        String data = intent.getStringExtra(&quot;extra_data&quot;);//获取传递的数据
+        Log.d(&quot;SecondActivity&quot;,data);
+
+        }
+}
+</code></pre><h3 id="2-4返回数据给上一个活动"><a href="#2-4返回数据给上一个活动" class="headerlink" title="2.4返回数据给上一个活动"></a>2.4返回数据给上一个活动</h3><p>使用Activity中的一个startActivityForResult(）方法启动活动，这个方法当活动销毁时能够返回一个结果给上一个活动。两个参数，第一个参数Intent，第二个是请求码，用于在之后回调中判断数据的来源。  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
+            startActivityForResult(intent , 1);//请求码是唯一值就可以
+    }
+}
+</code></pre><p>在SecondActivity中给按钮注册点击事件，并在点击事件中添加数据的逻辑：  </p>
+<pre><code>public class SecondActivity extends AppCompatActivity {
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.second_layout);
+   Button button2 = (Button)findViewById(R.id.button_2);
+    button2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();//构建一个Intent，仅仅传递数据，没指向任何“意图”
+            intent.putExtra(&quot;data_rerutn&quot; , &quot;Hello FirstActivity&quot;);
+            setResult(RESULT_OK,intent);//向上一活动返回数据,第一个参数返回处理结果，_OK和_CANCELED两个值，第二个参数把带有数据的intent传递回去
+            finish(); //销毁当前活动
+        }
+    });
+    }
+}
+</code></pre><p>startActivityForResylt()方法启动SecondActivity后，在SecondActivity被销毁后回调上一个活动的onActivityResult()方法，因此需要重写FirstActivity中的这个方法得到返回的数据：  </p>
+<pre><code>@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode){
+        case 1:
+            if(resultCode == RESULT_OK){
+                String returnedData = data.getStringExtra(&quot;data_return&quot;);
+                Log.d(&quot;FirstActivity&quot; , returnedData);
+
+            }
+            break;
+        default:
+    }
+}
+</code></pre><p>三个参数，第一个requestCode是启动活动时传入的请求码；resultCode返回数据时传入的处理结果；data是携带返回数据的Intent。由于一个活动可能启动多个活动，每个活动返回的数据都回调到onActivityResult()方法中，因此，首先检查requestCode的值判断数据来源。  </p>
+<p>还可以通过Back键回到FirstActivity，需要重写onBackPressed()方法来解决：  </p>
+<pre><code>@override
+public void onBackPressed(){
+    Intent intent = new Intent();
+    intent.putExtra(&quot;data_return&quot;,&quot;Hello FirstActivity&quot;);
+    setResult(RESULT_OK,intent);
+    finish();
+}
+</code></pre><h2 id="3、活动的生命周期"><a href="#3、活动的生命周期" class="headerlink" title="3、活动的生命周期"></a>3、活动的生命周期</h2><p>Android中的活动是可以层叠的，使用任务(Task)管理活动，一个任务就是一组存放在栈里的活动的集合，这个栈称为返回栈。启动一个新的活动就会在返回栈中入栈，处于栈顶；当调用finish()或者按back键销毁活动后就出栈。</p>
+<h3 id="3-1活动状态"><a href="#3-1活动状态" class="headerlink" title="3.1活动状态"></a>3.1活动状态</h3><p><strong>运行状态：</strong>活动处于返回栈的栈顶<br><strong>暂停状态：</strong>活动不处于栈顶，但任然可见；这是因为不是每一个活动都会占满整个屏幕，暂停状态的活动仍然完全存活，如果内存极低系统会考虑回收这种活动<br><strong>停止状态：</strong>活动不处于栈顶，并且完全不可见；系统会保存相应的状态和成员变量，但是也有可能被回收<br><strong>销毁状态：</strong>活动从返回栈移除  </p>
+<h3 id="3-2活动的生存期"><a href="#3-2活动的生存期" class="headerlink" title="3.2活动的生存期"></a>3.2活动的生存期</h3><p>Activity类定义了7个回调方法，覆盖生命周期的每一个环节。<br><strong>onCreate()：</strong>每个活动都要重写这个方法，会在活动第一次被创建的时候调用；在方法中完成活动的初始化，如加载布局、绑定事件<br><strong>onStart():</strong>由不可见变为可见的时候调用<br><strong>onResume()：</strong>活动准备好和用户进行交互的时候调用，此时活动处于栈顶运行状态<br><strong>onPause()：</strong>在系统准备去启动或者恢复另外一个活动的时候调用<br><strong>onStop():</strong>活动完全不可见的时候调用，如果启动的是另外一个活动是对话框式的那么执行onPause而不是onStop<br><strong>onDestroy()：</strong>活动呗销毁之前调用，之后活动变为销毁状态<br><strong>onRestart()：</strong>活动由停止活动变为运行状态前调用，活动被重新启动<br>以上方法除了onRestart方法，其他都是两两相对的，因此活动又可以分为3种生存期：<br><strong>完整生存期：</strong>活动在onCreate和onDestroy之间所经历的<br><strong>可见生存期：</strong>活动在onStart和onStop之间所经历的，此期间活动对用户总是可见<br><strong>前台生存期：</strong>活动在onResume和onPause之间所经历的，活动总是处于运行状态，可以和用户进行交互  </p>
+<h3 id="3-3活动被回收了咋办"><a href="#3-3活动被回收了咋办" class="headerlink" title="3.3活动被回收了咋办"></a>3.3活动被回收了咋办</h3><p>应用场景：应用中有一个活动A，活动A启动了活动B，活动A进入停止状态，这个时候由于系统内存不足活动A被回收了，然后back键返回活动A时，活动A还是要会正常显示，此时并不会执行onRestart方法，而是会执行onCreate方法，活动A呗重新创建一次。但是，活动A中如果有一个文本框，你输入了一段文字，如果被回收了，返回到活动A时出入的文字没了。<br>为了解决这个问题，Activity中还提供了一个onSaveInstance()回调方法，这个方法可以保证还活动被回收前一定会被调用，可以通过这个方法来解决活动被回收时零时数据得不到保存的问题。  </p>
+<p>onSaveInstanceState()方法携带一个Bundle类型参数。<br>Bundle提供了一系列保存数据的方法，puString() 、putInt()，每个方法2个参数，第一个参数是键，用于后面从Bundle中取值，第二个参数是真正要保存的内容。<br>MainActivity中将临时数据保存：  </p>
+<pre><code>@Override
+protected void onSaveInstanceState(Bundle outState){
+    super.onSaveInstanceState(outState);
+    String tempData = &quot;Something you just typed&quot;;
+    outState.putString(&quot;data_key&quot; , tempData);
+}
+</code></pre><p>保存之后恢复，onCreate()方法也有一个Bundle类型参数，一般为null，如果活动被回收之前通过onSaveInstanceState()方法来保存数据，这个参数就会带有之前所保存的全部数据。修改MainActivity的onCreate()方法：  </p>
+<pre><code>@Override
+protected vodi onCreate(Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+    Log.d(TAG , &quot;onCreate&quot;);
+    setContentView(R.layout.activity_main);
+    if(savedInstanceState != null){
+        String tempData = savedInstanceState.getString(&quot;data_key&quot;);
+        Log.d(TAG , tempData);
+    }
+}
+</code></pre><p>取出之后就可以做相应的恢复操作，此处只是简单打印。  </p>
+<h2 id="4、活动的启动模式"><a href="#4、活动的启动模式" class="headerlink" title="4、活动的启动模式"></a>4、活动的启动模式</h2><p>启动模式一共有4种：standard  singleTop  singleTask  singleInstance<br>可以在AndroidManifest.xml中通过给<activity>标签指定android:launchMode属性来选择启动模式。  </activity></p>
+<h3 id="4-1standard"><a href="#4-1standard" class="headerlink" title="4.1standard"></a>4.1standard</h3><p>默认的启动模式，不显示指定的情况下，所有活动都会自动使用这种模式。使用这种模式的活动，系统不会在乎这个活动是否已经在返回栈中存在，每次启动都会创建该活动的一个新的实例。每当启动一个新的活动，就会在返回栈中入栈，并处于栈顶位置。</p>
+<h3 id="4-2singleTop"><a href="#4-2singleTop" class="headerlink" title="4.2singleTop"></a>4.2singleTop</h3><p>启动活动时如果发现返回栈的栈顶已经是该活动，则认为可以直接使用它，不会再创建新的活动实例。</p>
+<h3 id="4-3singleTask"><a href="#4-3singleTask" class="headerlink" title="4.3singleTask"></a>4.3singleTask</h3><p>每次启动该活动系统只会首先在返回栈中检查是否存在该活动的实例，如果发现已经存在则直接使用该活动实例，并把这个活动之上的所有活动统统出栈，如果没有发现就会创建一个新的活动实例。</p>
+<h3 id="4-4singleInstance"><a href="#4-4singleInstance" class="headerlink" title="4.4singleInstance"></a>4.4singleInstance</h3><p>指定为singleInstance模式的活动会启动一个新的返回栈来管理这个活动。如果程序中的一个活动是允许其他程序调用的，要实现其他程序和我们的程序共享这个活动的实例，就需要这个模式创建一个单独的返回栈管理这个活动，不管哪个应用程序来访问这个活动，都共用的同一个返回栈。</p>
+<h2 id="5、活动的最佳实践技巧"><a href="#5、活动的最佳实践技巧" class="headerlink" title="5、活动的最佳实践技巧"></a>5、活动的最佳实践技巧</h2><h3 id="5-1获取当前是哪一个活动"><a href="#5-1获取当前是哪一个活动" class="headerlink" title="5.1获取当前是哪一个活动"></a>5.1获取当前是哪一个活动</h3><p>在ActivityTest项目中新建一个BaseActivity类，右击包-&gt;New-&gt;Java Class，不需要注册，只需要创建普通的Java类，让BaseActivity继承自AppCompatActivity，并重写onCreate方法：  </p>
+<pre><code>public class BaseActivity extends AppCompatActivity {
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());//获取当前实例的类名，通过Log打印出来
+    }
+}
+</code></pre><p>让BaseActivity成为ActivityTest项目中所有活动的父类，继承自BaseActivity，而BaseActivity也是继承自AppCompatActivity的，所以所有活动的现有功能并不受影响。运行后每当进入一个界面，就会在Logcat中打印信息，从而知道当前界面对应哪个活动。  </p>
+<h3 id="5-2随时随地退出程序"><a href="#5-2随时随地退出程序" class="headerlink" title="5.2随时随地退出程序"></a>5.2随时随地退出程序</h3><p>不需要按几次返回键退出，思路是用一个专门的集合类对所有活动进行管理。新建一个ActivityCollector类作为活动管理器：  </p>
+<pre><code>public class ActivityCollector{
+    public static List&lt;Activity&gt; activities = new ArrayList&lt;&gt;();//通过List暂存活动
+    public static void addActivity(Activity activity){ //向List中添加活动
+        activities.add(activity);
+    }
+    public static void removeActivity(Activity activity){//从List中移除活动
+        activities.remove(activity);
+    }
+    public static void finishAll(){   //将List中存储的活动全部销毁
+        for(Activity activity: activities){
+            if(!activity.isFinishing()){
+                activity.finish();
+            }
+        }
+    }
+}
+</code></pre><hr>
+<pre><code>//修改BaseActivity中的代码
+public class BaseActivity extends AppCompatActivity {
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());
+    ActivityCollector.addActivity(this);//将当前创建的活动添加到活动管理器
+    }
+    @Override
+    protected void onDestroy(){//重写onDestroy方法
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);//将马上销毁的活动从活动管理器中移除
+    }
+}
+</code></pre><hr>
+<pre><code>//调用ActivityCollector.finishAll()不管在什么地方都可以退出程序
+public class SecondActivity extends BaseActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.second_layout);
+
+    Button button2 = (Button)findViewById(R.id.button_2);
+    button2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+           ActivityCollector.finishAll();
+        }
+    });
+}
+</code></pre><p>}</p>
+<p>保证程序完全退出可以杀掉进程：  </p>
+<pre><code>android.os.Process.killProcess(android.os.Process.myPid());//myPid获取当前进程的id，killProcess只能杀掉当前程序的进程，不能用来杀掉其他程序
+</code></pre><h3 id="5-3启动活动的最佳写法"><a href="#5-3启动活动的最佳写法" class="headerlink" title="5.3启动活动的最佳写法"></a>5.3启动活动的最佳写法</h3><p>一般方法通过Intent构建当前“意图”，然后调用startActivity()或者startActivityForResult()方法将活动启动，如果有数据传递使用Intent完成。如：  </p>
+<pre><code>Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
+intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
+startActivity(intent);
+</code></pre><p>但是有一个对接问题，你不清楚这个活动需要传递哪些数据。修改SecondActivity中代码：  </p>
+<pre><code>public class SecondActivity extends BaseActivity{
+    public static void actionStart(Content context , String data1 , String data2){
+        Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+        intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
+        intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
+        startActivity(intent);
+    }
+}
+</code></pre><p>添加一个actionStart(）方法完成Intent构建，SecondActivity中需要的数据通过此方法的参数传递过来。启动SecondActivity：  </p>
+<pre><code>button1.setOnClickListener(new OnClickListener){
+    @Override
+    public void onClick(View v){
+        SecondActivity.actionStart(FirstActivity.this , &quot;data1&quot;,&quot;data2&quot;);
+    }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/03/二、活动(Activity)/" data-id="cjxg3xho5000nbq6c1hkf3x82" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-一、Android简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/03/一、Android简介/" class="article-date">
+  <time datetime="2018-06-03T08:02:08.000Z" itemprop="datePublished">2018-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/一、Android简介/">一、Android简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、Android简介"><a href="#一、Android简介" class="headerlink" title="一、Android简介"></a>一、Android简介</h1><h2 id="1、目录文件介绍"><a href="#1、目录文件介绍" class="headerlink" title="1、目录文件介绍"></a>1、目录文件介绍</h2><h3 id="1-、Project目录下："><a href="#1-、Project目录下：" class="headerlink" title="1)、Project目录下："></a>1)、Project目录下：</h3><p>.gradle和.idea：这两个目录放置Android Studio自动生成的一些文件，无须关心，也无须编辑；<br>app ： 项目中的代码、资源等内容都是放置在这个目录；<br>build ：主要包含一些在编译时自动生成的文件，无须过多关心；<br>gradle ： 这个目录包含gradle wrapper的配置文件；<br>.gitignore ： 这个文件用来将指定的目录或文件排除在版本控制之外；<br>build.gradle：项目全局的gradle构建脚本，通常无须修改；  </p>
+<pre><code>// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+repositories {
+    google()
+    jcenter()  //一个代码托管仓库，很多Android开源项目托管到jcenter上，声明之后就可以使用上面的开源项目
+}
+dependencies {
+    classpath &apos;com.android.tools.build:gradle:3.1.2&apos;   //声明一个Gradle插件，
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+    google()
+    jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+</code></pre><p>gradle.properties：这个文件是全局的gradle配置文件，这里的配置熟悉将影响到项目中所有的gradle编译脚本；<br>gradlew和gradlew.bat：这两个文件是用来在命令行界面执行gradle命令，前者是Linux或Mac系统使用，后者是Windows系统使用；<br>HelloWorld.iml：iml文件是所有Intellij IDEA项目都会自动生成的一个文件，用于标识一个Intellij IDEA项目，无须修改；<br>local.properties：这个文件用于指定本机中Android SDK路径，通常自动生成无须修改，若本机SDK路径发生变化，替换成新的路径；<br>settings.gradle：这个文件用于指定项目中所有引入的模块。  </p>
+<h3 id="2-、App目录分析："><a href="#2-、App目录分析：" class="headerlink" title="2)、App目录分析："></a>2)、App目录分析：</h3><p>build：编译时自动生成的文件，无须关心；<br>libs：项目中使用到了第三方jar包，就需要将这些jar包都放在libs目录下，放在这个目录下的jar包都会被自动添加到构建路径中去；<br>androidTest：此处是用来变形AndroidTest测试用例的，可以对项目进行一些自动化测试；<br>java：放置java代码的地方；<br>res：项目中使用到的所有图片、布局、字符串等资源都要存放在这个目录下。图片放在drawable目录，布局放在layout目录，字符串放在value目录；   </p>
+<pre><code>//  MyApplication程序res/values/strings.xml
+&lt;resources&gt;
+    &lt;string name = &quot;app_name&quot;&gt;My Application&lt;/string&gt;
+&lt;/resources&gt;
+//定义的字符串有2种方式引用
+//1、代码中用R.string.MyApplication
+//2、XML中用@string/MyAppliaction 
+</code></pre><p>AndroidMainfest.xml：整个Android项目的配置文件，程序中定义的四大组件都需要在这个文件里注册，还可以在这个文件中给应用程序添加权限声明；<br>test：编写Unit Test测试用例，是对项目进行自动化测试的另一种方式；<br>.gitignore：将app模块内的指定目录或文件排除在版本控制之外；<br>app.iml：IntelliJ IDEA项目自动生成的文件；<br>build.gradle：app模块的gradle构建脚本，文件中指定很多项目构建相关的配置；  gradle是先进的项目构建工具  </p>
+<pre><code>apply plugin: &apos;com.android.application&apos; //表示应用程序模块，可以直接运行，另外一个是com.android.library，需要依附于别的应用程序模块来运行
+
+android {//这个闭包中配置项目构建中的各种属性
+compileSdkVersion 27     //编译版本
+defaultConfig {
+    applicationId &quot;com.example.zhangqin07.myapplication&quot;
+    minSdkVersion 15
+    targetSdkVersion 27
+    versionCode 1
+    versionName &quot;1.0&quot;
+    testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;
+}
+buildTypes { //用于指定安装文件的相关配置，一般有debug和release
+    release {  //正式安装文件的配置
+        minifyEnabled false   //是否对项目的代码进行混淆，true表示混淆，false表示不混淆
+        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+    //用于指定混淆时的规则文件，proguard-android.txt是Android SDK目录下通用的混淆规则
+    //proguard-rules.pro是当前项目的根目录下的，编写当前项目的特有混淆规则
+    }
+}
+</code></pre><p>}</p>
+<pre><code>dependencies {//这个闭包指定当前项目所有的依赖关系，本地依赖、库依赖、远程依赖
+implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;]) //本地依赖声明，将libs目录下的所有jar后缀的 文件添加到项目的构建路径中去
+implementation &apos;com.android.support:appcompat-v7:27.1.1&apos; //远程依赖，com.android.suppor域名部分，用于和其它公司库区分；appcompat-v7组名称，用于同一公司不同库区分；27.1.1版本号，同一库不同版本区分。
+implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
+testImplementation &apos;junit:junit:4.12&apos;
+androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
+androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
+</code></pre><p>}</p>
+<p>proguard-rules.pro：用于指定项目代码的混淆规则。  </p>
+<h2 id="2、Android日志工具"><a href="#2、Android日志工具" class="headerlink" title="2、Android日志工具"></a>2、Android日志工具</h2><p>Android中的日志工具类是Log(Android.util.Log)，这个类有5种方法打印日志：<br>Log.v() :用于打印最琐碎、最小的日志信息，级别为verbose，Android日志最低级；<br>Log.d()：用于打印一些调试信息，级别为debug，比verbose高一级；<br>Log.i()：打印一些比较重要的数据，这些数据可以帮助分析用户行为数据，级别为info，比debug高一级；<br>Log.w()：用于打印警告信息，提示程序在这个地方可能存在潜在风险，最好去修复，级别为warm，比info高一级；<br>Log.e()：用于打印程序的错误信息，比如程序进入到了catch语句当中，当有错误信息打印出来的时候代表程序出现了严重问题，必须修复，级别为error，比warm高一级  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //添加一行打印日志的语句
+    Log.d(&quot;MainActivity&quot;,&quot;onCreate execute&quot;);
+    }
+}
+</code></pre><p>logcat中的输出结果如下：  </p>
+<pre><code>06-03 10:44:12.695 6769-6769/com.example.XXXXX.myapplication D/MainActivity: onCreate execute
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/03/一、Android简介/" data-id="cjxg3xhne0007bq6c7zuqhhl9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -218,6 +2012,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -249,7 +2048,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
     </div>
   </div>
 
@@ -271,6 +2070,14 @@
         
           <li>
             <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
           </li>
         
       </ul>

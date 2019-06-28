@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-二 字符串" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/11/二 字符串/" class="article-date">
+  <time datetime="2018-05-11T07:59:24.000Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/11/二 字符串/">二、字符串</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="二、字符串"><a href="#二、字符串" class="headerlink" title="二、字符串"></a>二、字符串</h1><p>标准Java类库中提供了一个预定义类String，双引号括起来的字符串都是String类的实例。  </p>
+<h2 id="1、子串"><a href="#1、子串" class="headerlink" title="1、子串"></a>1、子串</h2><pre><code>String test = &quot;testing&quot;;
+String s = test.substring(0,4);
+</code></pre><p>s的值为“test”  </p>
+<h2 id="2、拼接"><a href="#2、拼接" class="headerlink" title="2、拼接"></a>2、拼接</h2><pre><code>String test = &quot;testing&quot;;
+String man = &quot;for you&quot;;
+String message = test +&quot; &quot;+ man;  
+</code></pre><p>直接拼接，结果为：”testing for you”<br>一个字符串与任何非字符串拼接时，后者都会被转成字符串。  </p>
+<pre><code>String num = 123;  
+String result = &quot;abcd&quot; + num;  
+</code></pre><p>结果为：”adcd123”  </p>
+<h2 id="3、修改字符串"><a href="#3、修改字符串" class="headerlink" title="3、修改字符串"></a>3、修改字符串</h2><p>Java没有提供修改字符串的方法，修改字符串通过substring()提取需要的字符串然后拼接  </p>
+<h2 id="4、字符串相等"><a href="#4、字符串相等" class="headerlink" title="4、字符串相等"></a>4、字符串相等</h2><p>1）、使用equals方法检测两个字符串是否相等，s.equals(t)<br>也可以是字符串常量，”testing”.equals(test)  </p>
+<p>注：<strong>不能使用”==”判断两个字符串是否相等，</strong>“==”判断的是两个字符串是否放在同一个位置</p>
+<p>判断字符串是否为null可以使用”==”  </p>
+<pre><code>if(str != null &amp;&amp; str.length() != 0)  
+</code></pre><p>2）、Java中多次出现的字符串常量，Java编译器只创建一个，所以“==”判断为True。  </p>
+<pre><code>String str1 = &quot;seven007&quot;;
+String str2 = &quot;seven007&quot;;
+str1 == str2;//为True，因为只创建一个，在同一内存地址  
+</code></pre><p>3)、String类的常用方法<br><strong><a href="https://www.cnblogs.com/zhangyinhua/p/7689974.html" target="_blank" rel="noopener">String类的常用方法</a></strong>    </p>
+<p>字符串API查询：<br><strong><a href="http://tool.oschina.net/apidocs/apidoc?api=jdk-zh" target="_blank" rel="noopener">字符串API查询网址</a></strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/11/二 字符串/" data-id="cjxg3xhnh0009bq6cystqvjhd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-一 基础知识和数据类型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/11/一 基础知识和数据类型/" class="article-date">
+  <time datetime="2018-05-11T03:40:58.000Z" itemprop="datePublished">2018-05-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/11/一 基础知识和数据类型/">一、Java技术知识和数据类型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、Java基础知识和数据类型"><a href="#一、Java基础知识和数据类型" class="headerlink" title="一、Java基础知识和数据类型"></a>一、Java基础知识和数据类型</h1><h2 id="1、基础知识"><a href="#1、基础知识" class="headerlink" title="1、基础知识"></a>1、基础知识</h2><p>Java对大小写敏感<br>注释的三种方法：<br>“//  “注释内容从开始到行结尾<br>“/*“ 和 “<em>/“ 注释一段<br>“/\</em>*“和”*/“可以自动生成文档  </p>
+<h2 id="2、命名规则"><a href="#2、命名规则" class="headerlink" title="2、命名规则"></a>2、命名规则</h2><p><strong>包名</strong>：使用网络地址倒置，如com.xxx.xxx<br><strong>类名</strong>：大写开头，驼峰写法，如FirstSample<br><strong>方法名</strong>：小写开头，驼峰写法，如getUser()<br><strong>变量名</strong>：小写开头，驼峰写法，如userId<br><strong>常量名</strong>：大写开头，下划线分割，如CM_PER_INCH  </p>
+<h2 id="3、数据类型"><a href="#3、数据类型" class="headerlink" title="3、数据类型"></a>3、数据类型</h2><h3 id="1）整型四种"><a href="#1）整型四种" class="headerlink" title="1）整型四种"></a>1）整型四种</h3><p>int   占4字节 ； short 占2字节 ；long  占8字节，数值后加后缀“L” ； byte 占1字节<br>注：都是有符号整型没有任何无符号类型  </p>
+<h3 id="2）浮点型两种"><a href="#2）浮点型两种" class="headerlink" title="2）浮点型两种"></a>2）浮点型两种</h3><p>float  占4字节，数值后加后缀“F”，不加默认为double<br>double  占8字节，精度是float的2倍，大部门都采用double    </p>
+<p>注：浮点数值不适合禁止出现舍入误差的金融计算中，如System.out.println(2.0-1.1)打印出的是0.8999999999999999而不是0.9，这是计算机采用二进制的缘故。需要不含任何舍入误差的数值计算采用BigDecimal类。  </p>
+<h3 id="3）char型"><a href="#3）char型" class="headerlink" title="3）char型"></a>3）char型</h3><p>采用UTF-16编码表示Unicode代码点的代码单元,编程中最好不要使用char类型<br>char是按照字符存储的，不管英文还是中文，固定占用占用2个字节，用来储存Unicode字符。<br>unicode编码固定占用两个字节，所以，char类型的变量也是占用两个字节。  </p>
+<h3 id="4）boolean型"><a href="#4）boolean型" class="headerlink" title="4）boolean型"></a>4）boolean型</h3><p>逻辑判断条件  </p>
+<h2 id="4、变量"><a href="#4、变量" class="headerlink" title="4、变量"></a>4、变量</h2><p>长度无限制<br>变量声明最好逐一声明，增加可读性<br><strong><code>变量声明后必须初始化，不能使用未初始化的变量</code></strong>     </p>
+<pre><code>int workDays = 5;  
+</code></pre><p>或者    </p>
+<pre><code>int workDays;
+workDays = 5;    
+</code></pre><h2 id="5、常量"><a href="#5、常量" class="headerlink" title="5、常量"></a>5、常量</h2><p>关键字final，这个变量只能被赋值一次，不可更改<br>声明方法如下：  </p>
+<pre><code>final double CM_OER_INCH = 1.68;  
+</code></pre><h2 id="6、运算符"><a href="#6、运算符" class="headerlink" title="6、运算符"></a>6、运算符</h2><p>异或：^  ； 非： ~<br>“&gt;&gt;”和“&lt;&lt;”二进制右移和左移<br>“&gt;&gt;&gt;”用0填充最高位 ；“ &gt;&gt;”用符号位填充最高位 ； 没有“&lt;&lt;&lt;”运算符  </p>
+<h2 id="7、枚举类型"><a href="#7、枚举类型" class="headerlink" title="7、枚举类型"></a>7、枚举类型</h2><p>例如：<br>    enum Size {SMALL, MEDIUM, LARGE, EXTRA_LARGE};<br>可申请这种类型的变量(值可以是某个枚举值或者null)：<br>    Size s = Size.MEDIUM;  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/11/一 基础知识和数据类型/" data-id="cjxg3xhn70003bq6c5lhquypv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

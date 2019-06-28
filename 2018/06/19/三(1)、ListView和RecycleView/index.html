@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>三(1)、ListView和RecyclerView | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1、ListView程序中有大量数据需要展示的时候就可以借助ListView来实现，ListView允许用户通过手指上下滑动的方式将屏幕外的数据滚动到屏幕内，同时屏幕上原有的数据则会滚动出屏幕。   1.1ListView简单用法新建ListViewTest项目，修改activity_main.xml代码,在布局中加入ListView控件：   &amp;lt;?xml version=&amp;quot;1.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三(1)、ListView和RecyclerView">
+<meta property="og:url" content="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1、ListView程序中有大量数据需要展示的时候就可以借助ListView来实现，ListView允许用户通过手指上下滑动的方式将屏幕外的数据滚动到屏幕内，同时屏幕上原有的数据则会滚动出屏幕。   1.1ListView简单用法新建ListViewTest项目，修改activity_main.xml代码,在布局中加入ListView控件：   &amp;lt;?xml version=&amp;quot;1.0">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-26T09:34:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="三(1)、ListView和RecyclerView">
+<meta name="twitter:description" content="1、ListView程序中有大量数据需要展示的时候就可以借助ListView来实现，ListView允许用户通过手指上下滑动的方式将屏幕外的数据滚动到屏幕内，同时屏幕上原有的数据则会滚动出屏幕。   1.1ListView简单用法新建ListViewTest项目，修改activity_main.xml代码,在布局中加入ListView控件：   &amp;lt;?xml version=&amp;quot;1.0">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-三(1)、ListView和RecycleView" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/19/三(1)、ListView和RecycleView/" class="article-date">
+  <time datetime="2018-06-19T12:45:07.000Z" itemprop="datePublished">2018-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      三(1)、ListView和RecyclerView
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1、ListView"><a href="#1、ListView" class="headerlink" title="1、ListView"></a>1、ListView</h1><p>程序中有大量数据需要展示的时候就可以借助ListView来实现，ListView允许用户通过手指上下滑动的方式将屏幕外的数据滚动到屏幕内，同时屏幕上原有的数据则会滚动出屏幕。  </p>
+<h2 id="1-1ListView简单用法"><a href="#1-1ListView简单用法" class="headerlink" title="1.1ListView简单用法"></a>1.1ListView简单用法</h2><p>新建ListViewTest项目，修改activity_main.xml代码,在布局中加入ListView控件：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;match_parent&quot;
+tools:context=&quot;.MainActivity&quot;&gt;
+
+&lt;ListView
+    android:id=&quot;@+id/list_view&quot;    //指定id
+    android:layout_width=&quot;match_parent&quot;    //占满整个布局空间
+    android:layout_height=&quot;match_parent&quot;&gt;&lt;/ListView&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>修改MainActivity中的代码：  </p>
+<pre><code>package com.example.xxxxx.listviewtest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private String[] data = {&quot;Apple&quot; , &quot;Banana&quot; , &quot;Orange&quot; , &quot;Watermelon&quot; , &quot;Pear&quot; ,&quot;Grape&quot; ,
+           &quot;Pineapple&quot; , &quot;Strawberry&quot; , &quot;Cherry&quot; , &quot;Mango&quot; ,&quot;Apple&quot; , &quot;Banana&quot; , &quot;Orange&quot; ,
+        &quot;Watermelon&quot; , &quot;Pear&quot; ,&quot;Grape&quot; , &quot;Pineapple&quot; , &quot;Strawberry&quot; , &quot;Cherry&quot; , &quot;Mango&quot;};
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //数组中的数据无法直接传递给ListView，需要借助适配器完成，此处使用ArrayAdapter
+    //通过泛型指定要适配的数控类型，然后在构造函数中传入要适配的数据
+    ArrayAdapter&lt;String&gt; adapter = new ArrayAdapter&lt;String&gt;(MainActivity.this,android.R.layout.simple_list_item_1,data);
+
+    ListView listView = (ListView)findViewById(R.id.list_view);
+    //将构建好的适配器对象传递进去，使ListView和数据之间建立关联
+    listView.setAdapter(adapter);
+}
+}
+</code></pre><p>ArrayAdapter的构造函数中依次传入当前上下文、ListView子项布局的id，以及要适配的数据。使用android.R.layout.simple_list_item_1作为ListView子项布局的id，这是一个Android内置的布局文件，里面只有一个TextView，可用于简单地显示一段文本。  </p>
+<h2 id="1-2定制ListView的界面"><a href="#1-2定制ListView的界面" class="headerlink" title="1.2定制ListView的界面"></a>1.2定制ListView的界面</h2><p>让它显示更加丰富的内容，不仅仅是一段文本。为水果配置图片。<br>新建一个实体类Fruit，作为ListView适配器的适配类型。代码如下：  </p>
+<pre><code>package com.example.xxxxxxxxxx.listviewtest;
+public class Fruit {
+    private String name;
+    private  int imageId;
+
+public Fruit(String name , int imageId){
+    this.name = name;
+    this.imageId = imageId;
+}
+
+public String getName(){
+    return name;
+}
+public int getImageId(){
+    return imageId;
+}
+}
+</code></pre><p>name表示水果的名字，imageId表示水果对应图片的资源id。<br>然后需要为ListView的子项指定一个我们自定义的布局，在layout目录下新建fruit_item.xml，代码如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.constraint.ConstraintLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; 
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;ImageView
+    android:id=&quot;@+id/fruit_image&quot;
+    android:layout_width=&quot;60dp&quot;
+    android:layout_height=&quot;60dp&quot; /&gt;
+
+&lt;TextView
+    android:id=&quot;@+id/fruit_name&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot; 
+    android:layout_gravity = &quot;center_vertical&quot;  //垂直居中显示
+    android:layout_marginLeft=&quot;10dp&quot;/&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>接下来需要创建一个自定义的适配器，这个适配器继承自ArrayAdapter，并将泛型指定为Fruit。新建FruitAdapter，代码如下：  </p>
+<pre><code>package com.example.xxxxx.listviewtest;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.List;
+
+public class FruitAdapter extends ArrayAdapter&lt;Fruit&gt; {
+    private int resourceId;
+    //重写父类的一组构造函数，用于将上下文、ListView子项布局id和数据传递进来。
+    public FruitAdapter(Context context, int textViewResourceId, List&lt;Fruit&gt;objects){
+        super(context, textViewResourceId, objects);
+        resourceId = textViewResourceId;
+    }
+
+@Override
+//重写getView方法，在每个子项被滚动到屏幕的时候就会被调用此方法
+public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    //获取当前项的Fruit实例
+    Fruit fruit = getItem(position);
+    //使用LayoutInflater为每个子项加载我们传入的布局
+    //第三个参数false表示只让我们在父布局中声明的layout属性生效，不为这个view添加父布局，因为一旦添加父布局
+    //之后，它就不能再添加到ListView中了（ListView的标准写法）
+    View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+
+    //获取ImageView和TextView的实例
+    ImageView fruitImage = (ImageView)view.findViewById(R.id.fruit_image);
+    TextView fruitName = (TextView)view.findViewById(R.id.fruit_name);
+    //设置显示的图片和文字
+    fruitImage.setImageResource(fruit.getImageId());
+    fruitName.setText(fruit.getName());
+    return view;  //返回布局
+}
+}
+</code></pre><p>修改MainActivity中的代码：  </p>
+<pre><code>package com.example.xxxxx.listviewtest;
+
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private List&lt;Fruit&gt; fruitList = new ArrayList&lt;&gt;();
+
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //初始化水果数据
+    initFruits();
+
+    //构建FruitAdapter对象，并将FruitAdapter作为适配器传递给ListView。
+    FruitAdapter adapter = new FruitAdapter(MainActivity.this, R.layout.fruit_item, fruitList);
+    ListView listView = (ListView)findViewById(R.id.list_view);
+    listView.setAdapter(adapter);
+}
+
+//初始化水果数据，传入水果的名字和图片id，并将对象添加到水果列表中。
+private void initFruits(){
+    for (int i = 0; i&lt;2; i++){
+        Fruit apple = new Fruit(&quot;Apple&quot;,R.drawable.apple_pic);
+        fruitList.add(apple);
+        Fruit banana = new Fruit(&quot;Banana&quot;, R.drawable.banana_pic);
+        fruitList.add(banana);
+        Fruit orange = new Fruit(&quot;Orange&quot;,R.drawable.orange_pic);
+        fruitList.add(orange);
+        Fruit watermelon = new Fruit(&quot;Watermelon&quot;, R.drawable.watermelon_pic);
+        fruitList.add(watermelon);
+        Fruit pear = new Fruit(&quot;Pear&quot;,R.drawable.pear_pic);
+        fruitList.add(pear);
+        Fruit grape = new Fruit(&quot;Grape&quot;, R.drawable.grape_pic);
+        fruitList.add(grape);
+        Fruit pineapple = new Fruit(&quot;Pineapple&quot;, R.drawable.pineapple_pic);
+        fruitList.add(pineapple);
+        Fruit strawberry = new Fruit(&quot;Strawberry&quot;, R.drawable.strawberry_pic);
+        fruitList.add(strawberry);
+        Fruit cherry = new Fruit(&quot;Cherry&quot;, R.drawable.cherry_pic);
+        fruitList.add(cherry);
+        Fruit mango = new Fruit(&quot;Mango&quot;, R.drawable.mango_pic);
+        fruitList.add(mango);
+    }
+}
+}
+</code></pre><h2 id="1-3ListView的点击事件"><a href="#1-3ListView的点击事件" class="headerlink" title="1.3ListView的点击事件"></a>1.3ListView的点击事件</h2><p>ListView如何响应用户的点击事件，修改MainActivity中代码：  </p>
+<pre><code>...
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //初始化水果数据
+    initFruits();
+
+    //构建FruitAdapter对象，并将FruitAdapter作为适配器传递给ListView。
+    FruitAdapter adapter = new FruitAdapter(MainActivity.this, R.layout.fruit_item, fruitList);
+    ListView listView = (ListView)findViewById(R.id.list_view);
+    listView.setAdapter(adapter);
+    //响应点击事件
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
+            Fruit fruit = fruitList.get(position);
+            Toast.makeText(MainActivity.this, fruit.getName(),Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+...
+</code></pre><h1 id="2、RecyclerView"><a href="#2、RecyclerView" class="headerlink" title="2、RecyclerView"></a>2、RecyclerView</h1><p>新建RecyclerView项目。  </p>
+<h2 id="2-1RecyclerView基本用法"><a href="#2-1RecyclerView基本用法" class="headerlink" title="2.1RecyclerView基本用法"></a>2.1RecyclerView基本用法</h2><p>ReyclerView也属于新增的控件，为了让RecyclerView在所有Android版本上都能使用，将其定义在support库中。在app/build.gradle文件中添加：  </p>
+<pre><code>dependencies {
+implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
+implementation &apos;com.android.support:appcompat-v7:27.1.1&apos;
+implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
+testImplementation &apos;junit:junit:4.12&apos;
+androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
+androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
+implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加内容
+}
+</code></pre><p>点击Sync Now进行同步。 修改activity_main.xml中的代码：  </p>
+<pre><code>&lt;android.support.v7.widget.RecyclerView  //添加RecyclerView控件
+    android:id=&quot;@+id/recycler_view&quot;
+        android:layout_height=&quot;match_parent&quot;
+    android:layout_width=&quot;match_parent&quot; /&gt;
+</code></pre><p>新建Fruit类和fruit_item.xml都和ListViewTest的一样。<br>然后为RecyclerView准备一个适配器，新建FruitAdapter类，让这个适配器继承自RecyclerView.Adapter，并将泛型指定为FruitAdapter.ViewHolder。ViewHolder是在FruitAdapter中定义的一个内部类。准备适配器代码如下：  </p>
+<pre><code>package com.example.xxxxx.recyclerview;
+
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.List;
+
+public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt; {
+    private List&lt;Fruit&gt; mFruitList;
+
+//定义一个内部类，继承RecyclerView.ViewHolder
+static class ViewHolder extends RecyclerView.ViewHolder{
+    ImageView fruitImage;
+    TextView fruitName;
+
+    //构造函数的参数view就是RecyclerView子项的最外层布局，然后就可以获取ImageView和TextView实例
+    public ViewHolder(View view){
+        super(view);
+        fruitImage = (ImageView)view.findViewById(R.id.fruit_image);
+        fruitName = (TextView)view.findViewById(R.id.fruit_name);
+    }
+}
+
+//构造函数用于将要展示的数据源传进来，并赋值给全局变量，方便后续对其操作
+public FruitAdapter(List&lt;Fruit&gt; fruitList){
+    mFruitList = fruitList;
+}
+
+//继承自RecyclerView.ViewHolder就必须冲写这三个方法
+@Override
+//将fruit_item加载进来，然后创建一个ViewHolder实例
+public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fruit_item, parent, false);
+    ViewHolder holder = new ViewHolder(view);
+    return  holder;
+}
+
+//对RecyclerView子项的数据进行赋值，在每个子项滚动到屏幕内的时候执行，通过position参数得到当前的fruit实例
+@Override
+public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    Fruit fruit = mFruitList.get(position);
+    holder.fruitImage.setImageResource(fruit.getImageId());
+    holder.fruitName.setText(fruit.getName());
+}
+
+//RecyclerView一共有多少子项
+@Override
+public int getItemCount() {
+    return mFruitList.size();
+}
+}
+</code></pre><p>  准备好适配器之后就可以使用RecyclerView，修改MainActivity中代码：  </p>
+<pre><code>package com.example.xxxxx.recyclerview;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+private List&lt;Fruit&gt; fruitList = new ArrayList&lt;&gt;();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    initFruits();
+    //获取RecyclerView实例
+    RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+
+    //LinearLayoutManager是线性布局的意思，实现和ListView类似的效果
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(layoutManager);
+    FruitAdapter adapter = new FruitAdapter(fruitList);
+    recyclerView.setAdapter(adapter);
+}
+
+//初始化水果数据，传入水果的名字和图片id，并将对象添加到水果列表中。
+private void initFruits(){
+    for (int i = 0; i&lt;3; i++){
+        Fruit apple = new Fruit(&quot;Apple&quot;,R.drawable.apple_pic);
+        fruitList.add(apple);
+        Fruit banana = new Fruit(&quot;Banana&quot;, R.drawable.banana_pic);
+        fruitList.add(banana);
+        Fruit orange = new Fruit(&quot;Orange&quot;,R.drawable.orange_pic);
+        fruitList.add(orange);
+        Fruit watermelon = new Fruit(&quot;Watermelon&quot;, R.drawable.watermelon_pic);
+        fruitList.add(watermelon);
+        Fruit pear = new Fruit(&quot;Pear&quot;,R.drawable.pear_pic);
+        fruitList.add(pear);
+        Fruit grape = new Fruit(&quot;Grape&quot;, R.drawable.grape_pic);
+        fruitList.add(grape);
+        Fruit pineapple = new Fruit(&quot;Pineapple&quot;, R.drawable.pineapple_pic);
+        fruitList.add(pineapple);
+        Fruit strawberry = new Fruit(&quot;Strawberry&quot;, R.drawable.strawberry_pic);
+        fruitList.add(strawberry);
+        Fruit cherry = new Fruit(&quot;Cherry&quot;, R.drawable.cherry_pic);
+        fruitList.add(cherry);
+        Fruit mango = new Fruit(&quot;Mango&quot;, R.drawable.mango_pic);
+        fruitList.add(mango);
+    }
+}
+}  
+</code></pre><h2 id="2-2实现横向滚动"><a href="#2-2实现横向滚动" class="headerlink" title="2.2实现横向滚动"></a>2.2实现横向滚动</h2><p>修改fruit_item布局，目前这个布局里面的元素是水平排列的，适用于纵向滚动的场景，如果要实现横向滚动，应该把fruit_item里的元素改成垂直排列才合理。修改fruit_item.xml中的代码：  </p>
+<pre><code>&lt;LinearLayout
+xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:orientation=&quot;vertical&quot;
+android:layout_width=&quot;100dp&quot;
+android:layout_height=&quot;wrap_content&quot;&gt;
+
+&lt;ImageView
+android:id=&quot;@+id/fruit_image&quot;
+android:layout_width=&quot;50dp&quot;
+android:layout_height=&quot;50dp&quot;
+android:layout_gravity=&quot;center_horizontal&quot;/&gt;
+&lt;TextView
+android:id=&quot;@+id/fruit_name&quot;
+android:layout_width=&quot;wrap_content&quot;
+android:layout_height=&quot;wrap_content&quot;
+android:layout_gravity=&quot;center_horizontal&quot;
+android:layout_marginTop=&quot;10dp&quot;/&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><p>将LinearLayout改成垂直方向排列，并把宽度设置为100dp。将ImageView和TextView设置成在布局中水平居中，使用layout_marginTop属性让文字和图片直接保持一些距离。<br>修改MainActivity中的代码：  </p>
+<pre><code>...
+public class MainActivity extends AppCompatActivity {
+
+private List&lt;Fruit&gt; fruitList = new ArrayList&lt;&gt;();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    initFruits();
+    //获取RecyclerView实例
+    RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+
+    //LinearLayoutManager是线性布局的意思，实现和ListView类似的效果
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    //recyclerView.setLayoutManager(layoutManager);
+    //FruitAdapter adapter = new FruitAdapter(fruitList);
+    //实现横向滚动
+    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+    recyclerView.setLayoutManager(layoutManager);
+    FruitAdapter adapter = new FruitAdapter(fruitList);
+    recyclerView.setAdapter(adapter);
+}
+}
+</code></pre><h2 id="2-3其它布局"><a href="#2-3其它布局" class="headerlink" title="2.3其它布局"></a>2.3其它布局</h2><p>除了LinearLayoutManager之外，RecyclerView还提供了GridLayoutManager和StaggeredGridLayoutManager这两种内置的布局排列方式。GridLayoutManager可以用于实现网络布局，StaggeredGridLayoutManager可以用于实现瀑布流布局。  </p>
+<h2 id="2-4RecyclerView的点击事件"><a href="#2-4RecyclerView的点击事件" class="headerlink" title="2.4RecyclerView的点击事件"></a>2.4RecyclerView的点击事件</h2><p>RecyclerView的所有点击事件都是由具体的View去注册的。在RecyclerView中注册点击事件，首先修改FruitAdapter中的代码：  </p>
+<pre><code>public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt; {
+    private List&lt;Fruit&gt; mFruitList;
+
+//定义一个内部类，继承RecyclerView.ViewHolder
+static class ViewHolder extends RecyclerView.ViewHolder{
+    View fruitView;  //新增代码
+    ImageView fruitImage;
+    TextView fruitName;
+
+    //构造函数的参数view就是RecyclerView子项的最外层布局，然后就可以获取ImageView和TextView实例
+    public ViewHolder(View view){
+        super(view);
+        fruitView = view; //新增代码
+        fruitImage = (ImageView)view.findViewById(R.id.fruit_image);
+        fruitName = (TextView)view.findViewById(R.id.fruit_name);
+    }
+}
+
+//构造函数用于将要展示的数据源传进来，并赋值给全局变量，方便后续对其操作
+public FruitAdapter(List&lt;Fruit&gt; fruitList){
+    mFruitList = fruitList;
+}
+
+//继承自RecyclerView.ViewHolder就必须冲写这三个方法
+@Override
+//将fruit_item加载进来，然后创建一个ViewHolder实例
+public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fruit_item, parent, false);
+
+    //新增代码
+    final ViewHolder holder = new ViewHolder(view);
+    //ViewHolder holder = new ViewHolder(view);
+    holder.fruitView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = holder.getAdapterPosition();
+            Fruit fruit = mFruitList.get(position);
+            Toast.makeText(v.getContext(),&quot;you clicked view&quot;+fruit.getName(),Toast.LENGTH_SHORT).show();
+        }
+    });
+    return  holder;
+}
+
+//对RecyclerView子项的数据进行赋值，在每个子项滚动到屏幕内的时候执行，通过position参数得到当前的fruit实例
+@Override
+public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    Fruit fruit = mFruitList.get(position);
+    holder.fruitImage.setImageResource(fruit.getImageId());
+    holder.fruitName.setText(fruit.getName());
+}
+
+//RecyclerView一共有多少子项
+@Override
+public int getItemCount() {
+    return mFruitList.size();
+}
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="cjxg3xho3000mbq6c3xfkgxh4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/22/六、Material Design/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          六、Material Design
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/07/五、内容提供器(Content Provider)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">五、内容提供器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

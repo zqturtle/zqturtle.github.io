@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>八、多态 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="八、多态对象的多种形态：引用的多态和方法的多态   1、引用的多态1）父类的引用指向本类的对象2）父类的引用指向子类的对象   注：继承是实现多态的基础   public calss Animal{  } --------------------------------------------------------------- public class Dog extends Animal{">
+<meta property="og:type" content="article">
+<meta property="og:title" content="八、多态">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/八 多态/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="八、多态对象的多种形态：引用的多态和方法的多态   1、引用的多态1）父类的引用指向本类的对象2）父类的引用指向子类的对象   注：继承是实现多态的基础   public calss Animal{  } --------------------------------------------------------------- public class Dog extends Animal{">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-13T15:21:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="八、多态">
+<meta name="twitter:description" content="八、多态对象的多种形态：引用的多态和方法的多态   1、引用的多态1）父类的引用指向本类的对象2）父类的引用指向子类的对象   注：继承是实现多态的基础   public calss Animal{  } --------------------------------------------------------------- public class Dog extends Animal{">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-八 多态" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/17/八 多态/" class="article-date">
+  <time datetime="2018-05-17T02:45:39.000Z" itemprop="datePublished">2018-05-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      八、多态
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="八、多态"><a href="#八、多态" class="headerlink" title="八、多态"></a>八、多态</h1><p>对象的多种形态：引用的多态和方法的多态  </p>
+<h2 id="1、引用的多态"><a href="#1、引用的多态" class="headerlink" title="1、引用的多态"></a>1、引用的多态</h2><p>1）父类的引用指向本类的对象<br>2）父类的引用指向子类的对象  </p>
+<p><strong>注：继承是实现多态的基础</strong>  </p>
+<pre><code>public calss Animal{
+
+}
+---------------------------------------------------------------
+public class Dog extends Animal{
+
+}
+---------------------------------------------------------------
+public class Initial{
+    public static void main(){
+        Animal obj1 = new Animal();//父类的引用指向本类的对象
+        Animal obj2 = new Dog();//父类的引用指向子类的对象
+    }
+}
+</code></pre><h2 id="2、方法的多态"><a href="#2、方法的多态" class="headerlink" title="2、方法的多态"></a>2、方法的多态</h2><p>1）创建本类对象时，调用的方法为本类的方法<br>2）创建子类对象时，调用的方法为子类重写的方法或者继承的方法(子类没有重写方法)  </p>
+<pre><code>public calss Animal{
+    public void eat(){
+        System.out.println(&quot;动物会吃&quot;);
+    }
+}
+--------------------------------------------------------------
+public class Dog extends Animal{
+    public void eat(){
+        System.out.println(&quot;狗会吃肉&quot;);
+    }
+}
+--------------------------------------------------------------
+    public class Cat extends Animal{
+
+}
+--------------------------------------------------------------
+public class Initial{
+    public static void main(){
+        Animal obj1 = new Animal();//父类的引用指向本类的对象
+        Animal obj2 = new Dog();//父类的引用指向子类的对象
+        Animal obj3 = new Cat();
+
+        obj1.eat();//调用父类的方法
+        obj2.eat();//调用子类重写的方法
+        obj3.eat();//调用子类继承父类的方法
+    }
+}
+</code></pre><p><strong>注：子类中添加了独有的方法，如Dog类中添加了watchDoor()方法，那么父类就不能调用子类独有的方法</strong>  </p>
+<h2 id="3、引用类型转换"><a href="#3、引用类型转换" class="headerlink" title="3、引用类型转换"></a>3、引用类型转换</h2><p>1）向上类型转换(隐式/自动类型转换)，是小类型到大类型的转换<br>2）向下类型转换(强制类型转换)，是大类型到小类型<br>3）instanceof运算符来解决引用对象的类型，避免类型转换的安全问题  </p>
+<pre><code>public class Initial{
+    public static void main(){
+        Dog dog = new Dog();
+        Animal animal = dog;//父类的引用指向子类的对象，自动类型提升，向上类型转换
+        //将父类引用转换成子类引用
+        Dog dog2 = (Dog)animal;//向下类型转换，强制类型转换，存在风险
+        Cat cat = (Cat)animal;//非法的，anima引用的是Dog对象，不能转换成Cat对象，编译可以，但是运行出错
+        }
+}
+</code></pre><p>使用instanceof运算符避免类型转换的安全问题，instanceof关键字可以判断一个引用是否是某个类型或者某个类型的子类型。  </p>
+<pre><code>if(animal instanceof Dog){//判断animal是否是Dog类型或者其子类型
+    if(animal instanceof Dog){ //由于Dog dog =new Dog();Animal animal = dog;所以判断为真
+        Dog dog = (Dog)animal;
+} else{
+    System.out.println(&quot;无法进行类型转换,Dog&quot;);
+}
+
+if(animal instanceof Cat){//判断animal是否是Cat类型或者其子类型
+    Cat cat = (Cat)animal;
+}  else{
+    System.out.println(&quot;无法进行类型转换,Cat&quot;);
+}
+</code></pre><p>运行结果：  </p>
+<pre><code>无法进行类型转换，Cat //说明可以转换成Dog类，不能转换成Cat类
+</code></pre><h2 id="4、抽象类"><a href="#4、抽象类" class="headerlink" title="4、抽象类"></a>4、抽象类</h2><p>抽象类前使用abstract关键字修饰<br>应用场景：<br>1）在某些情况，某个父类只是知道其子类应该包含怎样的方法，但是无法准确知道这些子类如何实现这些方法（约束子类必须有哪些方法，并不关注子类如何去实现）<br>2）从多个具有相同特征的类中抽象出一个抽象类，以这个抽象类作为子类的模板，从而设计了子类设计的随意性    </p>
+<p>作用：限制规定子类必须实现某些方法，但不关注实现细节    </p>
+<pre><code>public abstract calss Telphone{  //父类，抽象类，约束子类
+    public abstract void call();  //抽象方法没有方法体
+    public abstract void message(); 
+}
+</code></pre><hr>
+<pre><code>public class CellPhone extends Telphone{  //子类Cellphone
+    public void call(){    //必须包含的方法
+        System.out.println(&quot;通过键盘拨号&quot;);
+    }
+    public void message(){   //必须包含的方法
+        System.out.println(&quot;通过键盘发短信&quot;);
+    }
+} 
+</code></pre><hr>
+<pre><code>public class SmartPhone extends Telphone{  //子类SmartPhone
+    public void call(){    //必须包含的方法
+        System.out.println(&quot;通过语音拨号&quot;);
+    }
+    public void message(){   //必须包含的方法
+        System.out.println(&quot;通过语音发短信&quot;);
+    }
+} 
+</code></pre><hr>
+<pre><code>public class Initial{
+    public static void main(String[] args){
+        Telphone tel1 = new CellPhone();//抽象类的父类引用指向子类对象
+        tel1.call();
+        tel1.message();
+
+        Telphone tel2 = new SmartPhone();
+        tel2.call();
+        tel2.message();
+    }
+}
+</code></pre><p>运行结果：  </p>
+<pre><code>通过键盘拨号
+通过键盘发短信
+通过语音拨号
+通过语音发短信
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/17/八 多态/" data-id="cjxg3xhnn000gbq6cchufks80" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/17/九 接口/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          九、接口
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/15/七 继承/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">七、继承</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
