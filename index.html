@@ -120,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjxg3xhn90004bq6cbtb7qgfh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjxg43jdk0002dh6cows6k0fm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
@@ -162,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="cjxg3xhn30001bq6cly0ydr08" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="cjxg43jdh0001dh6c6zypox7l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -207,7 +207,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="cjxg3xhmz0000bq6cmovskti1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="cjxg43jdd0000dh6c5a19qbe3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -245,9 +245,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/22/六、Material Design/" data-id="cjxg3xhnj000cbq6c856yy5n9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/22/六、Material Design/" data-id="cjxg43je2000fdh6cbatbkp1b" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
     </footer>
   </div>
   
@@ -714,9 +716,11 @@ public int getItemCount() {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="cjxg3xho3000mbq6c3xfkgxh4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="cjxg43jel000qdh6cqcqqjg5q" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
     </footer>
   </div>
   
@@ -902,9 +906,11 @@ public int getItemCount() {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/" data-id="cjxg3xhnl000ebq6clptufar4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/" data-id="cjxg43je3000gdh6csfid4mxv" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
     </footer>
   </div>
   
@@ -922,11 +928,19 @@ public int getItemCount() {
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/06/四、广播/">四、广播</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<p>title: 四、广播<br>—xxxxx</p>
-<h1 id="四、广播"><a href="#四、广播" class="headerlink" title="四、广播"></a>四、广播</h1><p>Android中广播的两种类型：标准广播和有序广播<br><strong>标准广播：</strong>异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。<br><strong>有序广播：</strong>同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。  </p>
+        <h1 id="四、广播"><a href="#四、广播" class="headerlink" title="四、广播"></a>四、广播</h1><p>Android中广播的两种类型：标准广播和有序广播<br><strong>标准广播：</strong>异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。<br><strong>有序广播：</strong>同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。  </p>
 <h2 id="1、接收系统广播"><a href="#1、接收系统广播" class="headerlink" title="1、接收系统广播"></a>1、接收系统广播</h2><p>要接收广播就需要使用广播接收器。  广播接收器可以自由地对自己感兴趣的广播继续注册，注册广播一般有2种，在代码中注册（动态注册）和在AndroidManifest.xml中注册（静态注册）。  </p>
 <h3 id="1-1创建广播接收器"><a href="#1-1创建广播接收器" class="headerlink" title="1.1创建广播接收器"></a>1.1创建广播接收器</h3><p>新建一个类，让它继承自BroadcastReceiver，并重写onReceive()方法就可以。当有广播到来时，onReceive()方法就会得到执行，处理逻辑可以在方法中实现。  </p>
 <h4 id="1-1-1动态注册"><a href="#1-1-1动态注册" class="headerlink" title="1.1.1动态注册"></a>1.1.1动态注册</h4><p>通过动态注册的方式编写一个能够监听网络变化的程序：  </p>
@@ -1125,9 +1139,11 @@ class LocalReceiver extends BroadcastReceiver{
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/06/四、广播/" data-id="cjxg3xhnu000lbq6c33k787oo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/06/四、广播/" data-id="cjxg43jec000ndh6cryee1a4x" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
     </footer>
   </div>
   
@@ -1419,9 +1435,11 @@ implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/" data-id="cjxg3xhnt000kbq6cvcyyr18q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/" data-id="cjxg43jec000mdh6cqjgye55q" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
     </footer>
   </div>
   
@@ -1888,9 +1906,11 @@ startActivity(intent);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/03/二、活动(Activity)/" data-id="cjxg3xho5000nbq6c1hkf3x82" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/03/二、活动(Activity)/" data-id="cjxg43jen000sdh6c1tqcqu4u" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
     </footer>
   </div>
   
@@ -2001,9 +2021,11 @@ protected void onCreate(Bundle savedInstanceState) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/03/一、Android简介/" data-id="cjxg3xhne0007bq6c7zuqhhl9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/03/一、Android简介/" data-id="cjxg43jdt0009dh6c7z4w7oof" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
     </footer>
   </div>
   
@@ -2029,7 +2051,7 @@ protected void onCreate(Bundle savedInstanceState) {
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
     </div>
   </div>
 
@@ -2039,7 +2061,7 @@ protected void onCreate(Bundle savedInstanceState) {
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+      <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
     </div>
   </div>
 
