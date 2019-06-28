@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>inflate导致的空指针 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在一个项目开发中遇到一个手残的问题，但是排查的时候觉得很坑爹，就记录下加深记忆。   背景某次开发中有个折叠框的小需求，点击的时候展开，通过动态添加item来实现，每个item上有个分割线，很简单。开发完后编译没问题，但是一运行就崩。   代码Java代码contentListLayout.removeAllViews();         LayoutInflater layoutInflate">
+<meta name="keywords" content="问题总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="inflate导致的空指针">
+<meta property="og:url" content="http://yoursite.com/2019/06/28/inflate导致的空指针/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在一个项目开发中遇到一个手残的问题，但是排查的时候觉得很坑爹，就记录下加深记忆。   背景某次开发中有个折叠框的小需求，点击的时候展开，通过动态添加item来实现，每个item上有个分割线，很简单。开发完后编译没问题，但是一运行就崩。   代码Java代码contentListLayout.removeAllViews();         LayoutInflater layoutInflate">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/06/28/inflate导致的空指针/inflate导致的空指针/test.jpg">
+<meta property="og:updated_time" content="2019-06-28T12:26:54.071Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="inflate导致的空指针">
+<meta name="twitter:description" content="在一个项目开发中遇到一个手残的问题，但是排查的时候觉得很坑爹，就记录下加深记忆。   背景某次开发中有个折叠框的小需求，点击的时候展开，通过动态添加item来实现，每个item上有个分割线，很简单。开发完后编译没问题，但是一运行就崩。   代码Java代码contentListLayout.removeAllViews();         LayoutInflater layoutInflate">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/28/inflate导致的空指针/inflate导致的空指针/test.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-inflate导致的空指针" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/28/inflate导致的空指针/" class="article-date">
+  <time datetime="2019-06-28T11:29:27.000Z" itemprop="datePublished">2019-06-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      inflate导致的空指针
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在一个项目开发中遇到一个手残的问题，但是排查的时候觉得很坑爹，就记录下加深记忆。  </p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>某次开发中有个折叠框的小需求，点击的时候展开，通过动态添加item来实现，每个item上有个分割线，很简单。开发完后编译没问题，但是一运行就崩。  </p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="Java代码"><a href="#Java代码" class="headerlink" title="Java代码"></a>Java代码</h2><pre><code>contentListLayout.removeAllViews();
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        for (CharSequence content : contentList) {
+            View viewContent = layoutInflater.inflate(R.layout.layout_collapse_content_item, null);
+            tvContent = viewContent.findViewById(R.id.tvContent);
+            tvContent.setText(content);
+            tvContent.setTextColor(Color.parseColor(contentColor));
+            tvContent.setTextSize(contentSize);
+            contentListLayout.addView(viewContent);
+        }
+</code></pre><h2 id="item-xml代码"><a href="#item-xml代码" class="headerlink" title="item xml代码"></a>item xml代码</h2><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot;&gt;    
+    &lt;view
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;0.5dp&quot;
+        android:background=&quot;@color/divideLineColor&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/tvContent&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;我是内容文字&quot;
+        android:paddingBottom=&quot;13dp&quot;
+        android:paddingTop=&quot;13dp&quot;
+        android:textSize=&quot;14sp&quot; /&gt;
+&lt;/LinearLayout&gt;
+</code></pre><h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><p>编译的时候不会报错，运行时报错信息如下：<br><img src="inflate导致的空指针/test.jpg" alt="test">  </p>
+<h1 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h1><p>从报错信息中可见是在我们inflate的时候空指针了，资源文件名都没问题。最终查看xml文件里面的时候发现分割线的view写成小写了，导致崩溃。<br>这里的问题就在于view的v写成小写AS并不会报错，只有在运行时才崩溃，所以排查起来很坑爹。<br>总结：不要手残。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjxg3id7x0002746c35x8d711" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/07/hexo使用指南/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexo使用指南</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
