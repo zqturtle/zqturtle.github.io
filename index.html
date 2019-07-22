@@ -62,6 +62,135 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Android消息机制之handler原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/18/Android消息机制之handler原理/" class="article-date">
+  <time datetime="2019-07-18T13:17:51.000Z" itemprop="datePublished">2019-07-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/18/Android消息机制之handler原理/">Android消息机制之handler原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在Android开发中因为UI更新的操作都是在主线程中执行，而网络请求等耗时操作都是在子线程中执行的，因此会遇到很多多线程切换的问题。我们的项目中使用的是RXJava + retrofit，RXJava的observeOn和subcribeOn都能很方便的切换线程。如下形式：<br><code>.observeOn(AndroidSchedulers.mainThread())</code><br>它本质上还是通过handler来实现的。虽然用起来很方便，但是这样对于原理的学习并不是很友好，因此特意学习了下handler原理相关知识。  </p>
+<h1 id="一、handler基础知识"><a href="#一、handler基础知识" class="headerlink" title="一、handler基础知识"></a>一、handler基础知识</h1><h2 id="1、基本概念"><a href="#1、基本概念" class="headerlink" title="1、基本概念"></a>1、基本概念</h2><ul>
+<li>MainThread(主线程)：也就是UI线程，在程序启动时自动创建。  </li>
+<li>工作线程：开发者自己开启的子线程，执行一些耗时操作。  </li>
+<li>Handler(处理者)：线程间通信的媒介，一是添加消息到消息队列(Message Queue)，二是处理Looper(循环器)分发的消息。  </li>
+<li>Message(消息):Handler处理的对象，存储需要的操作信息。  </li>
+<li>Message Queue(消息队列):是一个队列，先进先出，存储Handler发送来的消息。  </li>
+<li>Looper: Message Queue和Handler的通信媒介，是一个死循环，不断从Message Queue中取出消息给Handler处理。  </li>
+</ul>
+<h2 id="2、-对应关系"><a href="#2、-对应关系" class="headerlink" title="2、 对应关系"></a>2、 对应关系</h2><ul>
+<li>一个线程(Thread)只能对应一个循环器(Looper)，可理解为一个线程维持一个消息队列(Message Queue)。  </li>
+<li>一个线程(Thread)可对应多个处理者(Handler)，可理解为一个消息队列(Message Queue)中的消息可分发给多个处理者(Handler)处理。  </li>
+<li>一个循环器(Looper)可对应多个处理者(Handler)。  </li>
+<li>一个处理者(Handler)只能对应一个循环器(Looper)，如果对应多个循环器(Looper)，那处理消息会错乱。  </li>
+</ul>
+<h1 id="二、Handler基本用法"><a href="#二、Handler基本用法" class="headerlink" title="二、Handler基本用法"></a>二、Handler基本用法</h1><h2 id="1、子线程和主线程通信"><a href="#1、子线程和主线程通信" class="headerlink" title="1、子线程和主线程通信"></a>1、子线程和主线程通信</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    Button button;</span><br><span class="line">    Handler handler;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        button = findViewById(R.id.handlerSendMsg);</span><br><span class="line">        button.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;  </span><br><span class="line">            //在主线程中创建一个Handler处理子线程发来的消息</span><br><span class="line">                handler = new Handler() &#123;  </span><br><span class="line">                //重写handleMessage方法，这个方法的msg参数就是从子线程传递过来的消息</span><br><span class="line">                    @Override</span><br><span class="line">                    public void handleMessage(Message msg) &#123;  </span><br><span class="line">                    //函数体中就是消息处理的逻辑，可以通过msg.what的消息标识来分别处理不同的消息逻辑</span><br><span class="line">                        Log.d(&quot;mainThread&quot;,&quot;mainThread handleMessage:  &quot; + msg.obj);</span><br><span class="line">                        Toast.makeText(MainActivity.this,&quot;mainThread handleMessage&quot; + msg.obj,Toast.LENGTH_LONG).show();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">                childThread();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void childThread()&#123;  </span><br><span class="line">     //创建一个子线程</span><br><span class="line">        Thread childThread = new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">            //在子线程中通过Handler的obtainMessage获取一个Message的实例</span><br><span class="line">                Message message = handler.obtainMessage();  </span><br><span class="line">                /** </span><br><span class="line">                设置Message的属性  </span><br><span class="line">                Message.what：用来标识信息的int值，通过该值主线程能判断出来自不同地方的信息来源  </span><br><span class="line">                Message.arg1/Message.arg2：Message初始定义的用来传递int类型值的两个变量  </span><br><span class="line">                Message.obj：用来传递任何实例化对象</span><br><span class="line">                */</span><br><span class="line">                message.obj = &quot;childThread message&quot;;</span><br><span class="line">                //通过sendMessage将消息发送出去</span><br><span class="line">                handler.sendMessage(message);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        childThread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2、两个子线程通信"><a href="#2、两个子线程通信" class="headerlink" title="2、两个子线程通信"></a>2、两个子线程通信</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    Button button;</span><br><span class="line">    Handler handler;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        button = findViewById(R.id.handlerSendMsg);</span><br><span class="line">        button.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                handlerMessageInTwoThread();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    private void handlerMessageInTwoThread() &#123;</span><br><span class="line">        Thread firstThread = new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">            //在子线程中不调用Looper.prepare()会crash报错，下面会给出分析</span><br><span class="line">                //Looper.prepare();</span><br><span class="line">                handler = new Handler() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void handleMessage(Message msg) &#123;</span><br><span class="line">                        Log.d(&quot;firstThread&quot;,&quot;firstThread handleMessage:  &quot; + msg.obj);                      Toast.makeText(MainActivity.this,&quot;firstThread handleMessage&quot; + msg.obj,Toast.LENGTH_LONG).show();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">                //不调用Looper.loop()就收不到消息</span><br><span class="line">                //Looper.loop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Thread secondThread = new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Message sendMessage = handler.obtainMessage();</span><br><span class="line">                sendMessage.obj = &quot;secondThread发送的消息&quot;;</span><br><span class="line">                Log.d(&quot;secondThread&quot;,&quot;secondThread sendMessage: &quot; + sendMessage.obj);</span><br><span class="line">                handler.sendMessage(sendMessage);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        firstThread.setName(&quot;firstThread&quot;);</span><br><span class="line">        firstThread.start();</span><br><span class="line">        secondThread.setName(&quot;secondThread&quot;);</span><br><span class="line">        secondThread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不打开上面的两行注释代码，和之前的一样，那么运行会报错，报错信息如下：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...... E/AndroidRuntime: FATAL EXCEPTION: firstThread</span><br><span class="line">    Process: com.example.androidtest, PID: 23777</span><br><span class="line">    java.lang.RuntimeException: Can&apos;t create handler inside thread that has not called Looper.prepare()</span><br><span class="line">        at android.os.Handler.&lt;init&gt;(Handler.java:200)</span><br><span class="line">        at android.os.Handler.&lt;init&gt;(Handler.java:114)</span><br><span class="line">        at com.example.androidtest.MainActivity$3$1.&lt;init&gt;(MainActivity.java:62)</span><br><span class="line">        at com.example.androidtest.MainActivity$3.run(MainActivity.java:62)</span><br></pre></td></tr></table></figure>
+<p>意思就是在firstThread中没有调用Looper.prepare()。所以，需要加上Looper.prepare()。不过也可以在firstThread中创建Handler的时候指定一个主线程的Looper。Handler的构造函数是支持带参的，其中一个构造函数如下：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Use the provided &#123;@link Looper&#125; instead of the default one.</span><br><span class="line">     *</span><br><span class="line">     * @param looper The looper, must not be null.</span><br><span class="line">     */</span><br><span class="line">    public Handler(Looper looper) &#123;</span><br><span class="line">        this(looper, null, false);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>因此，我们在firstThread中创建Handler的时候可以这样：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Thread firstThread = new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                //Looper.prepare();  </span><br><span class="line">                //通过Looper.getMainLooper()获取主线程的Looper</span><br><span class="line">                handler = new Handler(Looper.getMainLooper()) &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void handleMessage(Message msg) &#123;</span><br><span class="line">                        Log.d(&quot;firstThread&quot;,&quot;firstThread handleMessage:  &quot; + msg.obj);</span><br><span class="line">                        Toast.makeText(MainActivity.this,&quot;firstThread handleMessage&quot; + msg.obj,Toast.LENGTH_LONG).show();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">                //Looper.loop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<p>这里就产生了2个问题，第一，为什么主线程中不调用Looper.prepare()可以实现子线程和主线程的通信；第二，Looper.prepare()具体干了什么，为什么不调用就不能在两个子线程中通信。下面的分析主要解决这两个问题。  </p>
+<h1 id="三、Handler消息机制分析"><a href="#三、Handler消息机制分析" class="headerlink" title="三、Handler消息机制分析"></a>三、Handler消息机制分析</h1><h2 id="1、主线程为什么不需要调用Looper-prepare"><a href="#1、主线程为什么不需要调用Looper-prepare" class="headerlink" title="1、主线程为什么不需要调用Looper.prepare()"></a>1、主线程为什么不需要调用Looper.prepare()</h2><p>主线程不需要调用Looper.prepare()，那么说明Android程序在启动的时候主线程中就已经做了这部分工作。这里涉及到一个问题就是Android程序的真正入口，就是ActivityThread的main()方法。<a href="https://blog.csdn.net/xu_song/article/details/81983724" target="_blank" rel="noopener">ActivityThread源码分析</a>。查看ActivityThread的main()方法源码：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">        Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;ActivityThreadMain&quot;);</span><br><span class="line"></span><br><span class="line">        // CloseGuard defaults to true and can be quite spammy.  We</span><br><span class="line">        // disable it here, but selectively enable it later (via</span><br><span class="line">        // StrictMode) on debug builds, but using DropBox, not logs.</span><br><span class="line">        CloseGuard.setEnabled(false);</span><br><span class="line">        Environment.initForCurrentUser();</span><br><span class="line"></span><br><span class="line">        // Set the reporter for event logging in libcore</span><br><span class="line">        EventLogger.setReporter(new EventLoggingReporter());</span><br><span class="line"></span><br><span class="line">        // Make sure TrustedCertificateStore looks in the right place for CA certificates</span><br><span class="line">        final File configDir = Environment.getUserConfigDirectory(UserHandle.myUserId());</span><br><span class="line">        TrustedCertificateStore.setDefaultUserDirectory(configDir);</span><br><span class="line"></span><br><span class="line">        Process.setArgV0(&quot;&lt;pre-initialized&gt;&quot;);</span><br><span class="line"></span><br><span class="line">        Looper.prepareMainLooper();</span><br><span class="line"></span><br><span class="line">        // Find the value for &#123;@link #PROC_START_SEQ_IDENT&#125; if provided on the command line.</span><br><span class="line">        // It will be in the format &quot;seq=114&quot;</span><br><span class="line">        long startSeq = 0;</span><br><span class="line">        if (args != null) &#123;</span><br><span class="line">            for (int i = args.length - 1; i &gt;= 0; --i) &#123;</span><br><span class="line">                if (args[i] != null &amp;&amp; args[i].startsWith(PROC_START_SEQ_IDENT)) &#123;</span><br><span class="line">                    startSeq = Long.parseLong(</span><br><span class="line">                            args[i].substring(PROC_START_SEQ_IDENT.length()));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ActivityThread thread = new ActivityThread();</span><br><span class="line">        thread.attach(false, startSeq);</span><br><span class="line"></span><br><span class="line">        if (sMainThreadHandler == null) &#123;</span><br><span class="line">            sMainThreadHandler = thread.getHandler();</span><br><span class="line">        &#125;</span><br><span class="line">        if (false) &#123;</span><br><span class="line">            Looper.myLooper().setMessageLogging(new</span><br><span class="line">                    LogPrinter(Log.DEBUG, &quot;ActivityThread&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">        // End of event ActivityThreadMain.</span><br><span class="line">        Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">        Looper.loop();</span><br><span class="line">//可见主线程的Looper是不能退出的</span><br><span class="line">        throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数具体的分析参考上面链接，我们只关注其中和Looper相关的，可以发现有2行：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Looper.prepareMainLooper();  </span><br><span class="line">Looper.loop();</span><br></pre></td></tr></table></figure>
+<p>我们继续看Looper.prepareMainLooper()这个函数里面干了什么  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Initialize the current thread as a looper, marking it as an</span><br><span class="line">     * application&apos;s main looper. The main looper for your application</span><br><span class="line">     * is created by the Android environment, so you should never need</span><br><span class="line">     * to call this function yourself.  See also: &#123;@link #prepare()&#125;</span><br><span class="line">     */</span><br><span class="line">    public static void prepareMainLooper() &#123;</span><br><span class="line">        prepare(false);</span><br><span class="line">        synchronized (Looper.class) &#123;</span><br><span class="line">            if (sMainLooper != null) &#123;</span><br><span class="line">                throw new IllegalStateException(&quot;The main Looper has already been prepared.&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            sMainLooper = myLooper();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>通过注释发现就是指定主线程的looper，并且不需要自己调，系统已经做了这部分工作。这里调用的prepare(false)和我们在子线程中调用的Looper.prepare()最终调用的都是一个函数  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//Looper.prepare()最终调用的是prepare(true);</span><br><span class="line">    public static void prepare() &#123;</span><br><span class="line">        prepare(true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void prepare(boolean quitAllowed) &#123;</span><br><span class="line">        if (sThreadLocal.get() != null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;Only one Looper may be created per thread&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        sThreadLocal.set(new Looper(quitAllowed));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>所以仅有区别就是主线程的不能退出，子线程的可以。  </p>
+<h2 id="2、Looper-prepare-做了什么"><a href="#2、Looper-prepare-做了什么" class="headerlink" title="2、Looper.prepare()做了什么"></a>2、Looper.prepare()做了什么</h2><p>不管是主线程还是子线程都必须调用Looper.prepare()，那这个函数具体做了什么呢？其实就一行代码sThreadLocal.set(new Looper(quitAllowed));      </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Sets the current thread&apos;s copy of this thread-local variable</span><br><span class="line">     * to the specified value.  Most subclasses will have no need to</span><br><span class="line">     * override this method, relying solely on the &#123;@link #initialValue&#125;</span><br><span class="line">     * method to set the values of thread-locals.</span><br><span class="line">     *</span><br><span class="line">     * @param value the value to be stored in the current thread&apos;s copy of</span><br><span class="line">     *        this thread-local.</span><br><span class="line">     */</span><br><span class="line">    public void set(T value) &#123;</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        if (map != null)</span><br><span class="line">            map.set(this, value);</span><br><span class="line">        else</span><br><span class="line">            createMap(t, value);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里的入参是一个Looper，<strong>这个Looper就是当前线程中创建的Looper(new Looper(quitAllowed))存放在了一个ThreadLocal中</strong>。其实在所有线程中创建的Looper都存放在了一个ThreadLocal中。然后在创建Handler的时候就将Handler与当前线程关联。<strong>所以，Looper.prepare()就是将当前线程创建的Looper存放在ThreadLocal中</strong>。<br>下面我们看下是如何关联：<br>例如：handler = new Handler(Looper.getMainLooper()) {…}就是将创建的handler与主线程的Looper关联。<em>我们是可以指定特定的looper，让handleMessage运行在我们想运行的线程中。</em>构造函数如下：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public Handler(Looper looper, Callback callback, boolean async) &#123;</span><br><span class="line">        mLooper = looper;</span><br><span class="line">        mQueue = looper.mQueue;</span><br><span class="line">        mCallback = callback;</span><br><span class="line">        mAsynchronous = async;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>另外一种handler = new Handler() {…},调用如下：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Default constructor associates this handler with the &#123;@link Looper&#125; for the</span><br><span class="line">     * current thread.</span><br><span class="line">     *</span><br><span class="line">     * If this thread does not have a looper, this handler won&apos;t be able to receive messages</span><br><span class="line">     * so an exception is thrown.</span><br><span class="line">     */  </span><br><span class="line">     //从上面注释可见如果没有looper就会抛异常，所以需要在之前调用Looper.prepare()创建一个looper</span><br><span class="line">    public Handler() &#123;</span><br><span class="line">        this(null, false);</span><br><span class="line">    &#125;   </span><br><span class="line">     </span><br><span class="line">    //this(null, false);构造函数源码如下  </span><br><span class="line">    public Handler(Callback callback, boolean async) &#123;</span><br><span class="line">        if (FIND_POTENTIAL_LEAKS) &#123;</span><br><span class="line">            final Class&lt;? extends Handler&gt; klass = getClass();</span><br><span class="line">            if ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;</span><br><span class="line">                    (klass.getModifiers() &amp; Modifier.STATIC) == 0) &#123;</span><br><span class="line">                Log.w(TAG, &quot;The following Handler class should be static or leaks might occur: &quot; +</span><br><span class="line">                    klass.getCanonicalName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">//获取和此线程关联的looper</span><br><span class="line">        mLooper = Looper.myLooper();</span><br><span class="line">        if (mLooper == null) &#123;</span><br><span class="line">            throw new RuntimeException(</span><br><span class="line">                &quot;Can&apos;t create handler inside thread &quot; + Thread.currentThread()</span><br><span class="line">                        + &quot; that has not called Looper.prepare()&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    //对应的消息队列</span><br><span class="line">        mQueue = mLooper.mQueue;</span><br><span class="line">        mCallback = callback;</span><br><span class="line">        mAsynchronous = async;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>所以在创建handler的时候是通过 mLooper = Looper.myLooper();获取到此线程关联的looper，我们看下 Looper.myLooper()这个函数。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Return the Looper object associated with the current thread.  Returns</span><br><span class="line">     * null if the calling thread is not associated with a Looper.</span><br><span class="line">     */</span><br><span class="line">    public static @Nullable Looper myLooper() &#123;</span><br><span class="line">        return sThreadLocal.get();</span><br><span class="line">    &#125;   </span><br><span class="line">      </span><br><span class="line">  //get函数的源码  </span><br><span class="line">public T get() &#123;</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        if (map != null) &#123;</span><br><span class="line">            ThreadLocalMap.Entry e = map.getEntry(this);</span><br><span class="line">            if (e != null) &#123;</span><br><span class="line">                @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">                T result = (T)e.value;</span><br><span class="line">                return result;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return setInitialValue();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>代码很简单，就是从ThreadLocal获取关联的looper。真正获取是在get方法里，首先获取当前线程，然后从ThreadLocalMap中取获取和当前线程关联的looper，也就是在当前线程中调用Looper.prepare()时候存储的looper。  </p>
+<h1 id="四、消息处理流程"><a href="#四、消息处理流程" class="headerlink" title="四、消息处理流程"></a>四、消息处理流程</h1><p>解决完之前的两个问题，接下来分析消息的处理流程，只有来消息发送、消息获取、消息处理的完整流程走完，才能实现不同线程间的通信。  </p>
+<h2 id="1、消息发送"><a href="#1、消息发送" class="headerlink" title="1、消息发送"></a>1、消息发送</h2><p>从handler.sendMessage(sendMessage);一直往里面跟发现最终调用的是MessageQueue.java类中的boolean enqueueMessage(Message msg, long when)函数。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">boolean enqueueMessage(Message msg, long when) &#123;  </span><br><span class="line">//target就是创建的handler</span><br><span class="line">        if (msg.target == null) &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;Message must have a target.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        if (msg.isInUse()) &#123;</span><br><span class="line">            throw new IllegalStateException(msg + &quot; This message is already in use.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        synchronized (this) &#123;</span><br><span class="line">            if (mQuitting) &#123;</span><br><span class="line">                IllegalStateException e = new IllegalStateException(</span><br><span class="line">                        msg.target + &quot; sending message to a Handler on a dead thread&quot;);</span><br><span class="line">                Log.w(TAG, e.getMessage(), e);</span><br><span class="line">                msg.recycle();</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            msg.markInUse();</span><br><span class="line">            msg.when = when;</span><br><span class="line">            Message p = mMessages;</span><br><span class="line">            boolean needWake;</span><br><span class="line">            if (p == null || when == 0 || when &lt; p.when) &#123;</span><br><span class="line">                // New head, wake up the event queue if blocked.</span><br><span class="line">                msg.next = p;</span><br><span class="line">                mMessages = msg;</span><br><span class="line">                needWake = mBlocked;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // Inserted within the middle of the queue.  Usually we don&apos;t have to wake</span><br><span class="line">                // up the event queue unless there is a barrier at the head of the queue</span><br><span class="line">                // and the message is the earliest asynchronous message in the queue.</span><br><span class="line">                needWake = mBlocked &amp;&amp; p.target == null &amp;&amp; msg.isAsynchronous();</span><br><span class="line">                Message prev;</span><br><span class="line">                for (;;) &#123;</span><br><span class="line">                    prev = p;</span><br><span class="line">                    p = p.next;</span><br><span class="line">                    if (p == null || when &lt; p.when) &#123;</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                    if (needWake &amp;&amp; p.isAsynchronous()) &#123;</span><br><span class="line">                        needWake = false;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                msg.next = p; // invariant: p == prev.next</span><br><span class="line">                prev.next = msg;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // We can assume mPtr != 0 because mQuitting is false.</span><br><span class="line">            if (needWake) &#123;</span><br><span class="line">                nativeWake(mPtr);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>Message的发送实际是放入到了Handler对应线程的MessageQueue中将Message存到了上一个Message.next上形成了一个链式的列表，同时也保证了Message列表的时序性M通过msg.when保证了时序性。所以，至此发送消息就是将消息存放在消息队列中。  </p>
+<h1 id="2、获取消息"><a href="#2、获取消息" class="headerlink" title="2、获取消息"></a>2、获取消息</h1><p>如果不调用Looper.loop();Handler还是会收不到消息，这个方法就是从消息队列中(Message Queue)中获取消息。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">public static void loop() &#123;  </span><br><span class="line">//熟悉的味道，在分析handler构造函数的时候也会调用myLooper()获取此线程关联的looper</span><br><span class="line">        final Looper me = myLooper();</span><br><span class="line">        if (me == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;No Looper; Looper.prepare() wasn&apos;t called on this thread.&quot;);</span><br><span class="line">        &#125;  </span><br><span class="line">        //获取Looper对象的消息队列</span><br><span class="line">        final MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">        // Make sure the identity of this thread is that of the local process,</span><br><span class="line">        // and keep track of what that identity token actually is.</span><br><span class="line">        Binder.clearCallingIdentity();</span><br><span class="line">        final long ident = Binder.clearCallingIdentity();</span><br><span class="line"></span><br><span class="line">        // Allow overriding a threshold with a system prop. e.g.</span><br><span class="line">        // adb shell &apos;setprop log.looper.1000.main.slow 1 &amp;&amp; stop &amp;&amp; start&apos;</span><br><span class="line">        final int thresholdOverride =</span><br><span class="line">                SystemProperties.getInt(&quot;log.looper.&quot;</span><br><span class="line">                        + Process.myUid() + &quot;.&quot;</span><br><span class="line">                        + Thread.currentThread().getName()</span><br><span class="line">                        + &quot;.slow&quot;, 0);</span><br><span class="line"></span><br><span class="line">        boolean slowDeliveryDetected = false;</span><br><span class="line">//死循环，从消息队列中一直取消息</span><br><span class="line">        for (;;) &#123;</span><br><span class="line">            Message msg = queue.next(); // might block</span><br><span class="line">            if (msg == null) &#123;</span><br><span class="line">                // No message indicates that the message queue is quitting.</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // This must be in a local variable, in case a UI event sets the logger</span><br><span class="line">            final Printer logging = me.mLogging;</span><br><span class="line">            if (logging != null) &#123;</span><br><span class="line">                logging.println(&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot; + msg.target + &quot; &quot; +</span><br><span class="line">                        msg.callback + &quot;: &quot; + msg.what);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            final long traceTag = me.mTraceTag;</span><br><span class="line">            long slowDispatchThresholdMs = me.mSlowDispatchThresholdMs;</span><br><span class="line">            long slowDeliveryThresholdMs = me.mSlowDeliveryThresholdMs;</span><br><span class="line">            if (thresholdOverride &gt; 0) &#123;</span><br><span class="line">                slowDispatchThresholdMs = thresholdOverride;</span><br><span class="line">                slowDeliveryThresholdMs = thresholdOverride;</span><br><span class="line">            &#125;</span><br><span class="line">            final boolean logSlowDelivery = (slowDeliveryThresholdMs &gt; 0) &amp;&amp; (msg.when &gt; 0);</span><br><span class="line">            final boolean logSlowDispatch = (slowDispatchThresholdMs &gt; 0);</span><br><span class="line"></span><br><span class="line">            final boolean needStartTime = logSlowDelivery || logSlowDispatch;</span><br><span class="line">            final boolean needEndTime = logSlowDispatch;</span><br><span class="line"></span><br><span class="line">            if (traceTag != 0 &amp;&amp; Trace.isTagEnabled(traceTag)) &#123;</span><br><span class="line">                Trace.traceBegin(traceTag, msg.target.getTraceName(msg));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            final long dispatchStart = needStartTime ? SystemClock.uptimeMillis() : 0;</span><br><span class="line">            final long dispatchEnd;</span><br><span class="line">            try &#123;  </span><br><span class="line">            //分发消息，target就是消息的handler</span><br><span class="line">                msg.target.dispatchMessage(msg);</span><br><span class="line">                dispatchEnd = needEndTime ? SystemClock.uptimeMillis() : 0;</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                if (traceTag != 0) &#123;</span><br><span class="line">                    Trace.traceEnd(traceTag);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (logSlowDelivery) &#123;</span><br><span class="line">                if (slowDeliveryDetected) &#123;</span><br><span class="line">                    if ((dispatchStart - msg.when) &lt;= 10) &#123;</span><br><span class="line">                        Slog.w(TAG, &quot;Drained&quot;);</span><br><span class="line">                        slowDeliveryDetected = false;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    if (showSlowLog(slowDeliveryThresholdMs, msg.when, dispatchStart, &quot;delivery&quot;,</span><br><span class="line">                            msg)) &#123;</span><br><span class="line">                        // Once we write a slow delivery log, suppress until the queue drains.</span><br><span class="line">                        slowDeliveryDetected = true;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (logSlowDispatch) &#123;</span><br><span class="line">                showSlowLog(slowDispatchThresholdMs, dispatchStart, dispatchEnd, &quot;dispatch&quot;, msg);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (logging != null) &#123;</span><br><span class="line">                logging.println(&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot; + msg.target + &quot; &quot; + msg.callback);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // Make sure that during the course of dispatching the</span><br><span class="line">            // identity of the thread wasn&apos;t corrupted.</span><br><span class="line">            final long newIdent = Binder.clearCallingIdentity();</span><br><span class="line">            if (ident != newIdent) &#123;</span><br><span class="line">                Log.wtf(TAG, &quot;Thread identity changed from 0x&quot;</span><br><span class="line">                        + Long.toHexString(ident) + &quot; to 0x&quot;</span><br><span class="line">                        + Long.toHexString(newIdent) + &quot; while dispatching to &quot;</span><br><span class="line">                        + msg.target.getClass().getName() + &quot; &quot;</span><br><span class="line">                        + msg.callback + &quot; what=&quot; + msg.what);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            msg.recycleUnchecked();</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>整个流程就是首先获取当前线程的Looper对象，然后获取Looper对象的消息队列，最后开启一个死循环，不断从消息队列中获取消息，通过消息的handler分发消息msg.target.dispatchMessage(msg)。下面看下Handler类中的这个函数。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  * Handle system messages here.</span><br><span class="line">  */</span><br><span class="line"> public void dispatchMessage(Message msg) &#123;</span><br><span class="line">     if (msg.callback != null) &#123;</span><br><span class="line">         handleCallback(msg);</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         if (mCallback != null) &#123;</span><br><span class="line">             if (mCallback.handleMessage(msg)) &#123;</span><br><span class="line">                 return;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         handleMessage(msg);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数调用handleCallback(msg)或者handleMessage(msg)处理消息。  </p>
+<h2 id="3、消息处理"><a href="#3、消息处理" class="headerlink" title="3、消息处理"></a>3、消息处理</h2><p>本例中我们没有设置callback，所以直接调用的是handleMessage(msg)这个函数。也就是我们在创建handler的时候复写的方法。但是这儿有个handleCallback(msg)方法。<br>查了下资料发现这个是由于Handler发送消息的方式导致有两种方式处理消息。如果我们使用sendMessage方式发送消息，则callback为空，即回调我们复写的handleMessage方法。二另外一种方式发送消息就是post(Runnable r)方法发送消息，就会回调runnable中复写的run方法。修改我们demo中的代码使用post方法发送消息。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">private void handlerMessageInTwoThread() &#123;</span><br><span class="line">        Thread firstThread = new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Looper.prepare();</span><br><span class="line">                handler = new Handler();</span><br><span class="line">                Looper.loop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Thread secondThread = new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                final Message sendMessage = handler.obtainMessage();</span><br><span class="line">                sendMessage.obj = &quot;secondThread发送的消息&quot;;</span><br><span class="line">                Log.d(&quot;secondThread&quot;,&quot;secondThread sendMessage: &quot; + sendMessage.obj);</span><br><span class="line">                //handler.sendMessage(sendMessage);</span><br><span class="line">                handler.post(new Runnable() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void run() &#123;</span><br><span class="line">                        Toast.makeText(MainActivity.this,&quot;firstThread handleMessage&quot; + sendMessage.obj,Toast.LENGTH_LONG).show();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        firstThread.setName(&quot;firstThread&quot;);</span><br><span class="line">        firstThread.start();</span><br><span class="line">        secondThread.setName(&quot;secondThread&quot;);</span><br><span class="line">        secondThread.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在firstThread中创建了handler，并没有复写handleMessage。而是在secondThread中使用post方式发送消息并复写了Runnable的run方法来执行我们需要执行的逻辑。  </p>
+<h1 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h1><p>总结一下，其实Handler机制并没有想象中的复杂，主要就是handler、message、message queue、looper。  </p>
+<ul>
+<li>handler就是对消如果在主线程中创建handler，那么这个handler就和主线程的looper关联了。如果在子线程中创建handler，就需要先调用Looper.prepare()存储此线程的Looper，然后new Handler的时候关联。当然也可以在new Handler的指定关联的looper。  </li>
+<li>message就是存储传递消息的属性。  </li>
+<li>message queue就是存储发送的消息，是一个链式的列表。  </li>
+<li>looper就是从message queue中取出消息给handler处理。  </li>
+</ul>
+<p>当然handler消息机制中涉及的问题很多，例如内存泄露问题、 ThreadLocal保证线程looper的实现、Android主线程(ActivityThread)问题，这些后续陆续补充。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/18/Android消息机制之handler原理/" data-id="cjyec8l8g001hzo6c7zs64658" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-网上资料链接" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/04/网上资料链接/" class="article-date">
+  <time datetime="2019-07-04T07:38:15.460Z" itemprop="datePublished">2019-07-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>title: 网上资料链接<br>date: 2019-07-04 15:38:15</p>
+<h2 id="tags-使用指南"><a href="#tags-使用指南" class="headerlink" title="tags: 使用指南"></a>tags: 使用指南</h2><h1 id="一、Java"><a href="#一、Java" class="headerlink" title="一、Java"></a>一、Java</h1><p>effective java第三版中文翻译：<a href="https://sjsdfg.github.io/effective-java-3rd-chinese/#/README" target="_blank" rel="noopener">第三版中文翻译</a><br>计算机基础、java相关知识合集：<a href="https://github.com/PansonPanson/Java-Notes" target="_blank" rel="noopener">合集</a>  </p>
+<h1 id="二、Android"><a href="#二、Android" class="headerlink" title="二、Android"></a>二、Android</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/04/网上资料链接/" data-id="cjyec8l7l0010zo6cfes0y59s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-inflate导致的空指针" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/06/28/inflate导致的空指针/" class="article-date">
@@ -120,7 +249,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjxkd158z0003st6cebypa7a7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjyec8l6y0003zo6cpwqpate8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
@@ -167,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="cjxkd158u0001st6c8q8534fm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="cjyec8l6v0001zo6ctaszlnt5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/使用指南/">使用指南</a></li></ul>
@@ -214,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="cjxkd158q0000st6cgneiu2n9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="cjyec8l6q0000zo6clhtjfx05" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/使用指南/">使用指南</a></li></ul>
@@ -254,7 +383,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/22/六、Material Design/" data-id="cjxkd159d000lst6cigljgxhj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/22/六、Material Design/" data-id="cjyec8l7f000ozo6ce3bc94o8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -725,7 +854,7 @@ public int getItemCount() {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="cjxkd15a0001est6cnhyrqsd7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="cjyec8l87001fzo6c3fbaqy72" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -915,7 +1044,7 @@ public int getItemCount() {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/" data-id="cjxkd159a000fst6cls2a7vw7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/" data-id="cjyec8l79000fzo6cob6os365" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -1148,7 +1277,7 @@ class LocalReceiver extends BroadcastReceiver{
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/06/四、广播/" data-id="cjxkd159t001bst6cqjghp5nj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/06/四、广播/" data-id="cjyec8l7z001czo6cr4cuwsaj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -1444,593 +1573,7 @@ implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/" data-id="cjxkd159s001ast6csqzugt5b" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-二、活动(Activity)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/03/二、活动(Activity)/" class="article-date">
-  <time datetime="2018-06-03T11:49:34.000Z" itemprop="datePublished">2018-06-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/03/二、活动(Activity)/">二、活动（Activity）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="二、活动（Activity）"><a href="#二、活动（Activity）" class="headerlink" title="二、活动（Activity）"></a>二、活动（Activity）</h1><p>活动（Activity）是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。</p>
-<h2 id="1、活动基本用法"><a href="#1、活动基本用法" class="headerlink" title="1、活动基本用法"></a>1、活动基本用法</h2><h3 id="1-1、手动创建活动"><a href="#1-1、手动创建活动" class="headerlink" title="1.1、手动创建活动"></a>1.1、手动创建活动</h3><p>Activity Name：FirstActivity；<br>Generate Layout File：表示会自动为FirstActivity创建一个对应的布局文件；<br>Launcher Activity：表示自动将FirstActivity设置为当前项目的主活动；<br>Backwards Compatibility：表示为项目启用向下兼容的模式。  </p>
-<p>项目的任何活动都应该重写Activity的onCreate()方法，如FirstActivity中Android Studio的默认实现：  </p>
-<pre><code>package com.example.xxxxx.activitytest;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-public class FirstActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {//重写onCreate方法,主要是加载一些组件
-        super.onCreate(savedInstanceState);          //调用父类的onCreate方法，参数的作用是保持
-    }
-}
-</code></pre><h3 id="1-2、创建和加载布局"><a href="#1-2、创建和加载布局" class="headerlink" title="1.2、创建和加载布局"></a>1.2、创建和加载布局</h3><p>Android程序的设计讲究逻辑和视图分离，最好每一个活动都能对应一个布局，布局就是用来显示界面内容。  </p>
-<h4 id="1-2-1创建布局"><a href="#1-2-1创建布局" class="headerlink" title="1.2.1创建布局"></a>1.2.1创建布局</h4><p>在app/src/main/res目录右击-&gt;New-&gt;Directory创建layout目录。layout目录右击-&gt;New-&gt;Layout resource file,命名布局文件为first_layout，根元素选择LinearLayout。创建完成。<br>在Android Studio的下方的Design是可视化布局编辑器，不仅可以预览当前的布局，还可以通过拖放的方式编辑布局；Text是通过XML文件的方式来编辑布局的，其代码如下：  </p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-
-&lt;/LinearLayout&gt;  
-</code></pre><p>布局文件中已经有一个LinearLayout元素，添加一个按钮：  </p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-
-    &lt;Button
-  //android:id是给当前元素定义一个唯一标识符，代码可以对其进行操作；     //在XML中引用一个id就用@id/id_name语法；在XML中定义一个id就用@+id/id_name语法
-android:id=&quot;@+id/button_1&quot;
-       android:layout_width=&quot;match_parent&quot;  //当前元素宽度，match_parent表示和父元素一样宽
-    android:layout_height=&quot;wrap_content&quot; //当前元素高度，wrap_content表示高度更好包含里面的内容就行
-    android:text=&quot;Button 1&quot;  //指定元素中显示的文字内容
-    /&gt;
-
-&lt;/LinearLayout&gt;
-</code></pre><h4 id="1-2-2在活动中加载布局"><a href="#1-2-2在活动中加载布局" class="headerlink" title="1.2.2在活动中加载布局"></a>1.2.2在活动中加载布局</h4><p>在FirstActivity中的onCreate方法中加入代码：  </p>
-<pre><code>package com.example.xxxxx.activitytest;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-public class FirstActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.first_layout);//给当前活动加载布局，一般传入布局文件的id
-    }
-}
-</code></pre><p>项目的添加的任何资源都会在R文件中生成一个相应的资源id，first_layout.xml布局的id也添加到R文件中了，R.layout.first_layout就可以得到first_layout.xml布局的id。  </p>
-<h4 id="1-2-3在AndroidManifest文件中注册"><a href="#1-2-3在AndroidManifest文件中注册" class="headerlink" title="1.2.3在AndroidManifest文件中注册"></a>1.2.3在AndroidManifest文件中注册</h4><p>所有的活动都要在AndroidManifest.xml文件中注册才能生效，FirstActivity在AndroidManifest.xml中注册过了，app/src/main/AndroidManifest.xml：  </p>
-<pre><code>    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-        package=&quot;com.example.xxxxxx.activitytest&quot;&gt;
-
-    &lt;application
-    android:allowBackup=&quot;true&quot;
-    android:icon=&quot;@mipmap/ic_launcher&quot;
-    android:label=&quot;@string/app_name&quot;
-    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
-    android:supportsRtl=&quot;true&quot;
-    android:theme=&quot;@style/AppTheme&quot;&gt;
-    &lt;activity android:name=&quot;.FirstActivity&quot;&gt;&lt;/activity&gt;
-&lt;/application&gt;
-
-&lt;/manifest&gt;
-</code></pre><p>活动的注册在<application>标签内，通过<activity>注册，android:name来指定具体注册哪一个活动，.FirstActivity是一个缩写，<manifest>标签的package指定了包名。<br>仅仅注册不能运行，还需要为程序配置主活动，在AndroidManifest.xml中使用<intent-filter>标签：  </intent-filter></manifest></activity></application></p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    package=&quot;com.example.xxxxx.activitytest&quot;&gt;
-
-&lt;application
-    android:allowBackup=&quot;true&quot;
-    android:icon=&quot;@mipmap/ic_launcher&quot;
-    android:label=&quot;@string/app_name&quot;
-    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
-    android:supportsRtl=&quot;true&quot;
-    android:theme=&quot;@style/AppTheme&quot;&gt;
-    &lt;activity android:name=&quot;.FirstActivity&quot;
-        android:label=&quot;This is FirstActivity&quot;&gt;//指定活动标题栏内容，会话顶部，还是启动器中应用程序的名称
-        &lt;intent-filter&gt;  //标签内配置主活动
-            &lt;action android:name = &quot;android.intent.action.MAIN&quot;/&gt;  //使用这两句声明来配置
-            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;
-        &lt;/intent-filter&gt;
-    &lt;/activity&gt;
-&lt;/application&gt;
-
-&lt;/manifest&gt;
-</code></pre><h4 id="1-2-4在活动中使用Toast"><a href="#1-2-4在活动中使用Toast" class="headerlink" title="1.2.4在活动中使用Toast"></a>1.2.4在活动中使用Toast</h4><p>Toast是Android系统提供的一种非常好的提醒方式，在程序中可以使用它将一些短小的信息通知给用户，这些信息一段时间后会自动消失，不会占用任何屏幕空间。<br>定义一个Toast触发点，使用界面中的按钮，在onCreate方法中添加代码：  </p>
-<pre><code>package com.example.xxxxx.activitytest;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
-public class FirstActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.first_layout);
-
-    Button button1 = (Button) findViewById(R.id.button_1);//获取布局文件中定义的元素实例，first_layout.xml中通过android:id指定的
-    button1.setOnClickListener(new View.OnClickListener() {//这个方法为按钮注册一个监听器，点击按钮就会执行onClick方法
-        @Override
-        public void onClick(View v) {//弹出Toast的功能
-        //通过静态方法makeText创建Toast对象，然后调用show显示出来
-        //第一个参数Context，Toast要求的上下文;第二个参数显示的文本内容；第三个参数显示时长
-            Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
-        }
-    });
-    }
-}
-</code></pre><h4 id="1-2-5在活动中使用Menu"><a href="#1-2-5在活动中使用Menu" class="headerlink" title="1.2.5在活动中使用Menu"></a>1.2.5在活动中使用Menu</h4><p>使得菜单能得到展示并不占用屏幕。<br>在res目录右击-&gt;New-&gt;Directory,输入menu；文件夹下新建main菜单，menu右击-&gt;New-&gt;Menu resource file，在main.xml中添加代码：  </p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
-        &lt;item   //item标签用来创建某一个菜单项
-            android:id=&quot;@+id/add_item&quot;  //给菜单项指定一个唯一标识符
-            android:title=&quot;Add&quot;/&gt;     //给菜单项指定一个名称
-        &lt;item
-            android:id=&quot;@+id/remove_item&quot;
-            android:title=&quot;Remove&quot;/&gt;
-&lt;/menu&gt;
-</code></pre><p>在FirstActivity中重写onCreateOptionMenu()方法（MAC中control+O）:  </p>
-<pre><code>@Override
-public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main , menu);//获得MenuInflater对象，调用inflate方法给当前活动创建菜单
-//inflate()方法2个参数，第一个指定通过哪一个资源文件来创建菜单；第二个参数指定我们的菜单项添加到哪一个Menu对象中，此处使用了传入的参数
-    return true;
-}
-</code></pre><p>要菜单真正可用，还要在定义菜单响应事件，通过在FirstActivity中重写onOptionItemSelected()方法：</p>
-<pre><code>    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){//判断点击的是哪一个菜单项
-            case R.id.add_item:
-            Toast.makeText(this,&quot;You clicked Add&quot;,Toast.LENGTH_SHORT).show();
-            break;
-           case R.id.remove_item:
-                Toast.makeText(this,&quot;You clicked Remove&quot;,Toast.LENGTH_SHORT).show();
-                break;
-        default:
-    }
-    return true;
-}
-</code></pre><h4 id="1-2-6销毁一个活动"><a href="#1-2-6销毁一个活动" class="headerlink" title="1.2.6销毁一个活动"></a>1.2.6销毁一个活动</h4><p>除了返回键销毁活动外，在代码中销毁可以使用Activity类提供的finish()方法，例如修改按钮监听器中的代码：  </p>
-<pre><code>button1.setOnClickListener(new View.OnClickListener() {
-           @Override
-        public void onClick(View v) {
-            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
-            finish();
-        }
-    });
-</code></pre><p>点击Button 1就销毁了活动。  </p>
-<h2 id="2、使用Intent在活动中切换"><a href="#2、使用Intent在活动中切换" class="headerlink" title="2、使用Intent在活动中切换"></a>2、使用Intent在活动中切换</h2><p>点击启动器只会进入到应用的主活动中，所以需要从主活动跳转到其他活动。<br>Intent是Android程序中各组件交互的一种重要方式，不仅可以指明当前组件想要执行的动作，还可以在不同组件直接传递数据。一般可用于启动活动、启动服务以及发送广播等。  </p>
-<h3 id="2-1使用显示Intent"><a href="#2-1使用显示Intent" class="headerlink" title="2.1使用显示Intent"></a>2.1使用显示Intent</h3><h4 id="2-1-1创建另外一个活动"><a href="#2-1-1创建另外一个活动" class="headerlink" title="2.1.1创建另外一个活动"></a>2.1.1创建另外一个活动</h4><p>右击包名-&gt;New-&gt;Activity-&gt;Empty Activity,创建SecondActivity，布局为second_layout，不选Launcher Activity。编辑second_layout.xml如下：  </p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-
-&lt;Button
-    android:id=&quot;@+id/button_2&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;Button 2&quot;
-    /&gt;
-
-&lt;/LinearLayout&gt;  
-</code></pre><p>任何一个活动都需要在AndroidManifest.xml中注册，Android Studio已自动完成，由于不是主活动，不需要配置<intent-filter>标签里的内容。FirstActivity和SecondActivity注册对比如下：  </intent-filter></p>
-<pre><code>&lt;activity
-        android:name=&quot;.FirstActivity&quot;
-        android:label=&quot;This is FirstActivity&quot;&gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
-            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
-        &lt;/intent-filter&gt;
-    &lt;/activity&gt;
-
-    &lt;activity android:name=&quot;.SecondActivity&quot;&gt;&lt;/activity&gt;
-</code></pre><h4 id="2-1-2显示Intent"><a href="#2-1-2显示Intent" class="headerlink" title="2.1.2显示Intent"></a>2.1.2显示Intent</h4><p>Intent的构造函数之一：  </p>
-<pre><code>Intent(Context packageContext , Class&lt;?&gt;cls)
-</code></pre><p>第一个参数表示启动活动的上下文，第二个指想要启动的目标活动。<br>Activity类中提供的一个startActivity()方法接收一个Intent参数，专门用于启动活动。修改FirstActivity中按钮的点击事件：  </p>
-<pre><code>button1.setOnClickListener(new View.OnClickListener() {
-       @Override
-       public void onClick(View v) {
-           //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
-           Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
-           startActivities(intent);
-       }
-   });
-</code></pre><h3 id="2-2隐式Intent"><a href="#2-2隐式Intent" class="headerlink" title="2.2隐式Intent"></a>2.2隐式Intent</h3><p>不明确指出想要启动哪一个活动，而是指定一系列更为抽象的action和category等信息，然后交由系统分析这个Intent。<br>通过AndroidManifest.xml文件中的<activity>标签下配置<intent-filter>的内容，指定当前活动能够响应action和category：  </intent-filter></activity></p>
-<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
-            &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
-        &lt;/intent-filter&gt;
-    &lt;/activity&gt;
-</code></pre><p>只有<action>和<category>中的内容同时匹配上Intent中指定的action和category时，这个活动才响应该Intent。<br>修改FirstActivity中按钮的点击事件：  </category></action></p>
-<pre><code>button1.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
-    //使用了Intent的另外一个构造函数，传递action字符串
-            Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
-            startActivity(intent);
-        }
-</code></pre><p>一个Intent只能指定一个action，但是能指定多个category。在AndroidManifest.xml的<intent-filter>中添加一个category：  </intent-filter></p>
-<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
-               &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
-            &lt;category android:name=&quot;android.intent.category.MY_CATEGORY&quot;/&gt;//声明自定义的category
-        &lt;/intent-filter&gt;
-    &lt;/activity&gt;
-</code></pre><hr>
-<pre><code>       @Override
-    public void onClick(View v) {
-        //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
-        Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
-        intent.addCategory(&quot;com.example.xxxxx.activitytest.MY_CATEGORY&quot;);//添加一个category
-        startActivity(intent);
-    }
-});
-</code></pre><h4 id="2-2-1隐式Intent的多种用法"><a href="#2-2-1隐式Intent的多种用法" class="headerlink" title="2.2.1隐式Intent的多种用法"></a>2.2.1隐式Intent的多种用法</h4><p>隐式Intent不仅可以起到自己程序内的活动，还可以起到其他程序的活动，使得Android多个应用程序之间功能共享。例如，调用系统浏览器打开网页，修改FirstActivity中按钮事件代码：  </p>
-<pre><code>button1.setOnClickListener(new View.OnClickListener() {
-       @Override
-       public void onClick(View v) {
-           Intent intent = new Intent(Intent.ACTION_VIEW);//Intent的action是Intent.ACTION_VIEW,系统内置的动作
-           intent.setData(Uri.parse(&quot;http://www.baidu.com&quot;));//Uri.parse方法将网址字符串解析成一个Uri对象，setData将对象传递进去
-           startActivity(intent);
-       }
-   });
-</code></pre><p>还可以在<intent-fileter>标签中配置<data>标签，更精确的指定当前活动响应什么类型数据。<data>标签主要可以配置以下内容：<br>android:scheme   指定数据的协议部分，如http<br>android:host    指定数据的主机部分，如<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br>android:port    指定数据的端口部分<br>android:path   指定主机名和端口之后的部分<br>android:mineType   指定可以处理的数据类型，允许使用通配符方式指定<br><data>标签指定的内容和Intent携带的data完全一致时，当前活动才能够响应Intent。  </data></data></data></intent-fileter></p>
-<p>拨打电话：  </p>
-<pre><code> button1.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse(&quot;tel:10086&quot;));
-        startActivity(intent);
-    }
-});
-</code></pre><h3 id="2-3向下一个活动传递数据"><a href="#2-3向下一个活动传递数据" class="headerlink" title="2.3向下一个活动传递数据"></a>2.3向下一个活动传递数据</h3><p>Intent中提供了一系列putExtra()方法的重载，可以把我们需要传递的数据暂存在Intent中，启动另一个活动后，将数据从Intent中取出。例如FirstActivity中的一个字符串传递到SecondActivity中去：  </p>
-<pre><code>button1.setOnClickListener(new View.OnClickListener() {
-       @Override
-       public void onClick(View v) {
-           String data = &quot;Hello SecondActivity&quot;;
-           Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
-           intent.putExtra(&quot;extra_data&quot; , data); //通过putExtra传递一个字符串，第一个参数是键，用于后面从Intent中取值，data是要传的数据
-           startActivity(intent);
-       }
-   });
-</code></pre><hr>
-<pre><code>//在SecondActivity中将传递的数据取出，并打印出来
-public class SecondActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.second_layout);
-
-        Intent intent = getIntent();//次方法获取用于启动SecondActivity的Intent
-        String data = intent.getStringExtra(&quot;extra_data&quot;);//获取传递的数据
-        Log.d(&quot;SecondActivity&quot;,data);
-
-        }
-}
-</code></pre><h3 id="2-4返回数据给上一个活动"><a href="#2-4返回数据给上一个活动" class="headerlink" title="2.4返回数据给上一个活动"></a>2.4返回数据给上一个活动</h3><p>使用Activity中的一个startActivityForResult(）方法启动活动，这个方法当活动销毁时能够返回一个结果给上一个活动。两个参数，第一个参数Intent，第二个是请求码，用于在之后回调中判断数据的来源。  </p>
-<pre><code>button1.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
-            startActivityForResult(intent , 1);//请求码是唯一值就可以
-    }
-}
-</code></pre><p>在SecondActivity中给按钮注册点击事件，并在点击事件中添加数据的逻辑：  </p>
-<pre><code>public class SecondActivity extends AppCompatActivity {
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.second_layout);
-   Button button2 = (Button)findViewById(R.id.button_2);
-    button2.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();//构建一个Intent，仅仅传递数据，没指向任何“意图”
-            intent.putExtra(&quot;data_rerutn&quot; , &quot;Hello FirstActivity&quot;);
-            setResult(RESULT_OK,intent);//向上一活动返回数据,第一个参数返回处理结果，_OK和_CANCELED两个值，第二个参数把带有数据的intent传递回去
-            finish(); //销毁当前活动
-        }
-    });
-    }
-}
-</code></pre><p>startActivityForResylt()方法启动SecondActivity后，在SecondActivity被销毁后回调上一个活动的onActivityResult()方法，因此需要重写FirstActivity中的这个方法得到返回的数据：  </p>
-<pre><code>@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    switch (requestCode){
-        case 1:
-            if(resultCode == RESULT_OK){
-                String returnedData = data.getStringExtra(&quot;data_return&quot;);
-                Log.d(&quot;FirstActivity&quot; , returnedData);
-
-            }
-            break;
-        default:
-    }
-}
-</code></pre><p>三个参数，第一个requestCode是启动活动时传入的请求码；resultCode返回数据时传入的处理结果；data是携带返回数据的Intent。由于一个活动可能启动多个活动，每个活动返回的数据都回调到onActivityResult()方法中，因此，首先检查requestCode的值判断数据来源。  </p>
-<p>还可以通过Back键回到FirstActivity，需要重写onBackPressed()方法来解决：  </p>
-<pre><code>@override
-public void onBackPressed(){
-    Intent intent = new Intent();
-    intent.putExtra(&quot;data_return&quot;,&quot;Hello FirstActivity&quot;);
-    setResult(RESULT_OK,intent);
-    finish();
-}
-</code></pre><h2 id="3、活动的生命周期"><a href="#3、活动的生命周期" class="headerlink" title="3、活动的生命周期"></a>3、活动的生命周期</h2><p>Android中的活动是可以层叠的，使用任务(Task)管理活动，一个任务就是一组存放在栈里的活动的集合，这个栈称为返回栈。启动一个新的活动就会在返回栈中入栈，处于栈顶；当调用finish()或者按back键销毁活动后就出栈。</p>
-<h3 id="3-1活动状态"><a href="#3-1活动状态" class="headerlink" title="3.1活动状态"></a>3.1活动状态</h3><p><strong>运行状态：</strong>活动处于返回栈的栈顶<br><strong>暂停状态：</strong>活动不处于栈顶，但任然可见；这是因为不是每一个活动都会占满整个屏幕，暂停状态的活动仍然完全存活，如果内存极低系统会考虑回收这种活动<br><strong>停止状态：</strong>活动不处于栈顶，并且完全不可见；系统会保存相应的状态和成员变量，但是也有可能被回收<br><strong>销毁状态：</strong>活动从返回栈移除  </p>
-<h3 id="3-2活动的生存期"><a href="#3-2活动的生存期" class="headerlink" title="3.2活动的生存期"></a>3.2活动的生存期</h3><p>Activity类定义了7个回调方法，覆盖生命周期的每一个环节。<br><strong>onCreate()：</strong>每个活动都要重写这个方法，会在活动第一次被创建的时候调用；在方法中完成活动的初始化，如加载布局、绑定事件<br><strong>onStart():</strong>由不可见变为可见的时候调用<br><strong>onResume()：</strong>活动准备好和用户进行交互的时候调用，此时活动处于栈顶运行状态<br><strong>onPause()：</strong>在系统准备去启动或者恢复另外一个活动的时候调用<br><strong>onStop():</strong>活动完全不可见的时候调用，如果启动的是另外一个活动是对话框式的那么执行onPause而不是onStop<br><strong>onDestroy()：</strong>活动呗销毁之前调用，之后活动变为销毁状态<br><strong>onRestart()：</strong>活动由停止活动变为运行状态前调用，活动被重新启动<br>以上方法除了onRestart方法，其他都是两两相对的，因此活动又可以分为3种生存期：<br><strong>完整生存期：</strong>活动在onCreate和onDestroy之间所经历的<br><strong>可见生存期：</strong>活动在onStart和onStop之间所经历的，此期间活动对用户总是可见<br><strong>前台生存期：</strong>活动在onResume和onPause之间所经历的，活动总是处于运行状态，可以和用户进行交互  </p>
-<h3 id="3-3活动被回收了咋办"><a href="#3-3活动被回收了咋办" class="headerlink" title="3.3活动被回收了咋办"></a>3.3活动被回收了咋办</h3><p>应用场景：应用中有一个活动A，活动A启动了活动B，活动A进入停止状态，这个时候由于系统内存不足活动A被回收了，然后back键返回活动A时，活动A还是要会正常显示，此时并不会执行onRestart方法，而是会执行onCreate方法，活动A呗重新创建一次。但是，活动A中如果有一个文本框，你输入了一段文字，如果被回收了，返回到活动A时出入的文字没了。<br>为了解决这个问题，Activity中还提供了一个onSaveInstance()回调方法，这个方法可以保证还活动被回收前一定会被调用，可以通过这个方法来解决活动被回收时零时数据得不到保存的问题。  </p>
-<p>onSaveInstanceState()方法携带一个Bundle类型参数。<br>Bundle提供了一系列保存数据的方法，puString() 、putInt()，每个方法2个参数，第一个参数是键，用于后面从Bundle中取值，第二个参数是真正要保存的内容。<br>MainActivity中将临时数据保存：  </p>
-<pre><code>@Override
-protected void onSaveInstanceState(Bundle outState){
-    super.onSaveInstanceState(outState);
-    String tempData = &quot;Something you just typed&quot;;
-    outState.putString(&quot;data_key&quot; , tempData);
-}
-</code></pre><p>保存之后恢复，onCreate()方法也有一个Bundle类型参数，一般为null，如果活动被回收之前通过onSaveInstanceState()方法来保存数据，这个参数就会带有之前所保存的全部数据。修改MainActivity的onCreate()方法：  </p>
-<pre><code>@Override
-protected vodi onCreate(Bundle savedInstanceState){
-    super.onCreate(savedInstanceState);
-    Log.d(TAG , &quot;onCreate&quot;);
-    setContentView(R.layout.activity_main);
-    if(savedInstanceState != null){
-        String tempData = savedInstanceState.getString(&quot;data_key&quot;);
-        Log.d(TAG , tempData);
-    }
-}
-</code></pre><p>取出之后就可以做相应的恢复操作，此处只是简单打印。  </p>
-<h2 id="4、活动的启动模式"><a href="#4、活动的启动模式" class="headerlink" title="4、活动的启动模式"></a>4、活动的启动模式</h2><p>启动模式一共有4种：standard  singleTop  singleTask  singleInstance<br>可以在AndroidManifest.xml中通过给<activity>标签指定android:launchMode属性来选择启动模式。  </activity></p>
-<h3 id="4-1standard"><a href="#4-1standard" class="headerlink" title="4.1standard"></a>4.1standard</h3><p>默认的启动模式，不显示指定的情况下，所有活动都会自动使用这种模式。使用这种模式的活动，系统不会在乎这个活动是否已经在返回栈中存在，每次启动都会创建该活动的一个新的实例。每当启动一个新的活动，就会在返回栈中入栈，并处于栈顶位置。</p>
-<h3 id="4-2singleTop"><a href="#4-2singleTop" class="headerlink" title="4.2singleTop"></a>4.2singleTop</h3><p>启动活动时如果发现返回栈的栈顶已经是该活动，则认为可以直接使用它，不会再创建新的活动实例。</p>
-<h3 id="4-3singleTask"><a href="#4-3singleTask" class="headerlink" title="4.3singleTask"></a>4.3singleTask</h3><p>每次启动该活动系统只会首先在返回栈中检查是否存在该活动的实例，如果发现已经存在则直接使用该活动实例，并把这个活动之上的所有活动统统出栈，如果没有发现就会创建一个新的活动实例。</p>
-<h3 id="4-4singleInstance"><a href="#4-4singleInstance" class="headerlink" title="4.4singleInstance"></a>4.4singleInstance</h3><p>指定为singleInstance模式的活动会启动一个新的返回栈来管理这个活动。如果程序中的一个活动是允许其他程序调用的，要实现其他程序和我们的程序共享这个活动的实例，就需要这个模式创建一个单独的返回栈管理这个活动，不管哪个应用程序来访问这个活动，都共用的同一个返回栈。</p>
-<h2 id="5、活动的最佳实践技巧"><a href="#5、活动的最佳实践技巧" class="headerlink" title="5、活动的最佳实践技巧"></a>5、活动的最佳实践技巧</h2><h3 id="5-1获取当前是哪一个活动"><a href="#5-1获取当前是哪一个活动" class="headerlink" title="5.1获取当前是哪一个活动"></a>5.1获取当前是哪一个活动</h3><p>在ActivityTest项目中新建一个BaseActivity类，右击包-&gt;New-&gt;Java Class，不需要注册，只需要创建普通的Java类，让BaseActivity继承自AppCompatActivity，并重写onCreate方法：  </p>
-<pre><code>public class BaseActivity extends AppCompatActivity {
-@Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());//获取当前实例的类名，通过Log打印出来
-    }
-}
-</code></pre><p>让BaseActivity成为ActivityTest项目中所有活动的父类，继承自BaseActivity，而BaseActivity也是继承自AppCompatActivity的，所以所有活动的现有功能并不受影响。运行后每当进入一个界面，就会在Logcat中打印信息，从而知道当前界面对应哪个活动。  </p>
-<h3 id="5-2随时随地退出程序"><a href="#5-2随时随地退出程序" class="headerlink" title="5.2随时随地退出程序"></a>5.2随时随地退出程序</h3><p>不需要按几次返回键退出，思路是用一个专门的集合类对所有活动进行管理。新建一个ActivityCollector类作为活动管理器：  </p>
-<pre><code>public class ActivityCollector{
-    public static List&lt;Activity&gt; activities = new ArrayList&lt;&gt;();//通过List暂存活动
-    public static void addActivity(Activity activity){ //向List中添加活动
-        activities.add(activity);
-    }
-    public static void removeActivity(Activity activity){//从List中移除活动
-        activities.remove(activity);
-    }
-    public static void finishAll(){   //将List中存储的活动全部销毁
-        for(Activity activity: activities){
-            if(!activity.isFinishing()){
-                activity.finish();
-            }
-        }
-    }
-}
-</code></pre><hr>
-<pre><code>//修改BaseActivity中的代码
-public class BaseActivity extends AppCompatActivity {
-@Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());
-    ActivityCollector.addActivity(this);//将当前创建的活动添加到活动管理器
-    }
-    @Override
-    protected void onDestroy(){//重写onDestroy方法
-        super.onDestroy();
-        ActivityCollector.removeActivity(this);//将马上销毁的活动从活动管理器中移除
-    }
-}
-</code></pre><hr>
-<pre><code>//调用ActivityCollector.finishAll()不管在什么地方都可以退出程序
-public class SecondActivity extends BaseActivity {
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.second_layout);
-
-    Button button2 = (Button)findViewById(R.id.button_2);
-    button2.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           ActivityCollector.finishAll();
-        }
-    });
-}
-</code></pre><p>}</p>
-<p>保证程序完全退出可以杀掉进程：  </p>
-<pre><code>android.os.Process.killProcess(android.os.Process.myPid());//myPid获取当前进程的id，killProcess只能杀掉当前程序的进程，不能用来杀掉其他程序
-</code></pre><h3 id="5-3启动活动的最佳写法"><a href="#5-3启动活动的最佳写法" class="headerlink" title="5.3启动活动的最佳写法"></a>5.3启动活动的最佳写法</h3><p>一般方法通过Intent构建当前“意图”，然后调用startActivity()或者startActivityForResult()方法将活动启动，如果有数据传递使用Intent完成。如：  </p>
-<pre><code>Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
-intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
-intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
-startActivity(intent);
-</code></pre><p>但是有一个对接问题，你不清楚这个活动需要传递哪些数据。修改SecondActivity中代码：  </p>
-<pre><code>public class SecondActivity extends BaseActivity{
-    public static void actionStart(Content context , String data1 , String data2){
-        Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
-        intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
-        intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
-        startActivity(intent);
-    }
-}
-</code></pre><p>添加一个actionStart(）方法完成Intent构建，SecondActivity中需要的数据通过此方法的参数传递过来。启动SecondActivity：  </p>
-<pre><code>button1.setOnClickListener(new OnClickListener){
-    @Override
-    public void onClick(View v){
-        SecondActivity.actionStart(FirstActivity.this , &quot;data1&quot;,&quot;data2&quot;);
-    }
-}
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/03/二、活动(Activity)/" data-id="cjxkd15a3001gst6crszcwolu" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-一、Android简介" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/03/一、Android简介/" class="article-date">
-  <time datetime="2018-06-03T08:02:08.000Z" itemprop="datePublished">2018-06-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/03/一、Android简介/">一、Android简介</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一、Android简介"><a href="#一、Android简介" class="headerlink" title="一、Android简介"></a>一、Android简介</h1><h2 id="1、目录文件介绍"><a href="#1、目录文件介绍" class="headerlink" title="1、目录文件介绍"></a>1、目录文件介绍</h2><h3 id="1-、Project目录下："><a href="#1-、Project目录下：" class="headerlink" title="1)、Project目录下："></a>1)、Project目录下：</h3><p>.gradle和.idea：这两个目录放置Android Studio自动生成的一些文件，无须关心，也无须编辑；<br>app ： 项目中的代码、资源等内容都是放置在这个目录；<br>build ：主要包含一些在编译时自动生成的文件，无须过多关心；<br>gradle ： 这个目录包含gradle wrapper的配置文件；<br>.gitignore ： 这个文件用来将指定的目录或文件排除在版本控制之外；<br>build.gradle：项目全局的gradle构建脚本，通常无须修改；  </p>
-<pre><code>// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-repositories {
-    google()
-    jcenter()  //一个代码托管仓库，很多Android开源项目托管到jcenter上，声明之后就可以使用上面的开源项目
-}
-dependencies {
-    classpath &apos;com.android.tools.build:gradle:3.1.2&apos;   //声明一个Gradle插件，
-    // NOTE: Do not place your application dependencies here; they belong
-    // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-    google()
-    jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-</code></pre><p>gradle.properties：这个文件是全局的gradle配置文件，这里的配置熟悉将影响到项目中所有的gradle编译脚本；<br>gradlew和gradlew.bat：这两个文件是用来在命令行界面执行gradle命令，前者是Linux或Mac系统使用，后者是Windows系统使用；<br>HelloWorld.iml：iml文件是所有Intellij IDEA项目都会自动生成的一个文件，用于标识一个Intellij IDEA项目，无须修改；<br>local.properties：这个文件用于指定本机中Android SDK路径，通常自动生成无须修改，若本机SDK路径发生变化，替换成新的路径；<br>settings.gradle：这个文件用于指定项目中所有引入的模块。  </p>
-<h3 id="2-、App目录分析："><a href="#2-、App目录分析：" class="headerlink" title="2)、App目录分析："></a>2)、App目录分析：</h3><p>build：编译时自动生成的文件，无须关心；<br>libs：项目中使用到了第三方jar包，就需要将这些jar包都放在libs目录下，放在这个目录下的jar包都会被自动添加到构建路径中去；<br>androidTest：此处是用来变形AndroidTest测试用例的，可以对项目进行一些自动化测试；<br>java：放置java代码的地方；<br>res：项目中使用到的所有图片、布局、字符串等资源都要存放在这个目录下。图片放在drawable目录，布局放在layout目录，字符串放在value目录；   </p>
-<pre><code>//  MyApplication程序res/values/strings.xml
-&lt;resources&gt;
-    &lt;string name = &quot;app_name&quot;&gt;My Application&lt;/string&gt;
-&lt;/resources&gt;
-//定义的字符串有2种方式引用
-//1、代码中用R.string.MyApplication
-//2、XML中用@string/MyAppliaction 
-</code></pre><p>AndroidMainfest.xml：整个Android项目的配置文件，程序中定义的四大组件都需要在这个文件里注册，还可以在这个文件中给应用程序添加权限声明；<br>test：编写Unit Test测试用例，是对项目进行自动化测试的另一种方式；<br>.gitignore：将app模块内的指定目录或文件排除在版本控制之外；<br>app.iml：IntelliJ IDEA项目自动生成的文件；<br>build.gradle：app模块的gradle构建脚本，文件中指定很多项目构建相关的配置；  gradle是先进的项目构建工具  </p>
-<pre><code>apply plugin: &apos;com.android.application&apos; //表示应用程序模块，可以直接运行，另外一个是com.android.library，需要依附于别的应用程序模块来运行
-
-android {//这个闭包中配置项目构建中的各种属性
-compileSdkVersion 27     //编译版本
-defaultConfig {
-    applicationId &quot;com.example.zhangqin07.myapplication&quot;
-    minSdkVersion 15
-    targetSdkVersion 27
-    versionCode 1
-    versionName &quot;1.0&quot;
-    testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;
-}
-buildTypes { //用于指定安装文件的相关配置，一般有debug和release
-    release {  //正式安装文件的配置
-        minifyEnabled false   //是否对项目的代码进行混淆，true表示混淆，false表示不混淆
-        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
-    //用于指定混淆时的规则文件，proguard-android.txt是Android SDK目录下通用的混淆规则
-    //proguard-rules.pro是当前项目的根目录下的，编写当前项目的特有混淆规则
-    }
-}
-</code></pre><p>}</p>
-<pre><code>dependencies {//这个闭包指定当前项目所有的依赖关系，本地依赖、库依赖、远程依赖
-implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;]) //本地依赖声明，将libs目录下的所有jar后缀的 文件添加到项目的构建路径中去
-implementation &apos;com.android.support:appcompat-v7:27.1.1&apos; //远程依赖，com.android.suppor域名部分，用于和其它公司库区分；appcompat-v7组名称，用于同一公司不同库区分；27.1.1版本号，同一库不同版本区分。
-implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
-testImplementation &apos;junit:junit:4.12&apos;
-androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
-androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
-</code></pre><p>}</p>
-<p>proguard-rules.pro：用于指定项目代码的混淆规则。  </p>
-<h2 id="2、Android日志工具"><a href="#2、Android日志工具" class="headerlink" title="2、Android日志工具"></a>2、Android日志工具</h2><p>Android中的日志工具类是Log(Android.util.Log)，这个类有5种方法打印日志：<br>Log.v() :用于打印最琐碎、最小的日志信息，级别为verbose，Android日志最低级；<br>Log.d()：用于打印一些调试信息，级别为debug，比verbose高一级；<br>Log.i()：打印一些比较重要的数据，这些数据可以帮助分析用户行为数据，级别为info，比debug高一级；<br>Log.w()：用于打印警告信息，提示程序在这个地方可能存在潜在风险，最好去修复，级别为warm，比info高一级；<br>Log.e()：用于打印程序的错误信息，比如程序进入到了catch语句当中，当有错误信息打印出来的时候代表程序出现了严重问题，必须修复，级别为error，比warm高一级  </p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    //添加一行打印日志的语句
-    Log.d(&quot;MainActivity&quot;,&quot;onCreate execute&quot;);
-    }
-}
-</code></pre><p>logcat中的输出结果如下：  </p>
-<pre><code>06-03 10:44:12.695 6769-6769/com.example.XXXXX.myapplication D/MainActivity: onCreate execute
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/03/一、Android简介/" data-id="cjxkd15920005st6ccm5t2c5w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/" data-id="cjyec8l7y001bzo6c9tvmp48d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -2079,7 +1622,7 @@ protected void onCreate(Bundle savedInstanceState) {
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
     </div>
   </div>
 
@@ -2092,6 +1635,14 @@ protected void onCreate(Bundle savedInstanceState) {
       <ul>
         
           <li>
+            <a href="/2019/07/18/Android消息机制之handler原理/">Android消息机制之handler原理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/04/网上资料链接/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
           </li>
         
@@ -2101,14 +1652,6 @@ protected void onCreate(Bundle savedInstanceState) {
         
           <li>
             <a href="/2018/12/07/hello-world/">hexo基本操作</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
           </li>
         
       </ul>

@@ -62,6 +62,592 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-二、活动(Activity)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/03/二、活动(Activity)/" class="article-date">
+  <time datetime="2018-06-03T11:49:34.000Z" itemprop="datePublished">2018-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/二、活动(Activity)/">二、活动（Activity）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="二、活动（Activity）"><a href="#二、活动（Activity）" class="headerlink" title="二、活动（Activity）"></a>二、活动（Activity）</h1><p>活动（Activity）是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。</p>
+<h2 id="1、活动基本用法"><a href="#1、活动基本用法" class="headerlink" title="1、活动基本用法"></a>1、活动基本用法</h2><h3 id="1-1、手动创建活动"><a href="#1-1、手动创建活动" class="headerlink" title="1.1、手动创建活动"></a>1.1、手动创建活动</h3><p>Activity Name：FirstActivity；<br>Generate Layout File：表示会自动为FirstActivity创建一个对应的布局文件；<br>Launcher Activity：表示自动将FirstActivity设置为当前项目的主活动；<br>Backwards Compatibility：表示为项目启用向下兼容的模式。  </p>
+<p>项目的任何活动都应该重写Activity的onCreate()方法，如FirstActivity中Android Studio的默认实现：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {//重写onCreate方法,主要是加载一些组件
+        super.onCreate(savedInstanceState);          //调用父类的onCreate方法，参数的作用是保持
+    }
+}
+</code></pre><h3 id="1-2、创建和加载布局"><a href="#1-2、创建和加载布局" class="headerlink" title="1.2、创建和加载布局"></a>1.2、创建和加载布局</h3><p>Android程序的设计讲究逻辑和视图分离，最好每一个活动都能对应一个布局，布局就是用来显示界面内容。  </p>
+<h4 id="1-2-1创建布局"><a href="#1-2-1创建布局" class="headerlink" title="1.2.1创建布局"></a>1.2.1创建布局</h4><p>在app/src/main/res目录右击-&gt;New-&gt;Directory创建layout目录。layout目录右击-&gt;New-&gt;Layout resource file,命名布局文件为first_layout，根元素选择LinearLayout。创建完成。<br>在Android Studio的下方的Design是可视化布局编辑器，不仅可以预览当前的布局，还可以通过拖放的方式编辑布局；Text是通过XML文件的方式来编辑布局的，其代码如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;/LinearLayout&gt;  
+</code></pre><p>布局文件中已经有一个LinearLayout元素，添加一个按钮：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;Button
+  //android:id是给当前元素定义一个唯一标识符，代码可以对其进行操作；     //在XML中引用一个id就用@id/id_name语法；在XML中定义一个id就用@+id/id_name语法
+android:id=&quot;@+id/button_1&quot;
+       android:layout_width=&quot;match_parent&quot;  //当前元素宽度，match_parent表示和父元素一样宽
+    android:layout_height=&quot;wrap_content&quot; //当前元素高度，wrap_content表示高度更好包含里面的内容就行
+    android:text=&quot;Button 1&quot;  //指定元素中显示的文字内容
+    /&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><h4 id="1-2-2在活动中加载布局"><a href="#1-2-2在活动中加载布局" class="headerlink" title="1.2.2在活动中加载布局"></a>1.2.2在活动中加载布局</h4><p>在FirstActivity中的onCreate方法中加入代码：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.first_layout);//给当前活动加载布局，一般传入布局文件的id
+    }
+}
+</code></pre><p>项目的添加的任何资源都会在R文件中生成一个相应的资源id，first_layout.xml布局的id也添加到R文件中了，R.layout.first_layout就可以得到first_layout.xml布局的id。  </p>
+<h4 id="1-2-3在AndroidManifest文件中注册"><a href="#1-2-3在AndroidManifest文件中注册" class="headerlink" title="1.2.3在AndroidManifest文件中注册"></a>1.2.3在AndroidManifest文件中注册</h4><p>所有的活动都要在AndroidManifest.xml文件中注册才能生效，FirstActivity在AndroidManifest.xml中注册过了，app/src/main/AndroidManifest.xml：  </p>
+<pre><code>    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+        package=&quot;com.example.xxxxxx.activitytest&quot;&gt;
+
+    &lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@mipmap/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
+    android:supportsRtl=&quot;true&quot;
+    android:theme=&quot;@style/AppTheme&quot;&gt;
+    &lt;activity android:name=&quot;.FirstActivity&quot;&gt;&lt;/activity&gt;
+&lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre><p>活动的注册在<application>标签内，通过<activity>注册，android:name来指定具体注册哪一个活动，.FirstActivity是一个缩写，<manifest>标签的package指定了包名。<br>仅仅注册不能运行，还需要为程序配置主活动，在AndroidManifest.xml中使用<intent-filter>标签：  </intent-filter></manifest></activity></application></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.xxxxx.activitytest&quot;&gt;
+
+&lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@mipmap/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;
+    android:supportsRtl=&quot;true&quot;
+    android:theme=&quot;@style/AppTheme&quot;&gt;
+    &lt;activity android:name=&quot;.FirstActivity&quot;
+        android:label=&quot;This is FirstActivity&quot;&gt;//指定活动标题栏内容，会话顶部，还是启动器中应用程序的名称
+        &lt;intent-filter&gt;  //标签内配置主活动
+            &lt;action android:name = &quot;android.intent.action.MAIN&quot;/&gt;  //使用这两句声明来配置
+            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+&lt;/application&gt;
+
+&lt;/manifest&gt;
+</code></pre><h4 id="1-2-4在活动中使用Toast"><a href="#1-2-4在活动中使用Toast" class="headerlink" title="1.2.4在活动中使用Toast"></a>1.2.4在活动中使用Toast</h4><p>Toast是Android系统提供的一种非常好的提醒方式，在程序中可以使用它将一些短小的信息通知给用户，这些信息一段时间后会自动消失，不会占用任何屏幕空间。<br>定义一个Toast触发点，使用界面中的按钮，在onCreate方法中添加代码：  </p>
+<pre><code>package com.example.xxxxx.activitytest;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class FirstActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.first_layout);
+
+    Button button1 = (Button) findViewById(R.id.button_1);//获取布局文件中定义的元素实例，first_layout.xml中通过android:id指定的
+    button1.setOnClickListener(new View.OnClickListener() {//这个方法为按钮注册一个监听器，点击按钮就会执行onClick方法
+        @Override
+        public void onClick(View v) {//弹出Toast的功能
+        //通过静态方法makeText创建Toast对象，然后调用show显示出来
+        //第一个参数Context，Toast要求的上下文;第二个参数显示的文本内容；第三个参数显示时长
+            Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+        }
+    });
+    }
+}
+</code></pre><h4 id="1-2-5在活动中使用Menu"><a href="#1-2-5在活动中使用Menu" class="headerlink" title="1.2.5在活动中使用Menu"></a>1.2.5在活动中使用Menu</h4><p>使得菜单能得到展示并不占用屏幕。<br>在res目录右击-&gt;New-&gt;Directory,输入menu；文件夹下新建main菜单，menu右击-&gt;New-&gt;Menu resource file，在main.xml中添加代码：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+        &lt;item   //item标签用来创建某一个菜单项
+            android:id=&quot;@+id/add_item&quot;  //给菜单项指定一个唯一标识符
+            android:title=&quot;Add&quot;/&gt;     //给菜单项指定一个名称
+        &lt;item
+            android:id=&quot;@+id/remove_item&quot;
+            android:title=&quot;Remove&quot;/&gt;
+&lt;/menu&gt;
+</code></pre><p>在FirstActivity中重写onCreateOptionMenu()方法（MAC中control+O）:  </p>
+<pre><code>@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main , menu);//获得MenuInflater对象，调用inflate方法给当前活动创建菜单
+//inflate()方法2个参数，第一个指定通过哪一个资源文件来创建菜单；第二个参数指定我们的菜单项添加到哪一个Menu对象中，此处使用了传入的参数
+    return true;
+}
+</code></pre><p>要菜单真正可用，还要在定义菜单响应事件，通过在FirstActivity中重写onOptionItemSelected()方法：</p>
+<pre><code>    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){//判断点击的是哪一个菜单项
+            case R.id.add_item:
+            Toast.makeText(this,&quot;You clicked Add&quot;,Toast.LENGTH_SHORT).show();
+            break;
+           case R.id.remove_item:
+                Toast.makeText(this,&quot;You clicked Remove&quot;,Toast.LENGTH_SHORT).show();
+                break;
+        default:
+    }
+    return true;
+}
+</code></pre><h4 id="1-2-6销毁一个活动"><a href="#1-2-6销毁一个活动" class="headerlink" title="1.2.6销毁一个活动"></a>1.2.6销毁一个活动</h4><p>除了返回键销毁活动外，在代码中销毁可以使用Activity类提供的finish()方法，例如修改按钮监听器中的代码：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+           @Override
+        public void onClick(View v) {
+            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    });
+</code></pre><p>点击Button 1就销毁了活动。  </p>
+<h2 id="2、使用Intent在活动中切换"><a href="#2、使用Intent在活动中切换" class="headerlink" title="2、使用Intent在活动中切换"></a>2、使用Intent在活动中切换</h2><p>点击启动器只会进入到应用的主活动中，所以需要从主活动跳转到其他活动。<br>Intent是Android程序中各组件交互的一种重要方式，不仅可以指明当前组件想要执行的动作，还可以在不同组件直接传递数据。一般可用于启动活动、启动服务以及发送广播等。  </p>
+<h3 id="2-1使用显示Intent"><a href="#2-1使用显示Intent" class="headerlink" title="2.1使用显示Intent"></a>2.1使用显示Intent</h3><h4 id="2-1-1创建另外一个活动"><a href="#2-1-1创建另外一个活动" class="headerlink" title="2.1.1创建另外一个活动"></a>2.1.1创建另外一个活动</h4><p>右击包名-&gt;New-&gt;Activity-&gt;Empty Activity,创建SecondActivity，布局为second_layout，不选Launcher Activity。编辑second_layout.xml如下：  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+&lt;Button
+    android:id=&quot;@+id/button_2&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Button 2&quot;
+    /&gt;
+
+&lt;/LinearLayout&gt;  
+</code></pre><p>任何一个活动都需要在AndroidManifest.xml中注册，Android Studio已自动完成，由于不是主活动，不需要配置<intent-filter>标签里的内容。FirstActivity和SecondActivity注册对比如下：  </intent-filter></p>
+<pre><code>&lt;activity
+        android:name=&quot;.FirstActivity&quot;
+        android:label=&quot;This is FirstActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+            &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+
+    &lt;activity android:name=&quot;.SecondActivity&quot;&gt;&lt;/activity&gt;
+</code></pre><h4 id="2-1-2显示Intent"><a href="#2-1-2显示Intent" class="headerlink" title="2.1.2显示Intent"></a>2.1.2显示Intent</h4><p>Intent的构造函数之一：  </p>
+<pre><code>Intent(Context packageContext , Class&lt;?&gt;cls)
+</code></pre><p>第一个参数表示启动活动的上下文，第二个指想要启动的目标活动。<br>Activity类中提供的一个startActivity()方法接收一个Intent参数，专门用于启动活动。修改FirstActivity中按钮的点击事件：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+           Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+           startActivities(intent);
+       }
+   });
+</code></pre><h3 id="2-2隐式Intent"><a href="#2-2隐式Intent" class="headerlink" title="2.2隐式Intent"></a>2.2隐式Intent</h3><p>不明确指出想要启动哪一个活动，而是指定一系列更为抽象的action和category等信息，然后交由系统分析这个Intent。<br>通过AndroidManifest.xml文件中的<activity>标签下配置<intent-filter>的内容，指定当前活动能够响应action和category：  </intent-filter></activity></p>
+<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
+            &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre><p>只有<action>和<category>中的内容同时匹配上Intent中指定的action和category时，这个活动才响应该Intent。<br>修改FirstActivity中按钮的点击事件：  </category></action></p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+            //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+    //使用了Intent的另外一个构造函数，传递action字符串
+            Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
+            startActivity(intent);
+        }
+</code></pre><p>一个Intent只能指定一个action，但是能指定多个category。在AndroidManifest.xml的<intent-filter>中添加一个category：  </intent-filter></p>
+<pre><code>&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.example.xxxxx.activitytest.ACTION_START&quot;/&gt;
+               &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+            &lt;category android:name=&quot;android.intent.category.MY_CATEGORY&quot;/&gt;//声明自定义的category
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre><hr>
+<pre><code>       @Override
+    public void onClick(View v) {
+        //Toast.makeText(FirstActivity.this,&quot;you clicked Button 1&quot;,Toast.LENGTH_SHORT).show();
+        //Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+        Intent intent = new Intent(&quot;com.example.xxxxx.activitytest.ACTION_START&quot;);
+        intent.addCategory(&quot;com.example.xxxxx.activitytest.MY_CATEGORY&quot;);//添加一个category
+        startActivity(intent);
+    }
+});
+</code></pre><h4 id="2-2-1隐式Intent的多种用法"><a href="#2-2-1隐式Intent的多种用法" class="headerlink" title="2.2.1隐式Intent的多种用法"></a>2.2.1隐式Intent的多种用法</h4><p>隐式Intent不仅可以起到自己程序内的活动，还可以起到其他程序的活动，使得Android多个应用程序之间功能共享。例如，调用系统浏览器打开网页，修改FirstActivity中按钮事件代码：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           Intent intent = new Intent(Intent.ACTION_VIEW);//Intent的action是Intent.ACTION_VIEW,系统内置的动作
+           intent.setData(Uri.parse(&quot;http://www.baidu.com&quot;));//Uri.parse方法将网址字符串解析成一个Uri对象，setData将对象传递进去
+           startActivity(intent);
+       }
+   });
+</code></pre><p>还可以在<intent-fileter>标签中配置<data>标签，更精确的指定当前活动响应什么类型数据。<data>标签主要可以配置以下内容：<br>android:scheme   指定数据的协议部分，如http<br>android:host    指定数据的主机部分，如<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a><br>android:port    指定数据的端口部分<br>android:path   指定主机名和端口之后的部分<br>android:mineType   指定可以处理的数据类型，允许使用通配符方式指定<br><data>标签指定的内容和Intent携带的data完全一致时，当前活动才能够响应Intent。  </data></data></data></intent-fileter></p>
+<p>拨打电话：  </p>
+<pre><code> button1.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse(&quot;tel:10086&quot;));
+        startActivity(intent);
+    }
+});
+</code></pre><h3 id="2-3向下一个活动传递数据"><a href="#2-3向下一个活动传递数据" class="headerlink" title="2.3向下一个活动传递数据"></a>2.3向下一个活动传递数据</h3><p>Intent中提供了一系列putExtra()方法的重载，可以把我们需要传递的数据暂存在Intent中，启动另一个活动后，将数据从Intent中取出。例如FirstActivity中的一个字符串传递到SecondActivity中去：  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           String data = &quot;Hello SecondActivity&quot;;
+           Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
+           intent.putExtra(&quot;extra_data&quot; , data); //通过putExtra传递一个字符串，第一个参数是键，用于后面从Intent中取值，data是要传的数据
+           startActivity(intent);
+       }
+   });
+</code></pre><hr>
+<pre><code>//在SecondActivity中将传递的数据取出，并打印出来
+public class SecondActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.second_layout);
+
+        Intent intent = getIntent();//次方法获取用于启动SecondActivity的Intent
+        String data = intent.getStringExtra(&quot;extra_data&quot;);//获取传递的数据
+        Log.d(&quot;SecondActivity&quot;,data);
+
+        }
+}
+</code></pre><h3 id="2-4返回数据给上一个活动"><a href="#2-4返回数据给上一个活动" class="headerlink" title="2.4返回数据给上一个活动"></a>2.4返回数据给上一个活动</h3><p>使用Activity中的一个startActivityForResult(）方法启动活动，这个方法当活动销毁时能够返回一个结果给上一个活动。两个参数，第一个参数Intent，第二个是请求码，用于在之后回调中判断数据的来源。  </p>
+<pre><code>button1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(FirstActivity.this ,SecondActivity.class);
+            startActivityForResult(intent , 1);//请求码是唯一值就可以
+    }
+}
+</code></pre><p>在SecondActivity中给按钮注册点击事件，并在点击事件中添加数据的逻辑：  </p>
+<pre><code>public class SecondActivity extends AppCompatActivity {
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.second_layout);
+   Button button2 = (Button)findViewById(R.id.button_2);
+    button2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();//构建一个Intent，仅仅传递数据，没指向任何“意图”
+            intent.putExtra(&quot;data_rerutn&quot; , &quot;Hello FirstActivity&quot;);
+            setResult(RESULT_OK,intent);//向上一活动返回数据,第一个参数返回处理结果，_OK和_CANCELED两个值，第二个参数把带有数据的intent传递回去
+            finish(); //销毁当前活动
+        }
+    });
+    }
+}
+</code></pre><p>startActivityForResylt()方法启动SecondActivity后，在SecondActivity被销毁后回调上一个活动的onActivityResult()方法，因此需要重写FirstActivity中的这个方法得到返回的数据：  </p>
+<pre><code>@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode){
+        case 1:
+            if(resultCode == RESULT_OK){
+                String returnedData = data.getStringExtra(&quot;data_return&quot;);
+                Log.d(&quot;FirstActivity&quot; , returnedData);
+
+            }
+            break;
+        default:
+    }
+}
+</code></pre><p>三个参数，第一个requestCode是启动活动时传入的请求码；resultCode返回数据时传入的处理结果；data是携带返回数据的Intent。由于一个活动可能启动多个活动，每个活动返回的数据都回调到onActivityResult()方法中，因此，首先检查requestCode的值判断数据来源。  </p>
+<p>还可以通过Back键回到FirstActivity，需要重写onBackPressed()方法来解决：  </p>
+<pre><code>@override
+public void onBackPressed(){
+    Intent intent = new Intent();
+    intent.putExtra(&quot;data_return&quot;,&quot;Hello FirstActivity&quot;);
+    setResult(RESULT_OK,intent);
+    finish();
+}
+</code></pre><h2 id="3、活动的生命周期"><a href="#3、活动的生命周期" class="headerlink" title="3、活动的生命周期"></a>3、活动的生命周期</h2><p>Android中的活动是可以层叠的，使用任务(Task)管理活动，一个任务就是一组存放在栈里的活动的集合，这个栈称为返回栈。启动一个新的活动就会在返回栈中入栈，处于栈顶；当调用finish()或者按back键销毁活动后就出栈。</p>
+<h3 id="3-1活动状态"><a href="#3-1活动状态" class="headerlink" title="3.1活动状态"></a>3.1活动状态</h3><p><strong>运行状态：</strong>活动处于返回栈的栈顶<br><strong>暂停状态：</strong>活动不处于栈顶，但任然可见；这是因为不是每一个活动都会占满整个屏幕，暂停状态的活动仍然完全存活，如果内存极低系统会考虑回收这种活动<br><strong>停止状态：</strong>活动不处于栈顶，并且完全不可见；系统会保存相应的状态和成员变量，但是也有可能被回收<br><strong>销毁状态：</strong>活动从返回栈移除  </p>
+<h3 id="3-2活动的生存期"><a href="#3-2活动的生存期" class="headerlink" title="3.2活动的生存期"></a>3.2活动的生存期</h3><p>Activity类定义了7个回调方法，覆盖生命周期的每一个环节。<br><strong>onCreate()：</strong>每个活动都要重写这个方法，会在活动第一次被创建的时候调用；在方法中完成活动的初始化，如加载布局、绑定事件<br><strong>onStart():</strong>由不可见变为可见的时候调用<br><strong>onResume()：</strong>活动准备好和用户进行交互的时候调用，此时活动处于栈顶运行状态<br><strong>onPause()：</strong>在系统准备去启动或者恢复另外一个活动的时候调用<br><strong>onStop():</strong>活动完全不可见的时候调用，如果启动的是另外一个活动是对话框式的那么执行onPause而不是onStop<br><strong>onDestroy()：</strong>活动呗销毁之前调用，之后活动变为销毁状态<br><strong>onRestart()：</strong>活动由停止活动变为运行状态前调用，活动被重新启动<br>以上方法除了onRestart方法，其他都是两两相对的，因此活动又可以分为3种生存期：<br><strong>完整生存期：</strong>活动在onCreate和onDestroy之间所经历的<br><strong>可见生存期：</strong>活动在onStart和onStop之间所经历的，此期间活动对用户总是可见<br><strong>前台生存期：</strong>活动在onResume和onPause之间所经历的，活动总是处于运行状态，可以和用户进行交互  </p>
+<h3 id="3-3活动被回收了咋办"><a href="#3-3活动被回收了咋办" class="headerlink" title="3.3活动被回收了咋办"></a>3.3活动被回收了咋办</h3><p>应用场景：应用中有一个活动A，活动A启动了活动B，活动A进入停止状态，这个时候由于系统内存不足活动A被回收了，然后back键返回活动A时，活动A还是要会正常显示，此时并不会执行onRestart方法，而是会执行onCreate方法，活动A呗重新创建一次。但是，活动A中如果有一个文本框，你输入了一段文字，如果被回收了，返回到活动A时出入的文字没了。<br>为了解决这个问题，Activity中还提供了一个onSaveInstance()回调方法，这个方法可以保证还活动被回收前一定会被调用，可以通过这个方法来解决活动被回收时零时数据得不到保存的问题。  </p>
+<p>onSaveInstanceState()方法携带一个Bundle类型参数。<br>Bundle提供了一系列保存数据的方法，puString() 、putInt()，每个方法2个参数，第一个参数是键，用于后面从Bundle中取值，第二个参数是真正要保存的内容。<br>MainActivity中将临时数据保存：  </p>
+<pre><code>@Override
+protected void onSaveInstanceState(Bundle outState){
+    super.onSaveInstanceState(outState);
+    String tempData = &quot;Something you just typed&quot;;
+    outState.putString(&quot;data_key&quot; , tempData);
+}
+</code></pre><p>保存之后恢复，onCreate()方法也有一个Bundle类型参数，一般为null，如果活动被回收之前通过onSaveInstanceState()方法来保存数据，这个参数就会带有之前所保存的全部数据。修改MainActivity的onCreate()方法：  </p>
+<pre><code>@Override
+protected vodi onCreate(Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+    Log.d(TAG , &quot;onCreate&quot;);
+    setContentView(R.layout.activity_main);
+    if(savedInstanceState != null){
+        String tempData = savedInstanceState.getString(&quot;data_key&quot;);
+        Log.d(TAG , tempData);
+    }
+}
+</code></pre><p>取出之后就可以做相应的恢复操作，此处只是简单打印。  </p>
+<h2 id="4、活动的启动模式"><a href="#4、活动的启动模式" class="headerlink" title="4、活动的启动模式"></a>4、活动的启动模式</h2><p>启动模式一共有4种：standard  singleTop  singleTask  singleInstance<br>可以在AndroidManifest.xml中通过给<activity>标签指定android:launchMode属性来选择启动模式。  </activity></p>
+<h3 id="4-1standard"><a href="#4-1standard" class="headerlink" title="4.1standard"></a>4.1standard</h3><p>默认的启动模式，不显示指定的情况下，所有活动都会自动使用这种模式。使用这种模式的活动，系统不会在乎这个活动是否已经在返回栈中存在，每次启动都会创建该活动的一个新的实例。每当启动一个新的活动，就会在返回栈中入栈，并处于栈顶位置。</p>
+<h3 id="4-2singleTop"><a href="#4-2singleTop" class="headerlink" title="4.2singleTop"></a>4.2singleTop</h3><p>启动活动时如果发现返回栈的栈顶已经是该活动，则认为可以直接使用它，不会再创建新的活动实例。</p>
+<h3 id="4-3singleTask"><a href="#4-3singleTask" class="headerlink" title="4.3singleTask"></a>4.3singleTask</h3><p>每次启动该活动系统只会首先在返回栈中检查是否存在该活动的实例，如果发现已经存在则直接使用该活动实例，并把这个活动之上的所有活动统统出栈，如果没有发现就会创建一个新的活动实例。</p>
+<h3 id="4-4singleInstance"><a href="#4-4singleInstance" class="headerlink" title="4.4singleInstance"></a>4.4singleInstance</h3><p>指定为singleInstance模式的活动会启动一个新的返回栈来管理这个活动。如果程序中的一个活动是允许其他程序调用的，要实现其他程序和我们的程序共享这个活动的实例，就需要这个模式创建一个单独的返回栈管理这个活动，不管哪个应用程序来访问这个活动，都共用的同一个返回栈。</p>
+<h2 id="5、活动的最佳实践技巧"><a href="#5、活动的最佳实践技巧" class="headerlink" title="5、活动的最佳实践技巧"></a>5、活动的最佳实践技巧</h2><h3 id="5-1获取当前是哪一个活动"><a href="#5-1获取当前是哪一个活动" class="headerlink" title="5.1获取当前是哪一个活动"></a>5.1获取当前是哪一个活动</h3><p>在ActivityTest项目中新建一个BaseActivity类，右击包-&gt;New-&gt;Java Class，不需要注册，只需要创建普通的Java类，让BaseActivity继承自AppCompatActivity，并重写onCreate方法：  </p>
+<pre><code>public class BaseActivity extends AppCompatActivity {
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());//获取当前实例的类名，通过Log打印出来
+    }
+}
+</code></pre><p>让BaseActivity成为ActivityTest项目中所有活动的父类，继承自BaseActivity，而BaseActivity也是继承自AppCompatActivity的，所以所有活动的现有功能并不受影响。运行后每当进入一个界面，就会在Logcat中打印信息，从而知道当前界面对应哪个活动。  </p>
+<h3 id="5-2随时随地退出程序"><a href="#5-2随时随地退出程序" class="headerlink" title="5.2随时随地退出程序"></a>5.2随时随地退出程序</h3><p>不需要按几次返回键退出，思路是用一个专门的集合类对所有活动进行管理。新建一个ActivityCollector类作为活动管理器：  </p>
+<pre><code>public class ActivityCollector{
+    public static List&lt;Activity&gt; activities = new ArrayList&lt;&gt;();//通过List暂存活动
+    public static void addActivity(Activity activity){ //向List中添加活动
+        activities.add(activity);
+    }
+    public static void removeActivity(Activity activity){//从List中移除活动
+        activities.remove(activity);
+    }
+    public static void finishAll(){   //将List中存储的活动全部销毁
+        for(Activity activity: activities){
+            if(!activity.isFinishing()){
+                activity.finish();
+            }
+        }
+    }
+}
+</code></pre><hr>
+<pre><code>//修改BaseActivity中的代码
+public class BaseActivity extends AppCompatActivity {
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(&quot;BaseActivity&quot; , getClass().getSimpleName());
+    ActivityCollector.addActivity(this);//将当前创建的活动添加到活动管理器
+    }
+    @Override
+    protected void onDestroy(){//重写onDestroy方法
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);//将马上销毁的活动从活动管理器中移除
+    }
+}
+</code></pre><hr>
+<pre><code>//调用ActivityCollector.finishAll()不管在什么地方都可以退出程序
+public class SecondActivity extends BaseActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.second_layout);
+
+    Button button2 = (Button)findViewById(R.id.button_2);
+    button2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+           ActivityCollector.finishAll();
+        }
+    });
+}
+</code></pre><p>}</p>
+<p>保证程序完全退出可以杀掉进程：  </p>
+<pre><code>android.os.Process.killProcess(android.os.Process.myPid());//myPid获取当前进程的id，killProcess只能杀掉当前程序的进程，不能用来杀掉其他程序
+</code></pre><h3 id="5-3启动活动的最佳写法"><a href="#5-3启动活动的最佳写法" class="headerlink" title="5.3启动活动的最佳写法"></a>5.3启动活动的最佳写法</h3><p>一般方法通过Intent构建当前“意图”，然后调用startActivity()或者startActivityForResult()方法将活动启动，如果有数据传递使用Intent完成。如：  </p>
+<pre><code>Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
+intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
+startActivity(intent);
+</code></pre><p>但是有一个对接问题，你不清楚这个活动需要传递哪些数据。修改SecondActivity中代码：  </p>
+<pre><code>public class SecondActivity extends BaseActivity{
+    public static void actionStart(Content context , String data1 , String data2){
+        Intent intent = new Intent(FirstActivity.this , SecondActivity.class);
+        intent.putExtra(&quot;param1&quot; , &quot;data1&quot;);
+        intent.putExtra(&quot;param2&quot; , &quot;data2&quot;);
+        startActivity(intent);
+    }
+}
+</code></pre><p>添加一个actionStart(）方法完成Intent构建，SecondActivity中需要的数据通过此方法的参数传递过来。启动SecondActivity：  </p>
+<pre><code>button1.setOnClickListener(new OnClickListener){
+    @Override
+    public void onClick(View v){
+        SecondActivity.actionStart(FirstActivity.this , &quot;data1&quot;,&quot;data2&quot;);
+    }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/03/二、活动(Activity)/" data-id="cjyec8l8h001izo6cuzos7fjb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-一、Android简介" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/03/一、Android简介/" class="article-date">
+  <time datetime="2018-06-03T08:02:08.000Z" itemprop="datePublished">2018-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/一、Android简介/">一、Android简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、Android简介"><a href="#一、Android简介" class="headerlink" title="一、Android简介"></a>一、Android简介</h1><h2 id="1、目录文件介绍"><a href="#1、目录文件介绍" class="headerlink" title="1、目录文件介绍"></a>1、目录文件介绍</h2><h3 id="1-、Project目录下："><a href="#1-、Project目录下：" class="headerlink" title="1)、Project目录下："></a>1)、Project目录下：</h3><p>.gradle和.idea：这两个目录放置Android Studio自动生成的一些文件，无须关心，也无须编辑；<br>app ： 项目中的代码、资源等内容都是放置在这个目录；<br>build ：主要包含一些在编译时自动生成的文件，无须过多关心；<br>gradle ： 这个目录包含gradle wrapper的配置文件；<br>.gitignore ： 这个文件用来将指定的目录或文件排除在版本控制之外；<br>build.gradle：项目全局的gradle构建脚本，通常无须修改；  </p>
+<pre><code>// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+repositories {
+    google()
+    jcenter()  //一个代码托管仓库，很多Android开源项目托管到jcenter上，声明之后就可以使用上面的开源项目
+}
+dependencies {
+    classpath &apos;com.android.tools.build:gradle:3.1.2&apos;   //声明一个Gradle插件，
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+    google()
+    jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+</code></pre><p>gradle.properties：这个文件是全局的gradle配置文件，这里的配置熟悉将影响到项目中所有的gradle编译脚本；<br>gradlew和gradlew.bat：这两个文件是用来在命令行界面执行gradle命令，前者是Linux或Mac系统使用，后者是Windows系统使用；<br>HelloWorld.iml：iml文件是所有Intellij IDEA项目都会自动生成的一个文件，用于标识一个Intellij IDEA项目，无须修改；<br>local.properties：这个文件用于指定本机中Android SDK路径，通常自动生成无须修改，若本机SDK路径发生变化，替换成新的路径；<br>settings.gradle：这个文件用于指定项目中所有引入的模块。  </p>
+<h3 id="2-、App目录分析："><a href="#2-、App目录分析：" class="headerlink" title="2)、App目录分析："></a>2)、App目录分析：</h3><p>build：编译时自动生成的文件，无须关心；<br>libs：项目中使用到了第三方jar包，就需要将这些jar包都放在libs目录下，放在这个目录下的jar包都会被自动添加到构建路径中去；<br>androidTest：此处是用来变形AndroidTest测试用例的，可以对项目进行一些自动化测试；<br>java：放置java代码的地方；<br>res：项目中使用到的所有图片、布局、字符串等资源都要存放在这个目录下。图片放在drawable目录，布局放在layout目录，字符串放在value目录；   </p>
+<pre><code>//  MyApplication程序res/values/strings.xml
+&lt;resources&gt;
+    &lt;string name = &quot;app_name&quot;&gt;My Application&lt;/string&gt;
+&lt;/resources&gt;
+//定义的字符串有2种方式引用
+//1、代码中用R.string.MyApplication
+//2、XML中用@string/MyAppliaction 
+</code></pre><p>AndroidMainfest.xml：整个Android项目的配置文件，程序中定义的四大组件都需要在这个文件里注册，还可以在这个文件中给应用程序添加权限声明；<br>test：编写Unit Test测试用例，是对项目进行自动化测试的另一种方式；<br>.gitignore：将app模块内的指定目录或文件排除在版本控制之外；<br>app.iml：IntelliJ IDEA项目自动生成的文件；<br>build.gradle：app模块的gradle构建脚本，文件中指定很多项目构建相关的配置；  gradle是先进的项目构建工具  </p>
+<pre><code>apply plugin: &apos;com.android.application&apos; //表示应用程序模块，可以直接运行，另外一个是com.android.library，需要依附于别的应用程序模块来运行
+
+android {//这个闭包中配置项目构建中的各种属性
+compileSdkVersion 27     //编译版本
+defaultConfig {
+    applicationId &quot;com.example.zhangqin07.myapplication&quot;
+    minSdkVersion 15
+    targetSdkVersion 27
+    versionCode 1
+    versionName &quot;1.0&quot;
+    testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;
+}
+buildTypes { //用于指定安装文件的相关配置，一般有debug和release
+    release {  //正式安装文件的配置
+        minifyEnabled false   //是否对项目的代码进行混淆，true表示混淆，false表示不混淆
+        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+    //用于指定混淆时的规则文件，proguard-android.txt是Android SDK目录下通用的混淆规则
+    //proguard-rules.pro是当前项目的根目录下的，编写当前项目的特有混淆规则
+    }
+}
+</code></pre><p>}</p>
+<pre><code>dependencies {//这个闭包指定当前项目所有的依赖关系，本地依赖、库依赖、远程依赖
+implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;]) //本地依赖声明，将libs目录下的所有jar后缀的 文件添加到项目的构建路径中去
+implementation &apos;com.android.support:appcompat-v7:27.1.1&apos; //远程依赖，com.android.suppor域名部分，用于和其它公司库区分；appcompat-v7组名称，用于同一公司不同库区分；27.1.1版本号，同一库不同版本区分。
+implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
+testImplementation &apos;junit:junit:4.12&apos;
+androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
+androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
+</code></pre><p>}</p>
+<p>proguard-rules.pro：用于指定项目代码的混淆规则。  </p>
+<h2 id="2、Android日志工具"><a href="#2、Android日志工具" class="headerlink" title="2、Android日志工具"></a>2、Android日志工具</h2><p>Android中的日志工具类是Log(Android.util.Log)，这个类有5种方法打印日志：<br>Log.v() :用于打印最琐碎、最小的日志信息，级别为verbose，Android日志最低级；<br>Log.d()：用于打印一些调试信息，级别为debug，比verbose高一级；<br>Log.i()：打印一些比较重要的数据，这些数据可以帮助分析用户行为数据，级别为info，比debug高一级；<br>Log.w()：用于打印警告信息，提示程序在这个地方可能存在潜在风险，最好去修复，级别为warm，比info高一级；<br>Log.e()：用于打印程序的错误信息，比如程序进入到了catch语句当中，当有错误信息打印出来的时候代表程序出现了严重问题，必须修复，级别为error，比warm高一级  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //添加一行打印日志的语句
+    Log.d(&quot;MainActivity&quot;,&quot;onCreate execute&quot;);
+    }
+}
+</code></pre><p>logcat中的输出结果如下：  </p>
+<pre><code>06-03 10:44:12.695 6769-6769/com.example.XXXXX.myapplication D/MainActivity: onCreate execute
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/03/一、Android简介/" data-id="cjyec8l740008zo6cx00jxrt8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-十二、集合" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/05/24/十二、集合/" class="article-date">
@@ -90,7 +676,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/24/十二、集合/" data-id="cjxkd159i000vst6c40fr5y18" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/24/十二、集合/" data-id="cjyec8l7j000vzo6czjb34ouz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -300,7 +886,7 @@ logger.fine(message);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/21/十一 异常/" data-id="cjxkd159e000ost6cf55bq55q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/21/十一 异常/" data-id="cjyec8l7h000tzo6cdipgwkj6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -441,7 +1027,7 @@ execute(Runnable r);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/17/十 多线程/" data-id="cjxkd159f000qst6cyhvqh52f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/17/十 多线程/" data-id="cjyec8l7e000lzo6c3xgfzy1t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -544,7 +1130,7 @@ execute(Runnable r);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/17/九 接口/" data-id="cjxkd1597000cst6c53tg2r6l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/17/九 接口/" data-id="cjyec8l77000czo6c242m5ztv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -694,7 +1280,7 @@ if(animal instanceof Cat){//判断animal是否是Cat类型或者其子类型
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/17/八 多态/" data-id="cjxkd159c000jst6cqa6xgv7v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/17/八 多态/" data-id="cjyec8l7b000jzo6ch5n7fvgc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -776,7 +1362,7 @@ if(animal instanceof Cat){//判断animal是否是Cat类型或者其子类型
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/15/七 继承/" data-id="cjxkd15960009st6cruu3h47s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/15/七 继承/" data-id="cjyec8l710005zo6cgjees5kv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -946,7 +1532,7 @@ num3:83
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/15/六 对象和类/" data-id="cjxkd159g000tst6cewp915rn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/15/六 对象和类/" data-id="cjyec8l7g000qzo6cayokrnh7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -1034,292 +1620,7 @@ Arrays.sort(a);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/14/五 大数值和数组/" data-id="cjxkd159b000hst6ci3lbs7i2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-四 流程控制" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/05/14/四 流程控制/" class="article-date">
-  <time datetime="2018-05-14T06:07:52.000Z" itemprop="datePublished">2018-05-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/14/四 流程控制/">四、控制流程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="四、控制流程"><a href="#四、控制流程" class="headerlink" title="四、控制流程"></a>四、控制流程</h1><h2 id="1、if语句"><a href="#1、if语句" class="headerlink" title="1、if语句"></a>1、if语句</h2><pre><code>if( condition){
-    statement 1;
-    statement 2;
-}
-</code></pre><hr>
-<pre><code>if( condition){
-    statement 1;
-    statement 2;
-}
-else
-{
-    statement 3;
-    statement 4;
-}
-</code></pre><hr>
-<pre><code>if( condition1){
-    statement 1;
-}
-else if(condition 2)
-{
-    statement 2;
-}
-else if(condition 3)
-{
-    statement 3;
-}
-else
-{
-    statement 4;
-}
-</code></pre><h2 id="2、while语句"><a href="#2、while语句" class="headerlink" title="2、while语句"></a>2、while语句</h2><pre><code>while(condition){
-    statement 1;
-}
-</code></pre><hr>
-<pre><code>do
-{
-    statement 1;
-}
-while(condition);
-</code></pre><h2 id="3、for语句，确定循环"><a href="#3、for语句，确定循环" class="headerlink" title="3、for语句，确定循环"></a>3、for语句，确定循环</h2><pre><code>for(i=1; i&lt;=10 ; i++)
-    System.out.println(i);  
-</code></pre><h2 id="4、多重选择：switch语句"><a href="#4、多重选择：switch语句" class="headerlink" title="4、多重选择：switch语句"></a>4、多重选择：switch语句</h2><pre><code>switch(choice)
-{
-    case 1:
-    ...
-        break;
-    case 2:
-    ...
-        break;
-    ...
-}
-</code></pre><h2 id="5、中断控制语句"><a href="#5、中断控制语句" class="headerlink" title="5、中断控制语句"></a>5、中断控制语句</h2><p>break跳出循环<br>带标签的break语句，用于跳出多重嵌套的循环语句，标签放在希望跳出的最外层循环之前，并且必须紧跟一个冒号。  如下<strong>read_data:</strong></p>
-<pre><code>Scanner in = new Scanner(System.in);
-int n;
-read_data:
-while(...)
-{
-    ...
-    for(...)
-    {
-        ......
-        n = in.nextInt();
-        if(n &lt; 0)
-            break read_data;
-        ...
-    }
-}  
-</code></pre><h2 id="6、-continue语句"><a href="#6、-continue语句" class="headerlink" title="6、 continue语句"></a>6、 continue语句</h2><p>continue语句将控制转移到最内层循环的首部。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/14/四 流程控制/" data-id="cjxkd159j000yst6c7q5s3dot" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-三 输入输出" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/05/14/三 输入输出/" class="article-date">
-  <time datetime="2018-05-14T02:32:25.000Z" itemprop="datePublished">2018-05-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/14/三 输入输出/">三、输入输出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="三、输入输出"><a href="#三、输入输出" class="headerlink" title="三、输入输出"></a>三、输入输出</h1><h2 id="1、Scanner类输入"><a href="#1、Scanner类输入" class="headerlink" title="1、Scanner类输入"></a>1、Scanner类输入</h2><p>Scanner类定义在java.util包中，使用需要在程序开始添加一行  </p>
-<pre><code>import java.util.*;  
-</code></pre><h3 id="读取输入"><a href="#读取输入" class="headerlink" title="读取输入"></a>读取输入</h3><p>  1、构建一个Scanner类并关联“标准输入流”System.in  </p>
-<pre><code>Scanner in = new  Scanner(Sysytem.in);  
-</code></pre><p>  2、实现输入操作<br>nextLine()  输入一行（有可能包含空格）：  </p>
-<pre><code>String name = in.nextLine();  
-</code></pre><p>next() 读取一个单词，以空白符作为分隔符： </p>
-<pre><code>String familyName = in.next();  
-</code></pre><p>读取一个整数nextInt(),读取一个下一个浮点数nextDouble()，检测输入中是否还有其他单词 boolean hasNext(),检测是否还有整数boolean hasNextInt(),检测是否还有浮点数boolean hasNextdouble()<br>例如：<br><img src="输入输出.PNG" alt="输入"></p>
-<h2 id="2、Console类输入"><a href="#2、Console类输入" class="headerlink" title="2、Console类输入"></a>2、Console类输入</h2><p>Scanner类不适合从控制台输入密码，要想读取密码引入Console类实现这个目的<br>采用Console对象每次只能读取一行输入，没有读取一个单词和一个整数    </p>
-<p>例如读取密码：  </p>
-<pre><code>Console cons = System.console();
-String userName = cons.readLine(&quot;User name:&quot;);
-cha[] passwd = cons.readPassword(&quot;Password:&quot;);  
-</code></pre><p> 输入的密码经过了处理，用户名没有。<br><img src="./Console类使用.PNG" alt="Console处理了密码">  </p>
-<p>使用Console类需要添加一行：    </p>
-<pre><code>import java.io.Console;  
-</code></pre><h2 id="3、输出"><a href="#3、输出" class="headerlink" title="3、输出"></a>3、输出</h2><p>Java沿用了C语言库函数中的printf方法格式化输出<br>1、例如使用8字符宽度和小数点后2位的精度打印x：  </p>
-<pre><code>System.out.printf(&quot;%8.2f&quot;,x);  
-</code></pre><p>2、例如使用多个参数：  </p>
-<pre><code>System.out.printf(&quot;hello, %s Next year,you&apos;ll be %d&quot;,name,age);    
-</code></pre><p>3、输出时间  </p>
-<pre><code>System.out.printf(&quot;%tc&quot;,new Date());
-</code></pre><p>格式化以t开始，c表示是完整的日期和时间，也可以是其它的转换符。  </p>
-<h2 id="4、file类"><a href="#4、file类" class="headerlink" title="4、file类"></a>4、file类</h2><p>java.io.File类用于表示文件（目录），只能用于表示文件（目录）的信息（名称、大小），不能用于内容的访问。  </p>
-<pre><code>import java.io.*;
-
-public class FileDemo{
-    public static void main(String[] args) {
-        File file = new File(&quot;/Users/zhangqin07/Documents/Java学习&quot;);
-        System.out.println(file.exists());
-
-        System.out.println(file.getPath());
-    }
-}
-</code></pre><p><a href="https://blog.csdn.net/summer_ck/article/details/51396631" target="_blank" rel="noopener">file类常用API：</a><br>file.exists() ; file.mkdir() ; file.delete(); file.isDirectory();creatNewFile(); ……    </p>
-<h2 id="5、IO流（输入流、输出流）"><a href="#5、IO流（输入流、输出流）" class="headerlink" title="5、IO流（输入流、输出流）"></a>5、IO流（输入流、输出流）</h2><p>处理字节或者二进制对象用字节流；</p>
-<h3 id="1）字节流"><a href="#1）字节流" class="headerlink" title="1）字节流"></a>1）字节流</h3><p>InputStream：抽象了应用程序读取数据的方式<br>OutputStream:抽象了应用程序写出数据的方式    </p>
-<p>读到文件结束：<br>EOF = End  ,读到-1 就是结尾    </p>
-<p><strong>输入流基本方法：</strong>  </p>
-<pre><code>int b = in.read();读取一个字节无符号填充到int低8位，-1是EOF
-in.read(byte[] buf);
-in.read(byte[],int start , int size);
-</code></pre><p><strong>输出流基本方法：</strong>  </p>
-<pre><code>out.write(int b);//写一个byte到流，b的低8位
-out.write(byte[] buf); //将buf字节数组都写入到流
-out.write(byte[] buf , int start , int size);//字节数组从start位置开始写size长度的字节到流
-</code></pre><p>输出的另外两个方法：  </p>
-<pre><code>public void flush();//刷新缓存，实际写入到文件、网络
-public void close();//关闭流  
-</code></pre><p>FileInputStream:具体实现了在文件上读取数据  </p>
-<pre><code>import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-public class TestFile{
-    public static void main(String[] args) {
-        try{
-            IOUtil.printHex(&quot;/Users/zhangqin07/Projects/JAVA测试练习程序/myfile.txt&quot;);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-}
-
-class IOUtil{
-/**
-读取指定文件内容，按照16进制输出到控制台，每行输出10个byte
-*/
-public static void printHex(String fileName) throws IOException{
-    //把文件作为字节流进行操作
-    FileInputStream in = new FileInputStream(fileName);
-    int b ;
-    int i = 1;
-    while((b=in.read())!=-1){
-        //单的位数前面补0对齐
-        if(b&lt;=0xf){
-            System.out.print(&quot;0&quot;);
-        }
-
-        System.out.print(Integer.toHexString(b) + &quot; &quot;);
-        if(i++%10==0){
-            System.out.println();
-        }
-    }
-    in.close();
-    }
-}
-</code></pre><hr>
-<pre><code>public static void printHexByByteArray(String fileName) throws IOException{
-    FileInputStream in = new FileInputStream(fileName);
-    byte[] buf = new byte[20*1024];
-    //从in中批量读取字节，放入到buf这个数组中，从第0个位置开始，最多放buf.length个
-    //返回的是读到的字节的个数，bytes个
-    int bytes = in.read(buf , 0 ,buf.length);//一次性读完，说明字节数组足够大
-    int j = 1;
-    for(int i= 0; i &lt; bytes ; i++){
-        if(buf[i]&lt;=0xf){
-            System.out.print(&quot;0&quot;);
-        }
-        System.out.print(Integer.toHexString(buf[i]&amp;0xff)+&quot; &quot;);
-        if(j++%10 == 0){
-            System.out.println();
-        }
-    }
-    in.close();
-}
-</code></pre><hr>
-<pre><code>public static void printHexByString(String fileName) throws IOException{
-    FileInputStream in = new FileInputStream(fileName);
-    byte[] buf = new byte[20*1024];
-    //从in中批量读取字节，放入到buf这个数组中，从第0个位置开始，最多放buf.length个
-    //返回的是读到的字节的个数，bytes个
-    int bytes = in.read(buf , 0 ,buf.length);//一次性读完，说明字节数组足够大
-    //String方法
-    String str = new String(buf);
-    System.out.println(str);
-
-    in.close();
-} 
-</code></pre><h3 id="2）字符流"><a href="#2）字符流" class="headerlink" title="2）字符流"></a>2）字符流</h3><p>  字符流：<br>Reader ：输入<br>writer ： 输出<br>和InputStream类似，差别在于读取的是字符（char），而不是字节。  </p>
-<p><strong>Reader的重要方法read()</strong>  </p>
-<pre><code>public int read(); //需要将int转成char
-public int read(char b[]);
-public int read(char[] b , int off ,int len);
-</code></pre><p><strong>Writer的重要方法write():</strong>  </p>
-<pre><code>public void write(int b);//将b的低2个字节写入到输出流 
-public void write(char b[]);//将字符数组b中的全部字节按顺序写入到输出流
-public void write(char[] b ,int off ,int len);//将字符数组从off开始的len个字节写入到输出流
-public void write(String s);//将字符串写入到流中
-public void write(String s ,int off ,int len);//将字符串写入到流中，位置为off，长度为len
-public void flush();//刷新流
-public void close();//关闭流
-</code></pre><h3 id="3）典型IO操作示例"><a href="#3）典型IO操作示例" class="headerlink" title="3）典型IO操作示例"></a>3）典型IO操作示例</h3><pre><code>BufferedReader  in  =  new BufferedReader(  //封装成BufferedReader
-                        new InputStreamReader(  //封装成字节流
-                            new FileInputStream(file , &quot;utf-8&quot;) //开始是一个一个的字节，指定编码方式
-                        )
-                    );
-s = in.readLine();//BufferedReader可以一行一行的读了
-</code></pre><p><strong>FileInputStream</strong><br>具体实现了在文件上读取数据<br><strong>FileOutputStream</strong>    </p>
-<p><strong><a href="https://www.cnblogs.com/zhaoyanjun/p/6292384.html" target="_blank" rel="noopener">IO流学习总结</a></strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/14/三 输入输出/" data-id="cjxkd15940008st6cyk2ozyc3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/14/五 大数值和数组/" data-id="cjyec8l78000dzo6ck0gbuv52" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -1368,7 +1669,7 @@ s = in.readLine();//BufferedReader可以一行一行的读了
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
     </div>
   </div>
 
@@ -1381,6 +1682,14 @@ s = in.readLine();//BufferedReader可以一行一行的读了
       <ul>
         
           <li>
+            <a href="/2019/07/18/Android消息机制之handler原理/">Android消息机制之handler原理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/04/网上资料链接/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
           </li>
         
@@ -1390,14 +1699,6 @@ s = in.readLine();//BufferedReader可以一行一行的读了
         
           <li>
             <a href="/2018/12/07/hello-world/">hexo基本操作</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/22/六、Material Design/">六、Material Design</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/19/三(1)、ListView和RecycleView/">三(1)、ListView和RecyclerView</a>
           </li>
         
       </ul>
