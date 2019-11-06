@@ -62,6 +62,144 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-HEAD请求获取视频大小" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/06/HEAD请求获取视频大小/" class="article-date">
+  <time datetime="2019-11-06T09:05:25.000Z" itemprop="datePublished">2019-11-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/06/HEAD请求获取视频大小/">HEAD请求获取视频大小</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在项目中有一个视频播放的优化，在非WIFI网络下需要弹窗提醒播放视频需要消耗多少M流量。需要比较简单，问题是后端不知道视频的大小，只有视频的URL地址。最终确定前端来获取视频大小，其实一想也简单，发送个HEAD请求即可。可是踩了坑，做下记录。  </p>
+<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><p>由于逻辑和方案都很简单，直接上代码看实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">public final class VideoSizeUtils &#123;</span><br><span class="line">    private VideoSizeUtils() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void getVideoContentLength(Context context, String videoUrl) &#123;</span><br><span class="line">        MyHandler handler;</span><br><span class="line">        if (context instanceof TestActivity) &#123;</span><br><span class="line">            handler = new MyHandler((TestActivity) context);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;  </span><br><span class="line">        //不允许手动new Thread，使用ExecutorService管理线程池</span><br><span class="line">        ExecutorService cachedThreadPool = Executors.newCachedThreadPool();</span><br><span class="line">        cachedThreadPool.execute(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                HttpURLConnection urlConnection = null;</span><br><span class="line">                int responseLength;</span><br><span class="line">                float responseSize = 0;</span><br><span class="line">                try &#123;</span><br><span class="line">                    URL url = new URL(videoUrl);</span><br><span class="line">                    urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">                    urlConnection.setRequestMethod(&quot;HEAD&quot;);</span><br><span class="line">                    urlConnection.setConnectTimeout(500);</span><br><span class="line">                    urlConnection.connect();</span><br><span class="line">                    responseLength = urlConnection.getContentLength();</span><br><span class="line"></span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    //处理异常，获取视频大小异常了</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    if (urlConnection != null) &#123;</span><br><span class="line">                        urlConnection.disconnect();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">//Handler将获取的视频大小发送出去</span><br><span class="line">                Message message = handler.obtainMessage();</span><br><span class="line">                message.what = 1;</span><br><span class="line">                message.obj = String.format(&quot;%.2f&quot;, responseSize) + &quot;M&quot;;</span><br><span class="line">                handler.sendMessage(message);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class MyHandler extends Handler &#123;</span><br><span class="line">        WeakReference&lt;TestActivity&gt; mActivity;</span><br><span class="line"></span><br><span class="line">        MyHandler(TestActivity activity) &#123;</span><br><span class="line">            mActivity = new WeakReference&lt;&gt;(activity);</span><br><span class="line">        &#125;</span><br><span class="line">//处理消息</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            TestActivity theActivity = mActivity.get();</span><br><span class="line">            if (msg.what == 1 &amp;&amp; theActivity != null) &#123;</span><br><span class="line">                theActivity.showPlayVideoDialog((String) msg.obj);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><p>最终的实现其实还是很简单的，但是中间踩了几个坑。  </p>
+<h2 id="使用RxJava-retrofit"><a href="#使用RxJava-retrofit" class="headerlink" title="使用RxJava+retrofit"></a>使用RxJava+retrofit</h2><p>因为项目中的网络框架使用的是RXJava+retrofit做的，所以想通过如下方式实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@HEAD(&quot;videoUrl&quot;)  </span><br><span class="line">Observable&lt;Response&gt; getVideoSize();</span><br></pre></td></tr></table></figure></p>
+<p>可是，并不允许。因为，retrofit规定HEAD请求的返回类型必须是Void，查看了官方的代码：在HttpServiceMethod.java类中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// TODO support Unit for Kotlin?</span><br><span class="line">    if (requestFactory.httpMethod.equals(&quot;HEAD&quot;) &amp;&amp; !Void.class.equals(responseType)) &#123;</span><br><span class="line">      throw methodError(method, &quot;HEAD method must use Void as response type.&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>发现此路不通，所以才有了上面实现用的是HttpURLConnection + handler来处理。  </p>
+<h2 id="“This-Handler-class-should-be-static-or-leaks-might-occur”警告"><a href="#“This-Handler-class-should-be-static-or-leaks-might-occur”警告" class="headerlink" title="“This Handler class should be static or leaks might occur”警告"></a>“This Handler class should be static or leaks might occur”警告</h2><p>首先，不能手动创建线程，良好的代码规范也是很必要的。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">new Thread(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                HttpURLConnection urlConnection = null;</span><br><span class="line">                try &#123;</span><br><span class="line">                    URL url = new URL();</span><br><span class="line">                    urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">                    urlConnection.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">                    urlConnection.connect();</span><br><span class="line">                    int reponseCode = urlConnection.getResponseCode();</span><br><span class="line">                    int reponse = urlConnection.getContentLength();</span><br><span class="line"></span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    if (urlConnection != null) &#123;</span><br><span class="line">                        urlConnection.disconnect();</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br></pre></td></tr></table></figure></p>
+<p>所以使用推荐的ExecutorService来管理线程的使用。<br>处理好线程后，使用handler发送消息是as报了警告：“This Handler class should be static or leaks might occur”，所以，新建一个MyHandler继承Handler，它持有调用方(activity)的弱引用得以解决，参考文档<a href="https://www.cnblogs.com/welhzh/p/3585478.html" target="_blank" rel="noopener">https://www.cnblogs.com/welhzh/p/3585478.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/06/HEAD请求获取视频大小/" data-id="ck2n3djld0000xd6cs11t9yg0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-TextView是否折叠" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/23/TextView是否折叠/" class="article-date">
+  <time datetime="2019-07-23T07:06:27.000Z" itemprop="datePublished">2019-07-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/TextView是否折叠/">TextView是否折叠</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我们使用一个TextView来展示一个商品的秒杀信息，这个TextView最多展示两行。如果超过两行就…，并<strong>展示一个查看更多的icon，否则不展示</strong>。  </p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>需求的前半部分很简单，xml中设置如下代码就可实现  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">    android:id=&quot;@+id/test_desc&quot;</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;展示很长的描述&quot;</span><br><span class="line">    android:textSize=&quot;12sp&quot;</span><br><span class="line">    android:textColor=&quot;#4A4A4A&quot;</span><br><span class="line">    android:maxLines=&quot;2&quot;</span><br><span class="line">    android:ellipsize=&quot;end&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<p>问题就在于查看更多的icon的展示隐藏时机。  </p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">String text = &quot;很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很超过两行了都超过两行了都超过两行了都超过两行了都超过两行了都超过两行了&quot;;</span><br><span class="line">textView.setText(text);</span><br><span class="line">textView.post(() -&gt; &#123;</span><br><span class="line">    Layout l = textView.getLayout();</span><br><span class="line">    if (l != null) &#123;</span><br><span class="line">        int lines = l.getLineCount();</span><br><span class="line">        Log.e(&quot;test&quot;,&quot;&quot; + lines);</span><br><span class="line">        if (lines &gt; 0) &#123;</span><br><span class="line">            if (l.getEllipsisCount(lines - 1) &gt; 0)&#123;</span><br><span class="line">                Log.e(&quot;test&quot;,&quot;折叠了&quot;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                Log.e(&quot;test&quot;,&quot;未折叠&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>日志如下：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E/test: 2</span><br><span class="line">E/test: 折叠了</span><br></pre></td></tr></table></figure>
+<p>可见超过2行之后l.getLineCount()得到的是展示的行数2<br>改变text的长度，一行可展示完。<br><code>String text = &quot;描述不足两行&quot;;</code><br>日志如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E/test: 1</span><br><span class="line">E/test: 未折叠</span><br></pre></td></tr></table></figure>
+<p>只有一行的时候 l.getLineCount()得到的就是1行。  </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>实现中需要使用textView.post来保证textview绘制完成后在获取layout，否则getLayout()的时候大部分时间为null，造成崩溃。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/23/TextView是否折叠/" data-id="ck2n3djlr0008xd6crm8rned5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-TextView动态改变字体大小" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/23/TextView动态改变字体大小/" class="article-date">
+  <time datetime="2019-07-23T06:18:47.000Z" itemprop="datePublished">2019-07-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/23/TextView动态改变字体大小/">TextView动态改变字体大小</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在开发中会遇到文本进行特殊的设置，例如改变字体的颜色、大小、加粗等等。在项目中有使用过后端下发富文本，通过Html.fromHtml() 得到 CharSequence 对象，然后赋值给 TextView 完成显示。这样在某些时候会出现IOS和Android两端解析出的展示颜色不对等问题，主要是ios展示和UI不符。当然也可以通过几个textview组合实现，但是这样增加了布局的复杂度。在Android中提供了Spannable来实现，其实Html.fromHtml()在Android中最终也是通过Spannable来实现的。  </p>
+<h1 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h1><p>Spannable使用起来很简单，下面举个例子一目了然  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">textView = findViewById(R.id.test1);</span><br><span class="line">//创建SpannableString对象，参数为textview的字符串。也可以通过SpannableStringBuilder对象来进行构建</span><br><span class="line">SpannableString spannableString = new SpannableString(&quot;￥24.12动态改变字大小&quot;);</span><br><span class="line">int size = DisplayUtil.dip2px(4,this);</span><br><span class="line">//改变文字的绝对大小</span><br><span class="line">AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(size);</span><br><span class="line">//参数分别span对象，起始位置，结束位置，flag：理解为起始位置和结束位置的区间，可全包含和半包含，根据需求设置</span><br><span class="line">spannableString.setSpan(absoluteSizeSpan,0,1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);</span><br><span class="line">//设置字体加粗斜体</span><br><span class="line">StyleSpan styleSpan = new StyleSpan(Typeface.BOLD_ITALIC);</span><br><span class="line">//参数同上</span><br><span class="line">spannableString.setSpan(styleSpan,0,1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);</span><br><span class="line">//textview设置CharSequence</span><br><span class="line">textView.setText(spannableString);</span><br></pre></td></tr></table></figure>
+<p>这样就实现了改变”￥24.12动态改变字大小”中的￥字体大小，并设置了加粗斜体。<br>当然还有很多，比如BackgroundColorSpan、ForegroundColorSpan、ImageSpan、IconMarginSpan等等，就不一一介绍了。用法上都差不多，使用的时候看下对应的构造函数，传入对应的参数就可以了。  </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一个SpannableString可设置多个span。<br>不清楚的span可以查看android.text包下的ParcelableSpan接口，查看都有哪些类实现了这个接口就是全部的span。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/23/TextView动态改变字体大小/" data-id="ck2n3djli0001xd6cugdek6mq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Android消息机制之handler原理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/18/Android消息机制之handler原理/" class="article-date">
@@ -150,7 +288,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/18/Android消息机制之handler原理/" data-id="cjyedanxl001hey6c0ufavjji" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/18/Android消息机制之handler原理/" data-id="ck2n3djn7001pxd6cqu87yy7q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -184,12 +322,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一、Java"><a href="#一、Java" class="headerlink" title="一、Java"></a>一、Java</h1><p>effective java第三版中文翻译：<a href="https://sjsdfg.github.io/effective-java-3rd-chinese/#/README" target="_blank" rel="noopener">第三版中文翻译</a><br>计算机基础、java相关知识合集：<a href="https://github.com/PansonPanson/Java-Notes" target="_blank" rel="noopener">合集</a>  </p>
-<h1 id="二、Android"><a href="#二、Android" class="headerlink" title="二、Android"></a>二、Android</h1>
+        <h1 id="一、Java"><a href="#一、Java" class="headerlink" title="一、Java"></a>一、Java</h1><p>effective java第三版中文翻译：<a href="https://sjsdfg.github.io/effective-java-3rd-chinese/#/README" target="_blank" rel="noopener">第三版中文翻译</a><br>计算机基础、java相关知识合集：<a href="https://github.com/PansonPanson/Java-Notes" target="_blank" rel="noopener">合集</a><br>国外网站：<a href="https://dzone.com/java-jdk-development-tutorials-tools-news/list?page=2" target="_blank" rel="noopener">dzone</a>  </p>
+<h1 id="二、Android"><a href="#二、Android" class="headerlink" title="二、Android"></a>二、Android</h1><p>Rxjava 扔物线的文章<a href="http://gank.io/post/560e15be2dca930e00da1083#toc_2" target="_blank" rel="noopener">给 Android 开发者的 RxJava 详解</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/04/网上资料链接/" data-id="cjyedanx20011ey6cv6y0hi6f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/04/网上资料链接/" data-id="ck2n3djma0014xd6ca5ubrbn8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/使用指南/">使用指南</a></li></ul>
@@ -259,7 +398,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="cjyedanwf0003ey6cm9e4hiql" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/28/inflate导致的空指针/" data-id="ck2n3djlo0005xd6cmjv5weyj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
@@ -306,7 +445,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="cjyedanwb0001ey6cobcy8vx8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hexo使用指南/" data-id="ck2n3djln0004xd6cs3xgg3jy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/使用指南/">使用指南</a></li></ul>
@@ -353,7 +492,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="cjyedanw70000ey6ck2ktg3mi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/07/hello-world/" data-id="ck2n3djlm0003xd6c8agyl5dt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/使用指南/">使用指南</a></li></ul>
@@ -393,7 +532,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/22/六、Material Design/" data-id="cjyedanww000pey6cuvs81zci" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/22/六、Material Design/" data-id="ck2n3djm5000rxd6ctjroncal" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -864,726 +1003,7 @@ public int getItemCount() {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="cjyedanxi001fey6cx54yd92z" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-五、内容提供器(Content Provider)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/07/五、内容提供器(Content Provider)/" class="article-date">
-  <time datetime="2018-06-07T13:41:00.000Z" itemprop="datePublished">2018-06-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/07/五、内容提供器(Content Provider)/">五、内容提供器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="五、内容提供器"><a href="#五、内容提供器" class="headerlink" title="五、内容提供器"></a>五、内容提供器</h1><p>内容提供器(Content Provider)主要用于在不同的应用程序之间实现数据的共享功能，它提供了一套完整的机制，允许一个程序访问另外一个程序中的数据，同时还能有效保证被访问数据的安全性。是Android实现跨程序共享数据的标准方式。    </p>
-<h2 id="1、运行时权限"><a href="#1、运行时权限" class="headerlink" title="1、运行时权限"></a>1、运行时权限</h2><h3 id="1-1Android权限机制详解"><a href="#1-1Android权限机制详解" class="headerlink" title="1.1Android权限机制详解"></a>1.1Android权限机制详解</h3><p>访问系统的网络状态以及监听开机广播，在AndroidManifest.xml中添加权限声明：  </p>
-<pre><code>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    package=&quot;com.example.xxxxx.broadcasttest&quot;&gt;
-
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;  //访问网络状态权限声明
-   &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;  //监听开机广播权限声明
-&lt;/manifest&gt;
-</code></pre><p>访问系统的网络状态和监听开机广播涉及到用户设备的安全性，因此必须在AndroidManifest.xml中加入权限声明，否则程序会崩溃。<br>常用软件普遍存在滥用权限的情况，不管到底用不用得到先把权限申请了再说。所有Android开发团队从6.0系统加入了运行时权限功能。<br>Android现在的所有权限分为两类，普通权限和危险权限。普通权限是安心不会直接威胁到用户的安全和隐私的权限，系统会帮我们进行授权，不需要用户操作。危险权限则表示哪些可能会触及用户隐私或对社保安全性造成影响的权限，如获取设备联系人、定位设备的地理位置等，这些需要用户手动点击授权，否则程序无法使用相应的功能。  </p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">权限组名</th>
-<th style="text-align:center">权限名</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">CALENDAR</td>
-<td style="text-align:center">READ_CALENDAR</td>
-</tr>
-<tr>
-<td style="text-align:left">CALENDAR</td>
-<td style="text-align:center">WRITE_CALENDAR</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">CAMERA</td>
-<td style="text-align:center">CAMERA</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">CONTACTS</td>
-<td style="text-align:center">READ_CONTACTS</td>
-</tr>
-<tr>
-<td style="text-align:left">CONTACTS</td>
-<td style="text-align:center">WRITE_CONTACTS</td>
-</tr>
-<tr>
-<td style="text-align:left">CONTACTS</td>
-<td style="text-align:center">GET_CONTACTS</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">LOCATION</td>
-<td style="text-align:center">ACCESS_FINE_LOCATION</td>
-</tr>
-<tr>
-<td style="text-align:left">LOCATION</td>
-<td style="text-align:center">ACCESS_COARSE_LOCATION</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">MICROPHONE</td>
-<td style="text-align:center">RECORD_AUDIO</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">PHONE</td>
-<td style="text-align:center">READ_PHONE_STATE</td>
-</tr>
-<tr>
-<td style="text-align:left">PHONE</td>
-<td style="text-align:center">CALL_PHONE</td>
-</tr>
-<tr>
-<td style="text-align:left">PHONE</td>
-<td style="text-align:center">READ_CALL_LOG</td>
-</tr>
-<tr>
-<td style="text-align:left">PHONE</td>
-<td style="text-align:center">WRITE_CALL_STATE</td>
-</tr>
-<tr>
-<td style="text-align:left">PHONE</td>
-<td style="text-align:center">ADD_VOICEMAIL</td>
-</tr>
-<tr>
-<td style="text-align:left">PHONE</td>
-<td style="text-align:center">USE_SIP</td>
-</tr>
-<tr>
-<td style="text-align:left">PHONE</td>
-<td style="text-align:center">PROCESS_OUTGOING_CALLS</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">SENSORS</td>
-<td style="text-align:center">BODY_SENSORS</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">SMS</td>
-<td style="text-align:center">SEND_SMS</td>
-</tr>
-<tr>
-<td style="text-align:left">SMS</td>
-<td style="text-align:center">RECEIVE_SMS</td>
-</tr>
-<tr>
-<td style="text-align:left">SMS</td>
-<td style="text-align:center">READ_SMS</td>
-</tr>
-<tr>
-<td style="text-align:left">SMS</td>
-<td style="text-align:center">RECEIVE_WAP_SMS</td>
-</tr>
-<tr>
-<td style="text-align:left">SMS</td>
-<td style="text-align:center">RECEIVE_MMS</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-<tr>
-<td style="text-align:left">STORAGE</td>
-<td style="text-align:center">READ_EXTERNAL_STORAGE</td>
-</tr>
-<tr>
-<td style="text-align:left">STORAGE</td>
-<td style="text-align:center">WRITE_EXTERNAL_STORAGE</td>
-</tr>
-<tr>
-<td style="text-align:left">—————————</td>
-<td style="text-align:center">————————————-</td>
-</tr>
-</tbody>
-</table>
-<p>使用权限时，如果属于这张表的权限，就需要进行运行时权限处理，如果不在这样表中那么只需要在AndroidManifest.xml文件中添加一下权限声明就可以。<br>权限处理时处理的是权限名，但是用户授权后对应的权限组中其他的权限也会同时被授权。  </p>
-<h3 id="1-2运行时权限申请（262页）"><a href="#1-2运行时权限申请（262页）" class="headerlink" title="1.2运行时权限申请（262页）"></a>1.2运行时权限申请（262页）</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/07/五、内容提供器(Content Provider)/" data-id="cjyedanwr000hey6cy3im65ba" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-四、广播" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/06/四、广播/" class="article-date">
-  <time datetime="2018-06-06T03:11:06.000Z" itemprop="datePublished">2018-06-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/06/四、广播/">四、广播</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="四、广播"><a href="#四、广播" class="headerlink" title="四、广播"></a>四、广播</h1><p>Android中广播的两种类型：标准广播和有序广播<br><strong>标准广播：</strong>异步执行的广播，广播发出后广播接收器几乎同时接收者条广播信息，没有先后顺序。这种广播效率高，但是无法被截断。<br><strong>有序广播：</strong>同步执行的广播，广播发出后同一时刻只会有一个广播接收器接收到这条广播消息，逻辑执行完毕后广播才继续传递。前面的广播接收器可以截断正在传递的广播。  </p>
-<h2 id="1、接收系统广播"><a href="#1、接收系统广播" class="headerlink" title="1、接收系统广播"></a>1、接收系统广播</h2><p>要接收广播就需要使用广播接收器。  广播接收器可以自由地对自己感兴趣的广播继续注册，注册广播一般有2种，在代码中注册（动态注册）和在AndroidManifest.xml中注册（静态注册）。  </p>
-<h3 id="1-1创建广播接收器"><a href="#1-1创建广播接收器" class="headerlink" title="1.1创建广播接收器"></a>1.1创建广播接收器</h3><p>新建一个类，让它继承自BroadcastReceiver，并重写onReceive()方法就可以。当有广播到来时，onReceive()方法就会得到执行，处理逻辑可以在方法中实现。  </p>
-<h4 id="1-1-1动态注册"><a href="#1-1-1动态注册" class="headerlink" title="1.1.1动态注册"></a>1.1.1动态注册</h4><p>通过动态注册的方式编写一个能够监听网络变化的程序：  </p>
-<pre><code>//新建BroadcastReceiver项目，修改MainActivity代码
-public class MainActivity extends AppCompatActivity {
-
-    private IntentFilter intentFilter;
-    private NetworkChangeReceiver networkChangeReceiver;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-           setContentView(R.layout.activity_main);
-        intentFilter = new IntentFilter();//创建intentfileter实例
-        /*添加action，网络发生变化时，系统发出一条值为android.net.conn.CONNECTIVITY_CHANGE的广播。要监听什么，这里添加相应的action*/
-        intentFilter.addAction(&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;);
-        networkChangeReceiver = new NetworkChangeReceiver();//创建实例
-        registerReceiver(networkChangeReceiver,intentFilter);//注册
-    }
-
-@Override
-protected void onDestroy() {
-    super.onDestroy();
-    unregisterReceiver(networkChangeReceiver);//动态注册的的广播接收器需要取消注册
-}
-
-class NetworkChangeReceiver extends BroadcastReceiver{//内部类并继承BroadcastReceiver
-    @Override
-    public void onReceive(Context context, Intent intent) {//重写onReceive方法
-        //getSystemService方法得到ConnectivityManager（管理网络连接的系统服务类）的实例
-        ConnectivityManager connectionManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
-        if(networkInfo!=null &amp;&amp; networkInfo.isAvailable()){
-            Toast.makeText(context,&quot;network is available&quot; , Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(context,&quot;network is unavailable&quot;,Toast.LENGTH_SHORT).show();
-        }
-    }
-    }
-}
-</code></pre><p>程序需要进行对用户比较敏感的操作，需要在配置文件(AndroidManifest.xml)中声明权限：  </p>
-<pre><code>uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; //添加此行  
-</code></pre><h4 id="1-1-2静态注册（实现开机启动）"><a href="#1-1-2静态注册（实现开机启动）" class="headerlink" title="1.1.2静态注册（实现开机启动）"></a>1.1.2静态注册（实现开机启动）</h4><p>动态注册的广播接收器可以自由地控制注册和注销，很灵活，但是必须要在程序启动之后才能接收广播。使用静态注册可以在程序未启动的情况下接收到广播。程序接收一条开机广播，收到后执行onReceive()方法来执行相应的逻辑。<br> 在.broadcasttest包下右击-&gt;New-&gt;Other-&gt;Broadcast Recevier,新建BootCompleteRecevier：  </p>
-<pre><code>public class BootCompeleteReceiver extends BroadcastReceiver {
-
-@Override
-public void onReceive(Context context, Intent intent) {
-    Toast.makeText(context,&quot;Boot Compelete&quot; , Toast.LENGTH_LONG).show();//弹出提示信息
-}
-}     
-</code></pre><p>静态广播接收器要在AndroidManifest.xml中注册才可以使用，Android Studio创建的已经自动注册：  </p>
-<pre><code>&lt;application
-    ...
-    &lt;receiver  //静态广播接收器注册
-        android:name=&quot;.BootCompeleteReceiver&quot;
-        android:enabled=&quot;true&quot;
-        android:exported=&quot;true&quot;&gt;
-        &lt;intent-filter&gt;  //添加action
-            &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;
-        &lt;/intent-filter&gt;
-    &lt;/receiver&gt;
-&lt;/application&gt;
-</code></pre><hr>
-<pre><code>//在AndroidManifest.xml中添加权限
-&lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;/&gt;
-</code></pre><h2 id="2、发送自定义广播"><a href="#2、发送自定义广播" class="headerlink" title="2、发送自定义广播"></a>2、发送自定义广播</h2><p>发送广播之前需要定义一个广播接收器来准备接收此广播才行，不然白发。  </p>
-<h3 id="2-1发送标准广播"><a href="#2-1发送标准广播" class="headerlink" title="2.1发送标准广播"></a>2.1发送标准广播</h3><p>新建一个MyBroadcastReceiver：  </p>
-<pre><code>public class MyBroadcastReceiver extends BroadcastReceiver {
-
-@Override
-public void onReceive(Context context, Intent intent) {
-    Toast.makeText(context,&quot;received in MyBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
-}
-}
-</code></pre><hr>
-<pre><code>//修改AndroidManifest.xml注册
-   &lt;receiver
-        android:name=&quot;.MyBroadcastReceiver&quot;
-        android:enabled=&quot;true&quot;
-        android:exported=&quot;true&quot;&gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//接收值过滤
-        &lt;/intent-filter&gt;
-    &lt;/receiver&gt;
-</code></pre><hr>
-<pre><code>//在activity_main.xml中定义按钮用于发送广播的触发点
-    &lt;Button
-    android:id=&quot;@+id/button&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;send broadcast&quot;/&gt;
-</code></pre><hr>
-<pre><code>//在MainActivity中修改
-    @Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-
-    Button button = (Button)findViewById(R.id.button);
-    button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {//按钮点击事件中添加发送自定义广播逻辑
-            Intent intent = new  Intent(&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot;);//通过intent传入
-            sendBroadcast(intent);
-        }
-    });
-}
-</code></pre><h3 id="2-2发送有序广播"><a href="#2-2发送有序广播" class="headerlink" title="2.2发送有序广播"></a>2.2发送有序广播</h3><p>广播是一种可以跨进程的通信方式，我们应用程序内发出的广播，其他应用程序是可以收到的。<br>新建BroadcastTest2项目，项目下新建一个广播接收器：  </p>
-<pre><code>public class AnotherBroadcastReceiver extends BroadcastReceiver {
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context,&quot;received in AnotherBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
-        }
-}
-</code></pre><p> 在AndroidManifest.xml中修改这个广播接收器：  </p>
-<pre><code> //修改AndroidManifest.xml注册
-&lt;receiver
-     android:name=&quot;.AnotherBroadcastReceiver&quot; //注册AnotherBroadcastReceiver
-     android:enabled=&quot;true&quot;
-     android:exported=&quot;true&quot;&gt;
-     &lt;intent-filter&gt;
-         &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//同样接收...broadcasttest.MY_BROADCAST这条广播
-     &lt;/intent-filter&gt;
- &lt;/receiver&gt;
-</code></pre><p>发送有序广播使用sendOrderBroadcast()，修改BroadcastTest项目的MainActivity代码： </p>
-<pre><code>//修改BroadcastTest项目下的MainActivity        
-...
-button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {//按钮点击事件中添加发送自定义广播逻辑
-            Intent intent = new  Intent(&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot;);//通过intent传入
-            sendOrderBroadcast(intent,null);//发送有序广播，第一个参数intent，第二个参数是权限
-        }
-    });
-...
-</code></pre><p>当目前为止，效果上和标准广播没什么区别，但是有序广播是可以有先后顺序和截断的。在BroadcastTest2项目下修改AndroidManifest.xml代码设置优先级：  </p>
-<pre><code>&lt;receiver
-        android:name=&quot;.AnotherBroadcastReceiver&quot; //注册AnotherBroadcastReceiver
-        android:enabled=&quot;true&quot;
-        android:exported=&quot;true&quot;&gt;
-        &lt;intent-filter  android:priority=&quot;100&quot;&gt;//设置接收MY_BROADCAST的优先级，越高越先收到
-            &lt;action android:name=&quot;com.example.xxxxx.broadcasttest.MY_BROADCAST&quot; /&gt;//同样接收...broadcasttest.MY_BROADCAST这条广播
-        &lt;/intent-filter&gt;
-    &lt;/receiver&gt;
-</code></pre><p>这样就可以保证在AnotherBroadcastReceiver之前收到广播。<br>如果需要截断，如在MyBroadcastReceiver下调用abortBroadcast()方法将这条广播截断，后面的广播接收器就无法再接收到这条广播。  </p>
-<pre><code>public class MyBroadcastReceiver extends BroadcastReceiver {
-
-@Override
-public void onReceive(Context context, Intent intent) {
-    Toast.makeText(context,&quot;received in MyBroadcastReceiver&quot; , Toast.LENGTH_LONG).show();
-    abortBroadcast();//截断广播
-}
-}
-</code></pre><h3 id="2-3使用本地广播"><a href="#2-3使用本地广播" class="headerlink" title="2.3使用本地广播"></a>2.3使用本地广播</h3><p>前面的方式发出的广播可以被其他任何应用程序接收到，如果发送的广播携带有关键数据，可能会造成安全问题。使用本地广播机制可以使发出的广播只能够在应用程序内部进行传递，并且广播接收器也只能接收来自本应用程序发出的广播。<br>本地广播使用一个LocalBroadcastManager来对广播进行管理，并提供了发送广播和接收广播的方法。修改MainActivity中的代码：  </p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-    private IntentFilter intentFilter;
-  private LocalReceiver localReceiver;
-  private LocalBroadcastManager   localBroadcastManager;
-
-@Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-
-    localBroadcastManager = LocalBroadcastManager.getInstance(this);//获取实例
-
-    Button button = (Button)findViewById(R.id.button);
-    button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(&quot;com.example.xxxxx.broadcasttest.LOCAL_BROADCAST&quot;);
-            localBroadcastManager.sendBroadcast(intent);//发送本地广播
-        }
-    });
-
-    intentFilter = new IntentFilter();
-    intentFilter.addAction(&quot;com.example.xxxxx.broadcasttest.LOCAL_BROADCAST&quot;);
-    localReceiver = new LocalReceiver();
-    localBroadcastManager.registerReceiver(localReceiver,intentFilter);//注册本地广播监听器
-}
-
-@Override
-protected void onDestroy() {
-    super.onDestroy();
-    localBroadcastManager.unregisterReceiver(localReceiver);
-}
-
-class LocalReceiver extends BroadcastReceiver{
-  @Override
-  public void onReceive(Context context, Intent intent) {
-      Toast.makeText(context,&quot;received local broadcast&quot;,Toast.LENGTH_SHORT).show();
-  }
- }
-}
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/06/四、广播/" data-id="cjyedanxb001cey6c1fqpvhn0" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-三、UI开发工具(控件)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/05/三、UI开发工具(控件)/" class="article-date">
-  <time datetime="2018-06-05T03:54:16.000Z" itemprop="datePublished">2018-06-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/05/三、UI开发工具(控件)/">三、UI开发工具</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="三、UI开发工具"><a href="#三、UI开发工具" class="headerlink" title="三、UI开发工具"></a>三、UI开发工具</h1><h2 id="1、常用控件的使用方法"><a href="#1、常用控件的使用方法" class="headerlink" title="1、常用控件的使用方法"></a>1、常用控件的使用方法</h2><h3 id="1-1TextView"><a href="#1-1TextView" class="headerlink" title="1.1TextView"></a>1.1TextView</h3><p>主要用于在界面中显示一段文本信息。  </p>
-<pre><code>&lt;TextView
-    android:id=&quot;@+id/text_view&quot;   //定义控件唯一标识符
-    android:layout_width=&quot;match_parent&quot;   //控件宽度，和父布局大小一样
-    android:layout_height=&quot;wrap_content&quot;  //控件高度，控件大小刚好包含里面的内容
-    android:text=&quot;This is TextView&quot;  /&gt;    //显示的文本内容
-</code></pre><p>所有控件都有2个属性，三种值：match_parent、fill_parent、wrap_content。<br>前两个一样，表示布局和父布局的大小一样，推荐match_parent; wrap_content表示当前控件的大小能够刚好包含住里面的内容就行。也可以对高度和宽度指定固定大小，但是这样会出现不同手机屏幕适配方面的问题。<br>指定文字的对齐方式android:gravity  </p>
-<pre><code>android:gravity=&quot;center&quot;  //还有top、bottom、left、right，可以用“|”同时指定多个值
-</code></pre><p>android:textSize 指定文字大小，android中以sp作为字体大小单位；<br>android:textColor 指定文字颜色  </p>
-<h3 id="1-2Button"><a href="#1-2Button" class="headerlink" title="1.2Button"></a>1.2Button</h3><p>程序用于和用户进行交互的重要控件。  </p>
-<pre><code>&lt;Button
-    android:id=&quot;@+id/button&quot;   //定义控件唯一标识符
-    android:layout_width=&quot;match_parent&quot;   //控件宽度，和父布局大小一样
-    android:layout_height=&quot;wrap_content&quot;  //控件高度，控件大小刚好包含里面的内容
-    android:text=&quot;Button&quot;  /&gt;  //系统对Button中字母进行大写转换
-</code></pre><p>android:textAllCaps=”false” 禁用大写转换。<br>在MainActivity中为Button点击事件注册监听器：  </p>
-<pre><code>public class MainActivity extends AppCompatActivity{
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Button button = (Button)findViewById(R.id.button);
-        button.setOnclickListener(new View.OnClickListener){
-            @Override
-            public void onClick(View v){
-                //此处添加逻辑
-            }
-        }
-    }
-}
-</code></pre><h3 id="1-3EditText"><a href="#1-3EditText" class="headerlink" title="1.3EditText"></a>1.3EditText</h3><p>用于和用户进行交互的一个重要控件，允许用户在控件里输入和编辑内容，并可以在程序中对这些内容进行处理。  </p>
-<pre><code>&lt;EditText
-    android:id = &quot;@+id/edit_text&quot;
-    android:layout_width = &quot;match_parent&quot;
-    android:layout_height = &quot;wrap_content&quot;
-/&gt;
-</code></pre><p>在输入框中显示一些提示性的文字，用户输入任何内容，提示性文字就会消失：  </p>
-<pre><code>android:hint = &quot;Type something here&quot; 
-</code></pre><p>输入内容长度限制：  </p>
-<pre><code>android:maxLines = &quot;2&quot;  //最大行数为两行,超过2行文本会向上滚动
-</code></pre><h3 id="1-4ImageView"><a href="#1-4ImageView" class="headerlink" title="1.4ImageView"></a>1.4ImageView</h3><p>用于在界面展示图片，图片通常放在以drawable开头的目录下。<br>指定一张图片android:src  </p>
-<pre><code>&lt;ImageView
-    ...
-    android:src=&quot;@drawable/img_1&quot; /&gt;
-</code></pre><p>代码中动态修改ImageView中的图片：  </p>
-<pre><code>package com.example.xxxxx.uiwidgettest;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-private ImageView imageView;
-   private EditText editText;
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-
-    Button button = (Button)findViewById(R.id.button);
-    editText = (EditText)findViewById(R.id.edit_text);
-    imageView = (ImageView)findViewById(R.id.image_view);
-    button.setOnClickListener(this);
-}
-
-@Override
-public void onClick(View v) {
-    switch (v.getId()){
-        case R.id.button:
-            imageView.setImageResource(R.drawable.img_2);//将图片改为img_2
-    }
-    }
-}
-</code></pre><h3 id="1-5ProgressBar"><a href="#1-5ProgressBar" class="headerlink" title="1.5ProgressBar"></a>1.5ProgressBar</h3><p>用于在界面上显示一个进度条，表示程序正在加载一些数据。  </p>
-<pre><code>&lt;ProgressBar
-  android:id=&quot;@+id/progress_bar&quot;
-  android:layout_width=&quot;match_parent&quot;
-  android:layout_height=&quot;wrap_content&quot; /&gt;
-</code></pre><p>Android控件的可见属性，通过android:visibility进行指定，三种值：visible、invisible、gone<br>visible：可见的，默认值<br>invisible：不可见，任然占据原来的位置和大小，相当于透明<br>gone：不可见也不占用屏幕空间<br>通过代码设置控件的可见性，setVisibility()方法，传入View.VISIBLE、View.INVISIBLE、View.GONE<br>判断ProgressBar的可见性：  </p>
-<pre><code>progressBar.getVisibility() == View.GONE//判断是否是GONE
-progressBar.setVisibility(View.VISIBLE);//修改可见性为可见
-</code></pre><p>指定ProgressBar不同的样式，通过style属性可以将它指定成水平进度条：  </p>
-<pre><code>&lt;ProgressBar
-   android:id=&quot;@+id/progress_bar&quot;
-   android:layout_width=&quot;match_parent&quot;
-   android:layout_height=&quot;wrap_content&quot; 
-   style=&quot;?android:attr/progressBarStyleHorizontal&quot;//设置为水平进度条
-   android:max=&quot;100&quot;/&gt;   //进度条最大值为100
-</code></pre><h3 id="1-6AlertDialog"><a href="#1-6AlertDialog" class="headerlink" title="1.6AlertDialog"></a>1.6AlertDialog</h3><p>在当前界面弹出一个对话框，这个对话框是置顶于所有界面元素之上的，能够屏蔽掉其他控件的交互能力。一般用于提示一些非常重要的内容或者警告信息。  </p>
-<pre><code>public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private ImageView imageView;
-    private EditText editText;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Button button = (Button)findViewById(R.id.button);
-        editText = (EditText)findViewById(R.id.edit_text);
-        imageView = (ImageView)findViewById(R.id.image_view);
-        button.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.button:
-            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);//创建AlertDialog实例
-            dialog.setTitle(&quot;this is dialog&quot;);//设置对话框标题
-            dialog.setMessage(&quot;something important&quot;);//设置内容
-            dialog.setCancelable(false);//是否可取消
-            dialog.setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() {//设置确定按钮的点击事件
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            dialog.setNegativeButton(&quot;Cancle&quot;, new DialogInterface.OnClickListener() {//设置取消按钮的点击事件
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            dialog.show();//调用show方法将对话框显示出来
-            break;
-        default:
-            break;
-    }
-}
-</code></pre><p>}</p>
-<h3 id="1-7ProgressDialog"><a href="#1-7ProgressDialog" class="headerlink" title="1.7ProgressDialog"></a>1.7ProgressDialog</h3><p>和AlertDialog类似，不过ProgressDialog会在对话框中显示一个进度条，一般用于标识操作比较耗时，让用户等待。  </p>
-<pre><code>@Override
-public void onClick(View v) {
-    switch (v.getId()){
-        case R.id.button:
-            ProgressDialog processDialog = new ProgressDialog(MainActivity.this);
-            processDialog.setTitle(&quot;This is ProgressDialog&quot;);
-            processDialog.setMessage(&quot;Loading...&quot;);
-            processDialog.setCancelable(true);
-            processDialog.show();
-            break;
-        default:
-            break;
-    }
-}
-</code></pre><p>如果setCancelable中传入false，则不能通过back键取消掉，那么在代码中需要加载完成后必须调用ProgressDialog的dimiss()方法关闭对话框，否则会一直存在。</p>
-<h2 id="2、四种基本布局"><a href="#2、四种基本布局" class="headerlink" title="2、四种基本布局"></a>2、四种基本布局</h2><p>布局是一种可以放置很多空间的容器，可以按照一定的规律调整内部空间的位置。布局的内部出了放置控件外，也可以放置布局，通过多层布局的嵌套。  </p>
-<h3 id="2-1线性布局"><a href="#2-1线性布局" class="headerlink" title="2.1线性布局"></a>2.1线性布局</h3><p>排列方向：  </p>
-<pre><code>android:orientation=&quot;vertical&quot;  //垂直排列
-android:orientation=&quot;horizontal&quot;  //水平排列
-
-android:layout_gravity =  &quot;top&quot;//控件在布局中的对齐方式
-</code></pre><p>线性布局中可以用比例的方式指定控件的大小android:layout_weight，设置了这个属性控件的宽度就不应该在由android:layout_width来决定。LinearLayout下所有控件指定的layout_weight相加，得到一个总值，该控件的layout_weight值除以总值就是占屏幕的宽度的大小。</p>
-<h3 id="2-2相对布局"><a href="#2-2相对布局" class="headerlink" title="2.2相对布局"></a>2.2相对布局</h3><p>RelativeLayout是非常常用的布局，和LinearLayout排列规则不同，RelativeLayout更加随意，可以通过相对定位的方式让控件出现在布局的任何位置。  </p>
-<pre><code>&lt;RelativeLayout  ...
-    ...
-    &lt;Button
-        android:id=&quot;@+id/button3&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:layout_centerInparent=&quot;true&quot;
-        android:text=&quot;Button3&quot; /&gt;
-      &lt;Button
-        android:id=&quot;@+id/button2&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:layout_above=&quot;@id/button3&quot; //在button3的上方
-        android:layout_toLeftOf=&quot;@id/button3&quot;  //在button3的左边
-        android:text=&quot;Button2&quot; /&gt;
-    ...
-&lt;/RelativeLayout&gt;
-</code></pre><p>一个控件去引用另外一个控件的id时，该控件一定要定义在引用控件的后面，不然会出现找不到id的情况。  </p>
-<h3 id="2-3帧布局"><a href="#2-3帧布局" class="headerlink" title="2.3帧布局"></a>2.3帧布局</h3><p>FrameLayout应用场景较少，所有的控件都默认摆放在布局的左上角。<br>也可以使用android:layout_gravity来指定对齐方式。  </p>
-<h3 id="2-4百分比布局"><a href="#2-4百分比布局" class="headerlink" title="2.4百分比布局"></a>2.4百分比布局</h3><p>之前的布局只要LineLayout支持使用layout_weight属性来实现比例指定控件大小的功能。引入百分比布局来解决，这种布局中不再使用wrap_content、match_parent等方式指定控件大小，而是直接指定控件在布局中所占的百分比，这样可以轻松实现任意比例分割布局。<br>百分比布局只为FrameLayout和RelativeLayout进行功能扩展，提供了PercentFrameLayout和PercentRelativeLayout这两个全新布局。<br>在项目的build.gradle中添加百分比布局库的依赖就能保证百分比布局在Android所有系统版本上兼容。 </p>
-<pre><code>&lt;android.support.percent.PercentFrameLayout
-    ...
-    &lt;Button
-        ...
-        app:layout_widthPercent=&quot;50%&quot;
-        app:layout_heightPercent=&quot;50%&quot; /&gt;
-    ...
-
-&lt;/android.support.percent.PercentFrameLayout&gt;
-</code></pre><h2 id="3、创建自定义控件"><a href="#3、创建自定义控件" class="headerlink" title="3、创建自定义控件"></a>3、创建自定义控件</h2><p>所有控件都是直接或间接继承自View，所有布局都是直接或间接继承自ViewGroup。View是Android中最基本的一种UI组件，它可以在屏幕上绘制一块矩形区域，并能响应这块区域的各种事件，我们使用的控件就是在View的基础之上又添加各自特有的功能。  </p>
-<h3 id="3-1引入布局创建控件"><a href="#3-1引入布局创建控件" class="headerlink" title="3.1引入布局创建控件"></a>3.1引入布局创建控件</h3><p>新建一个title.xml文件  </p>
-<pre><code>  &lt;LinearLayout ...
-    ...
-    &lt;Button
-        .. /&gt;
-    &lt;TextView
-        ... /&gt;
-    ...
-&lt;/LinearLayout&gt;
-
-//部分属性说明
-android:background = &quot;@drawable/edit_png&quot;//为布局或控件指定背景，可以使用颜色或图片填充
-android:layout_margin = &quot;5dp&quot;//指定控件在各个方向上偏移的距离
-android:layout_marginLeft或者android:layout_marginTop
-</code></pre><p>在程序中使用，在activity_main.xml中添加：  </p>
-<pre><code>&lt;LinearLayout ...
-    ...
-    &lt;include layout=&quot;@layout/title&quot;/&gt;  //include语句引入
-&lt;/LinearLayout&gt;
-</code></pre><h3 id="3-2创建自定义控件"><a href="#3-2创建自定义控件" class="headerlink" title="3.2创建自定义控件"></a>3.2创建自定义控件</h3><p>新建TitleLayout继承自LinearLayout，让它成为自定义的标题栏控件：  </p>
-<pre><code>pulic class TitleLayout extends LinearLayout{
-    public TitleLayout(Context context , AttributeSet attrs){//布局中引入TitleLayout控件就会调用这个构造函数
-        super(context,attrs);
-        //借助LayoutInflater实现标题栏布局多态加载，from方法构建一个LayoutInflater对象
-        LayoutInflater.from(context).inflate(R.layout.title,this);//inflate方法可以多态加载一个布局文件。
-        //inflate第一个参数是加载的布局文件的id，第二个参数是给加载好的布局在添加一个父布局
-    }
-}
-</code></pre><p>创建好布局文件后，在布局文件中添加自定义控件，修改activity_main.xml中的代码：  </p>
-<pre><code>&lt;LinearLayout ...
-    ...
-    &lt;com.example.uicustomviews.TitleLayout
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot; /&gt;
-</code></pre><p>给标题栏的按钮注册点击事件，修改TitleLayout代码：  </p>
-<pre><code>pulic class TitleLayout extends LinearLayout{
-    public TitleLayout(Context context , AttributeSet attrs){
-        super(context,attrs);
-        LayoutInflater.from(context).inflate(R.layout.title,this);
-        Button titleBack =(Button)findViewByid(R.id.title_back);
-        Button titleBack =(Button)findViewByid(R.ID.title_edit);
-        titleBack.setOnClickListener(new OnClickListener){
-            @Override
-            public void onClick(View v){
-                ((Activity)getContext()).finish();
-            }
-        };
-        titleEdit.setOnClickListener(new OnClickListener){
-            @Override
-            public void onClick(View v){
-                Toast.makeText(getContext(),&quot;You Clicked Edit button&quot;,Toast.LENGTH_SHORT).show();
-            }
-        };
-    }
-}
-</code></pre><h2 id="4、滚动控件-ReyclerView-134页，未完成"><a href="#4、滚动控件-ReyclerView-134页，未完成" class="headerlink" title="4、滚动控件-ReyclerView(134页，未完成)"></a>4、滚动控件-ReyclerView(134页，未完成)</h2><p>ReyclerView也属于新增的控件，为了让RecyclerView在所有Android版本上都能使用，将其定义在support库中。在app/build.gradle文件中添加：  </p>
-<pre><code>dependencies {
-implementation fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
-implementation &apos;com.android.support:appcompat-v7:27.1.1&apos;
-implementation &apos;com.android.support.constraint:constraint-layout:1.1.0&apos;
-testImplementation &apos;junit:junit:4.12&apos;
-androidTestImplementation &apos;com.android.support.test:runner:1.0.2&apos;
-androidTestImplementation &apos;com.android.support.test.espresso:espresso-core:3.0.2&apos;
-implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加内容
-</code></pre><p>}<br>点击Sync Now进行同步。 修改activity_main.xml中的代码：  </p>
-<pre><code>&lt;android.support.v7.widget.RecyclerView  //添加RecyclerView控件
-    android:id=&quot;@+id/recycler_view&quot;
-        android:layout_height=&quot;match_parent&quot;
-    android:layout_width=&quot;match_parent&quot; /&gt;
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/05/三、UI开发工具(控件)/" data-id="cjyedanxa001bey6ceb4b0zzw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/19/三(1)、ListView和RecycleView/" data-id="ck2n3djmz001nxd6cr7s2e9cb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -1632,7 +1052,7 @@ implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加�
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
     </div>
   </div>
 
@@ -1645,23 +1065,23 @@ implementation &apos;com.android.support:recyclerview-v7:27.1.1&apos;  //添加�
       <ul>
         
           <li>
+            <a href="/2019/11/06/HEAD请求获取视频大小/">HEAD请求获取视频大小</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/23/TextView是否折叠/">TextView是否折叠</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/23/TextView动态改变字体大小/">TextView动态改变字体大小</a>
+          </li>
+        
+          <li>
             <a href="/2019/07/18/Android消息机制之handler原理/">Android消息机制之handler原理</a>
           </li>
         
           <li>
             <a href="/2019/07/04/网上资料链接/">网上资料链接</a>
-          </li>
-        
-          <li>
-            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/07/hello-world/">hexo基本操作</a>
           </li>
         
       </ul>

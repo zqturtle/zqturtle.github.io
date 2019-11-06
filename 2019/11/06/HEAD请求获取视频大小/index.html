@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>HEAD请求获取视频大小 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="背景最近在项目中有一个视频播放的优化，在非WIFI网络下需要弹窗提醒播放视频需要消耗多少M流量。需要比较简单，问题是后端不知道视频的大小，只有视频的URL地址。最终确定前端来获取视频大小，其实一想也简单，发送个HEAD请求即可。可是踩了坑，做下记录。   实现方案由于逻辑和方案都很简单，直接上代码看实现：12345678910111213141516171819202122232425262728">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HEAD请求获取视频大小">
+<meta property="og:url" content="http://yoursite.com/2019/11/06/HEAD请求获取视频大小/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="背景最近在项目中有一个视频播放的优化，在非WIFI网络下需要弹窗提醒播放视频需要消耗多少M流量。需要比较简单，问题是后端不知道视频的大小，只有视频的URL地址。最终确定前端来获取视频大小，其实一想也简单，发送个HEAD请求即可。可是踩了坑，做下记录。   实现方案由于逻辑和方案都很简单，直接上代码看实现：12345678910111213141516171819202122232425262728">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-11-06T09:39:15.415Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HEAD请求获取视频大小">
+<meta name="twitter:description" content="背景最近在项目中有一个视频播放的优化，在非WIFI网络下需要弹窗提醒播放视频需要消耗多少M流量。需要比较简单，问题是后端不知道视频的大小，只有视频的URL地址。最终确定前端来获取视频大小，其实一想也简单，发送个HEAD请求即可。可是踩了坑，做下记录。   实现方案由于逻辑和方案都很简单，直接上代码看实现：12345678910111213141516171819202122232425262728">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-HEAD请求获取视频大小" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/06/HEAD请求获取视频大小/" class="article-date">
+  <time datetime="2019-11-06T09:05:25.000Z" itemprop="datePublished">2019-11-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HEAD请求获取视频大小
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在项目中有一个视频播放的优化，在非WIFI网络下需要弹窗提醒播放视频需要消耗多少M流量。需要比较简单，问题是后端不知道视频的大小，只有视频的URL地址。最终确定前端来获取视频大小，其实一想也简单，发送个HEAD请求即可。可是踩了坑，做下记录。  </p>
+<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><p>由于逻辑和方案都很简单，直接上代码看实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">public final class VideoSizeUtils &#123;</span><br><span class="line">    private VideoSizeUtils() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void getVideoContentLength(Context context, String videoUrl) &#123;</span><br><span class="line">        MyHandler handler;</span><br><span class="line">        if (context instanceof TestActivity) &#123;</span><br><span class="line">            handler = new MyHandler((TestActivity) context);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;  </span><br><span class="line">        //不允许手动new Thread，使用ExecutorService管理线程池</span><br><span class="line">        ExecutorService cachedThreadPool = Executors.newCachedThreadPool();</span><br><span class="line">        cachedThreadPool.execute(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                HttpURLConnection urlConnection = null;</span><br><span class="line">                int responseLength;</span><br><span class="line">                float responseSize = 0;</span><br><span class="line">                try &#123;</span><br><span class="line">                    URL url = new URL(videoUrl);</span><br><span class="line">                    urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">                    urlConnection.setRequestMethod(&quot;HEAD&quot;);</span><br><span class="line">                    urlConnection.setConnectTimeout(500);</span><br><span class="line">                    urlConnection.connect();</span><br><span class="line">                    responseLength = urlConnection.getContentLength();</span><br><span class="line"></span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    //处理异常，获取视频大小异常了</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    if (urlConnection != null) &#123;</span><br><span class="line">                        urlConnection.disconnect();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">//Handler将获取的视频大小发送出去</span><br><span class="line">                Message message = handler.obtainMessage();</span><br><span class="line">                message.what = 1;</span><br><span class="line">                message.obj = String.format(&quot;%.2f&quot;, responseSize) + &quot;M&quot;;</span><br><span class="line">                handler.sendMessage(message);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class MyHandler extends Handler &#123;</span><br><span class="line">        WeakReference&lt;TestActivity&gt; mActivity;</span><br><span class="line"></span><br><span class="line">        MyHandler(TestActivity activity) &#123;</span><br><span class="line">            mActivity = new WeakReference&lt;&gt;(activity);</span><br><span class="line">        &#125;</span><br><span class="line">//处理消息</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            TestActivity theActivity = mActivity.get();</span><br><span class="line">            if (msg.what == 1 &amp;&amp; theActivity != null) &#123;</span><br><span class="line">                theActivity.showPlayVideoDialog((String) msg.obj);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><p>最终的实现其实还是很简单的，但是中间踩了几个坑。  </p>
+<h2 id="使用RxJava-retrofit"><a href="#使用RxJava-retrofit" class="headerlink" title="使用RxJava+retrofit"></a>使用RxJava+retrofit</h2><p>因为项目中的网络框架使用的是RXJava+retrofit做的，所以想通过如下方式实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@HEAD(&quot;videoUrl&quot;)  </span><br><span class="line">Observable&lt;Response&gt; getVideoSize();</span><br></pre></td></tr></table></figure></p>
+<p>可是，并不允许。因为，retrofit规定HEAD请求的返回类型必须是Void，查看了官方的代码：在HttpServiceMethod.java类中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// TODO support Unit for Kotlin?</span><br><span class="line">    if (requestFactory.httpMethod.equals(&quot;HEAD&quot;) &amp;&amp; !Void.class.equals(responseType)) &#123;</span><br><span class="line">      throw methodError(method, &quot;HEAD method must use Void as response type.&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>发现此路不通，所以才有了上面实现用的是HttpURLConnection + handler来处理。  </p>
+<h2 id="“This-Handler-class-should-be-static-or-leaks-might-occur”警告"><a href="#“This-Handler-class-should-be-static-or-leaks-might-occur”警告" class="headerlink" title="“This Handler class should be static or leaks might occur”警告"></a>“This Handler class should be static or leaks might occur”警告</h2><p>首先，不能手动创建线程，良好的代码规范也是很必要的。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">new Thread(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                HttpURLConnection urlConnection = null;</span><br><span class="line">                try &#123;</span><br><span class="line">                    URL url = new URL();</span><br><span class="line">                    urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">                    urlConnection.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">                    urlConnection.connect();</span><br><span class="line">                    int reponseCode = urlConnection.getResponseCode();</span><br><span class="line">                    int reponse = urlConnection.getContentLength();</span><br><span class="line"></span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    if (urlConnection != null) &#123;</span><br><span class="line">                        urlConnection.disconnect();</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br></pre></td></tr></table></figure></p>
+<p>所以使用推荐的ExecutorService来管理线程的使用。<br>处理好线程后，使用handler发送消息是as报了警告：“This Handler class should be static or leaks might occur”，所以，新建一个MyHandler继承Handler，它持有调用方(activity)的弱引用得以解决，参考文档<a href="https://www.cnblogs.com/welhzh/p/3585478.html" target="_blank" rel="noopener">https://www.cnblogs.com/welhzh/p/3585478.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/06/HEAD请求获取视频大小/" data-id="ck2n3djld0000xd6cs11t9yg0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/23/TextView是否折叠/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">TextView是否折叠</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用指南/">使用指南</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题总结/">问题总结</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 16.67px;">Android</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/使用指南/" style="font-size: 13.33px;">使用指南</a> <a href="/tags/问题总结/" style="font-size: 10px;">问题总结</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/11/06/HEAD请求获取视频大小/">HEAD请求获取视频大小</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/23/TextView是否折叠/">TextView是否折叠</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/23/TextView动态改变字体大小/">TextView动态改变字体大小</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/18/Android消息机制之handler原理/">Android消息机制之handler原理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/04/网上资料链接/">网上资料链接</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

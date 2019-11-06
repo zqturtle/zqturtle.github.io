@@ -62,6 +62,346 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-七 继承" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/15/七 继承/" class="article-date">
+  <time datetime="2018-05-15T06:36:21.000Z" itemprop="datePublished">2018-05-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/15/七 继承/">七、继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="七、继承"><a href="#七、继承" class="headerlink" title="七、继承"></a>七、继承</h1><h2 id="1、定义子类"><a href="#1、定义子类" class="headerlink" title="1、定义子类"></a>1、定义子类</h2><p>继承Employee类来定义Manager类，<strong>关键字extends</strong>表示继承:  </p>
+<pre><code>class Manager extends Employee
+{
+    添加方法和域
+}  
+</code></pre><p>在Manager类中增加一个存储奖金信息的域和一个设置这个域的方法：  </p>
+<pre><code>class Manager extends Employee
+{
+    private double bonus;
+    ...
+    public void setBonus(double b);
+    {
+        bonus = b;
+    }
+}
+</code></pre><p>要获取manager的收入，需要重新实现getSalary（）方法，如：  </p>
+<pre><code>class Manager extends Employee
+{
+    ...
+    public double getSalary()
+    {
+        return salary + bonus;//这样不行
+    }
+}
+</code></pre><p>因为子类Manager的getSalary方法不能够直接访问超类的私有域，<strong>也就是说虽然每个Manager对象都拥有一个名为salary的域，但在Manager类的getSalary方法并不能够直接访问salary域。</strong>要访问私有域，必须借助共有的接口，如Employee类中的getSalary方法。<br><strong>当需要调用超类Employee中的getSalary方法，而不是当前类的这个方法，需要使用特定的关键字super解决这个问题:</strong>  </p>
+<pre><code>super.getSalary();
+</code></pre><p>这样调用的就是超类Employee中的getSalary方法。  </p>
+<pre><code>public double getSalary()
+{
+    double baseSalary = super.getSalary();
+    return baseSalary + bonus;
+}  
+</code></pre><p>super在构造器中的应用：  </p>
+<pre><code>public Manager(String n , double s , int year , int month , int day)
+{
+    super(n , s , year , month , day);
+    bonus = 0 ; 
+}
+</code></pre><h2 id="2、-final的使用"><a href="#2、-final的使用" class="headerlink" title="2、 final的使用"></a>2、 final的使用</h2><p>final修饰类，则该类不允许被继承<br>final修饰方法，则该方法不允许被覆盖（重写）<br>final修饰属性，则该类的属性不会进行隐式的初始化（类的初始化属性必须有值）或在构造方法中赋值（只能选其一）<br>final修饰变量，则该变量的值只能赋一次值，即变为常量  </p>
+<h2 id="3、super的应用"><a href="#3、super的应用" class="headerlink" title="3、super的应用"></a>3、super的应用</h2><p>子类的构造过程中必须调用其父类的构造方法。  </p>
+<p>如果子类的构造方法中没有显示的调用父类的构造方法，则系统默认调用父类无参的构造方法。  </p>
+<p>如果是显示的调用构造方法，必须在子类的构造方法的第一行。  </p>
+<h2 id="4、object类equals-方法"><a href="#4、object类equals-方法" class="headerlink" title="4、object类equals()方法"></a>4、object类equals()方法</h2><p>equals()是内容（含义）相等，“==”是引用相等。  </p>
+<p>比较的是对象的引用是否指向同一块内存地址，“==”也是比较地址<br>注：字符串的equals()是数值比较，“==”是存放地址比较 。（和这里是一样的情况）<br>要比较值，需要重写equals（）方法，在elipse的source下有自动重写。<br>b</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/15/七 继承/" data-id="ck2n3djlu000cxd6cmux5dsmf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-六 对象和类" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/15/六 对象和类/" class="article-date">
+  <time datetime="2018-05-15T02:47:21.000Z" itemprop="datePublished">2018-05-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/15/六 对象和类/">六、对象和类</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="六、对象和类"><a href="#六、对象和类" class="headerlink" title="六、对象和类"></a>六、对象和类</h1><h2 id="1、基础知识"><a href="#1、基础知识" class="headerlink" title="1、基础知识"></a>1、基础知识</h2><p><strong>类：</strong><br>在一个源文件中，只能有一个公有类，但可以有任意数目的非公有类。  </p>
+<p>封装–不能让类中的方法直接访问其他类的实例域，程序仅通过对象的方法与对象数据进行交互。提高了程序的重用性和可靠性。<br>继承–扩展已有的类，扩展后的新类具有所扩展的类的全部属性和方法。  </p>
+<p><strong>对象：</strong><br>对象行为：可以对对象施加哪些操作或者方法？<br>对象状态：施加那些方法时，对象如何响应？<br>对象标识：如何辨别具有相同行为与状态的不同对象？<br>注：对象的行为是用可调用的方法定义的。  </p>
+<p>类的设计经验：寻找名词可以成为类，寻找动词可以成为方法  </p>
+<p><strong>类之间的关系：</strong><br>依赖：如果一个类的方法操纵另一个类的对象，我们就说一个类依赖于另一个类。<br>聚合：类A的对象包含类B的对象。<br>继承：如果类A扩展类B，类A不但包含从类B继承的方法，还会拥有一些额外的功能。  </p>
+<p><strong>对象和对象变量：</strong><br>它们的区别，例如：  </p>
+<pre><code>Date deadline;//deadline没有指向任何对象
+</code></pre><p>对象变量可以引用Date类型的对象，但它不是对象，也没有引用对象，任何Date方法都不能应用于这个变量上。如：  </p>
+<pre><code>s = deadline.toString();//这是不合法的  
+</code></pre><p>可以初始化：  </p>
+<pre><code>deadline = new Date();  
+</code></pre><p>或者   </p>
+<pre><code>deadline = birthday;
+</code></pre><p>现在两个变量引用同一个对象（就是存放在同一个地方的对象）。<br><strong>注意：</strong>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象。java中任何对象变量的值都是对存储在另外一个地方的一个对象的引用。  </p>
+<h2 id="2、-GregorianCalendar类"><a href="#2、-GregorianCalendar类" class="headerlink" title="2、 GregorianCalendar类"></a>2、 GregorianCalendar类</h2><p>Date类是用来表示时间点的类。<br>GregorianCalendar类是用来表示日历表示法的类。  </p>
+<p>日历提供某个时间点的年、月、日等信息。这些信息查询使用<strong>get方法</strong>：  </p>
+<pre><code>GregorianCalendar now = new GregorianCalendar;
+int month = now.get(Calendar.MONTH);
+int weekday = nw.get(Calendar.DAY_OF_WEEK);
+</code></pre><p>调用<strong>set方法</strong>可以改变对象的状态：  </p>
+<pre><code>deadline.set(Calendar.YEAR,2008);
+deadline.set(Calendar.MONTH,Calendar.APRIL);
+deadline.set(Calendar.DAY_OF_MONTH,15);
+</code></pre><p>更方便设置年、月、日方法如下：  </p>
+<pre><code>deadline.set(2008 , Calendar.APTIL , 15);
+</code></pre><p>还可以为给定的日期增加天数、星期数、月份，<strong>add方法</strong>：  </p>
+<pre><code>deadline.add(Calendar.MONTH , 3);
+</code></pre><p><strong><a href="http://tool.oschina.net/apidocs/apidoc?api=jdk-zh" target="_blank" rel="noopener">GregorianCalendar类API文档-java.util.GregorianCalendar</a></strong>  </p>
+<h2 id="3、自定义类"><a href="#3、自定义类" class="headerlink" title="3、自定义类"></a>3、自定义类</h2><pre><code>class ClassName{
+    fields 1;
+    fields 2;
+    ...
+    constructor 1;
+    constructor 2;
+    ...
+    method 1;
+    method 2;
+    ...
+}
+</code></pre><h2 id="4、方法参数"><a href="#4、方法参数" class="headerlink" title="4、方法参数"></a>4、方法参数</h2><p>Java程序设计总是采用按值调用。也就是说，方法得到的所有参数值得一个拷贝，特别是，方法不能修改传递给它的任何参数变量的内容。  </p>
+<h2 id="5、对象构造"><a href="#5、对象构造" class="headerlink" title="5、对象构造"></a>5、对象构造</h2><p><strong>重载：</strong><br>多个方法具有相同的名字、不同的参数，便产生了重载。编译器通过各个方法给出的参数类型与特定方法调用所使用的值类型进行匹配来挑选出相应的方法。  </p>
+<h2 id="6、构造方法"><a href="#6、构造方法" class="headerlink" title="6、构造方法"></a>6、构造方法</h2><p>构造方法是定义在Java类中的一个用来初始化对象的方法。<br>构造方法名与类同名且没有返回值。  没有参数的叫无参构造方法，有参的叫有参构造方法。</p>
+<pre><code>public 构造方法名(参数){
+    //初始化代码
+}
+</code></pre><hr>
+<pre><code>//无参构造方法
+public Employee(){
+    name = &quot;&quot;;
+    salary = 0;
+    hireDay = new Date();
+}
+</code></pre><hr>
+<pre><code>//有参构造方法
+public Employee(String aName , double aSalary){
+    name = aName;
+    salary = aSalary;
+}
+//或者
+public Employee(String  name , double salary){
+    this.name = name;
+    this.salary = salary;
+}
+</code></pre><p>在一个类中没有构造器，系统就会提供一个无参构造器，所有实例域都是默认值。如果类中提供了至少一个构造器，但是没有参数，则在构造对象时如果没有提供参数就会视为不合法。  </p>
+<pre><code>//构造器
+Employee(String name , double salary , int y , int m ,int d)
+//构造默认的employee对象属于不合法
+e = new Employee();//产生错误，不合法
+</code></pre><h2 id="7、static使用之静态变量"><a href="#7、static使用之静态变量" class="headerlink" title="7、static使用之静态变量"></a>7、static使用之静态变量</h2><p>我们可以基于一个类型创建多个该类的对象，每个对象都拥有自己的成员，互相独立。然而某些时候，我们更希望该类所有的对象共享同一个成员，就需要static  </p>
+<p>Java中被static修饰的成员称为静态成员或类成员。它属于整个类所有，而不是某个对象所有，即被类的所有对象共享。静态成员可以使用类名直接访问，也可以使用对象名进行访问。推荐使用类名直接访问。</p>
+<pre><code>public class HelloWorld{
+    static String hello = &quot;hello 007&quot;;//static修饰的静态变量，所有类的对象共享hello  
+    System.out.println(&quot;通过类名访问hello&quot;+ HelloWord.hello);//直接类名访问
+    //创建对象名来访问静态变量
+    HelloWorld world = new HelloWorld();
+    System.out.println(&quot;通过对象名访问hello&quot;+ world.hello);//通过对象名访问
+    world.hello = &quot;hello 001&quot;;//使用对象名的形式修改变量的值
+    //再次使用类名访问静态变量，值已被修改
+    System.out.println(&quot;通过类名访问hello：&quot;+ HelloWorld.hello);
+}
+</code></pre><p>最后输出的结果如下：    </p>
+<pre><code>通过类名访问hello：hello 007
+通过对象名访问hello：hello 007
+通过类名访问hello：hello 001
+</code></pre><h2 id="8、static使用之静态方法"><a href="#8、static使用之静态方法" class="headerlink" title="8、static使用之静态方法"></a>8、static使用之静态方法</h2><p>使用static关键字声明静态方法：  </p>
+<pre><code>public static void print(){
+    System.out.println(&quot;&quot;hello , 007);
+}
+</code></pre><p>可以使用类名调用静态方法：  </p>
+<pre><code>HelloWorld.print();
+</code></pre><p>也可以通过对象名调用，推荐使用类名调用。  </p>
+<p>注意：<br>1、静态方法可以直接调用同类中的静态成员，但不能调用非静态成员。如果需要在静态方法中调用非静态变量，可以通过创建类的对象，然后通过对象来访问非静态变量。<br>2、普通成员方法中，可以直接访问同类中的非静态变量和静态变量。<br>3、 静态方法中不能直接调用非静态方法，需要通过对象来访问非静态方法，但是可以直接调用静态方法。  </p>
+<p>##9、static使用之静态初始化块<br>在类的声明中，可以包含多个初始化块，当创建类的实例时，就好一次执行这些代码块。如果使用static修饰初始化块，就称为静态初始化块。  </p>
+<p><strong>注：静态初始化块只在类加载时执行，且只会执行一次，同时静态初始化块只能给静态变量赋值，不能初始化普通的成员变量</strong></p>
+<pre><code>public class HelloWorld{
+    int num1;
+    int num2;
+    static int num3;
+
+    public HelloWorld(){  //构造方法
+        num1 = 91;
+        System.out.println(&quot;通过构造方法为变量num1赋值&quot;);
+    }
+
+    {  //初始化块
+        num2 = 74;
+        System.out.println(&quot;通过初始化块为变量num2赋值&quot;);
+    }
+
+    static {  //静态初始化
+        num3 = 83;
+        System.out.println(&quot;通过静态初始化为静态变量num3赋值&quot;);
+    }
+
+    public static void main(String[] args){
+        HelloWorld hello =new HelloWorld();//创建类的对象hello
+        System.out.println(&quot;num1:&quot; + hello.num1);
+        System.out.println(&quot;num2:&quot;+ hello.num2);
+        System.out.println(&quot;num3&quot;+ num3);
+        HelloWorld hello2 = new HelloWorld();//创建类的对象hello2
+    }
+}
+</code></pre><p>运行结果如下：  </p>
+<pre><code>通过静态初始化为静态变量num3赋值
+通过初始化块为变量num2赋值
+通过构造方法为变量num1赋值
+num1:91
+num2:74
+num3:83
+通过初始化块为num2赋值
+通过初始化块为num3赋值
+</code></pre><p>通过输出结果可以看到，程序运行时静态初始化块最先被执行，然后执行普通初始化块，最后才执行构造方法。由于静态初始化块只在类加载时执行一次，所以当再次创建对象hello2时并未执行静态初始化块。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/15/六 对象和类/" data-id="ck2n3djm8000zxd6cvvb2lzus" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-五 大数值和数组" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/14/五 大数值和数组/" class="article-date">
+  <time datetime="2018-05-14T07:26:01.000Z" itemprop="datePublished">2018-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/14/五 大数值和数组/">五、大数值和数组</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="五、大数值和数组"><a href="#五、大数值和数组" class="headerlink" title="五、大数值和数组"></a>五、大数值和数组</h1><h2 id="1、大数值"><a href="#1、大数值" class="headerlink" title="1、大数值"></a>1、大数值</h2><p>基本的整数和浮点数不能满足需求，可以使用java.math包中的两个类BigInteger和BigDecimal,可以处理包含任意长度数字序列的数值。    </p>
+<p>程序前面添加一行,后面可以直接使用这两个类：  </p>
+<pre><code>import java.math.*;  
+</code></pre><p>   使用valueOf方法可以将普通的数值转换为大数值：  </p>
+<pre><code>BigInteger a = BigInteger.valueOf(100);
+</code></pre><p>但是不能使用算数运算符，运算操作如下：  </p>
+<pre><code>BigInteger add(BigInteger other)
+BigInteger subtract(BigInteger other)
+BigInteger mutiply(BigInteger other)
+BigInteger devide(BigInteger other)
+BigInteger mod(BigInteger other)
+</code></pre><p>返回一个大整数和另外一个大整数other的和、差、积、商、余数。  </p>
+<pre><code>int compareTo(BigInteger other)
+</code></pre><p>一个大整数和other比较，相等返回0；大于other返回正数；小于other返回负数。  </p>
+<pre><code>static BigInteger valueOf(long x)
+</code></pre><p>返回值为x的大整数</p>
+<p>例如：  </p>
+<pre><code>BigInteger c = a.add(b);
+</code></pre><p><strong>注：同样的BigDecimal</strong></p>
+<h2 id="2、数组"><a href="#2、数组" class="headerlink" title="2、数组"></a>2、数组</h2><p>数组一旦创建，大小不可更改。<br>数组声明:    </p>
+<pre><code>int[] a;  
+</code></pre><p>数组初始化：  </p>
+<pre><code>int[] a = new int[100];
+String[] names = new String[100];
+</code></pre><p>数字数组所有元素初始化为0，boolean数组元素初始化为false，对象数组的元素初始化为null<br>赋予初始值的方法，不需要new  </p>
+<pre><code>int[] a = {1,2,3,4,5,6};
+</code></pre><h3 id="1）for-each循环"><a href="#1）for-each循环" class="headerlink" title="1）for each循环"></a>1）for each循环</h3><p>依次处理数组中的每个元素，不必指定下标：</p>
+<pre><code>for(variable:collection) statement
+</code></pre><p>变量用于暂存集合中每一个元素，并执行语句；collection是数组或者Iterable接口的类对象（列表）。  </p>
+<pre><code>for(int element : a)
+    System.out.println(element);
+</code></pre><h3 id="2）数组拷贝"><a href="#2）数组拷贝" class="headerlink" title="2）数组拷贝"></a>2）数组拷贝</h3><p>使用Arrays类的copyOf方法  </p>
+<pre><code>int[] copiedLuckyNumbers = Arrays.copyOf(luckyNumbers,luckyNumbers.length);
+</code></pre><p>第二个参数是新数组的长度，这样可以增加新数组的大小，  </p>
+<pre><code>luckNumbers = Arrays.copyOf(luckyNumbers,2*luckyNumbers.length);
+</code></pre><p>数组是数值型，多余的元素赋值为0；布尔型的赋值为false；如果新长度小于原长度，只拷贝最前面的数据元素。</p>
+<h3 id="3）数组排序"><a href="#3）数组排序" class="headerlink" title="3）数组排序"></a>3）数组排序</h3><p>使用Arrays类的sort方法  </p>
+<pre><code>int[] a = new int[100];
+...
+Arrays.sort(a);
+</code></pre><h3 id="4）数组转换为字符串"><a href="#4）数组转换为字符串" class="headerlink" title="4）数组转换为字符串"></a>4）数组转换为字符串</h3><p> 使用Arrays类的toString()方法  </p>
+<pre><code>Arrays.toString(数组名);
+</code></pre><h3 id="5）二维数组"><a href="#5）二维数组" class="headerlink" title="5）二维数组"></a>5）二维数组</h3><p>快速打印二维数组：  </p>
+<pre><code>System.out.println(Arrays.deepToString(a));
+</code></pre><p>for each处理：  </p>
+<pre><code>for(double[] row :  a )
+    for(double value : row)
+        statement;  
+</code></pre><h3 id="6）数组常见操作参考"><a href="#6）数组常见操作参考" class="headerlink" title="6）数组常见操作参考"></a>6）数组常见操作参考</h3><p><strong><a href="http://tool.oschina.net/apidocs/apidoc?api=jdk-zh" target="_blank" rel="noopener">Arrays官方API文档–java.util.Arrays</a></strong>    </p>
+<p><strong><a href="https://www.cnblogs.com/epeter/p/5664926.html" target="_blank" rel="noopener">数组常见操作</a></strong>  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/14/五 大数值和数组/" data-id="ck2n3djm3000nxd6cqgb8mvm8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-四 流程控制" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/05/14/四 流程控制/" class="article-date">
@@ -156,7 +496,7 @@ while(...)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/14/四 流程控制/" data-id="cjyedanx1000zey6c17z2tilg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/14/四 流程控制/" data-id="ck2n3djmc0016xd6c3ary7wci" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -335,7 +675,7 @@ s = in.readLine();//BufferedReader可以一行一行的读了
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/14/三 输入输出/" data-id="cjyedanwm0009ey6csy9c8mk2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/14/三 输入输出/" data-id="ck2n3djlw000gxd6c3mh76pcr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -395,7 +735,7 @@ str1 == str2;//为True，因为只创建一个，在同一内存地址
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/11/二 字符串/" data-id="cjyedanwo000dey6clwf5zpss" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/11/二 字符串/" data-id="ck2n3djm4000pxd6cdizb4gar" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -449,7 +789,7 @@ workDays = 5;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/11/一 基础知识和数据类型/" data-id="cjyedanwh0004ey6ck7f3mamm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/11/一 基础知识和数据类型/" data-id="ck2n3djls0009xd6ckdl4j2e7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -498,7 +838,7 @@ workDays = 5;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
     </div>
   </div>
 
@@ -511,23 +851,23 @@ workDays = 5;
       <ul>
         
           <li>
+            <a href="/2019/11/06/HEAD请求获取视频大小/">HEAD请求获取视频大小</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/23/TextView是否折叠/">TextView是否折叠</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/23/TextView动态改变字体大小/">TextView动态改变字体大小</a>
+          </li>
+        
+          <li>
             <a href="/2019/07/18/Android消息机制之handler原理/">Android消息机制之handler原理</a>
           </li>
         
           <li>
             <a href="/2019/07/04/网上资料链接/">网上资料链接</a>
-          </li>
-        
-          <li>
-            <a href="/2019/06/28/inflate导致的空指针/">inflate导致的空指针</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/07/hexo使用指南/">hexo使用指南</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/07/hello-world/">hexo基本操作</a>
           </li>
         
       </ul>
